@@ -1,0 +1,11 @@
+# inputrc
+
+set editing-mode vi
+set completion-ignore-case on
+set bell-style visible
+
+Control-l: clear-screen
+Control-a: beginning-of-line
+Control-e: end-of-line
+Control-k: kill-line
+

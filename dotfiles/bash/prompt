@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# set up a few colors for setting the prompt.
+BLUE='\[\e[0;1;34m\]'
+GREEN='\[\e[0;1;32m\]'
+CYAN='\[\e[0;1;36m\]'
+BLACK='\[\e[0;0;00m\]'
+
+PS1="\
+\[\e]0;\u@\h:\w\a\]\
+$GREEN\u@\h$BLACK:\
+$BLUE\w$BLACK\$ "
+

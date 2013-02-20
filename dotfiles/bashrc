@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# little helper to source files if they exist.
+function _source { [ -r $1 ] && source $1; }
+
+# add any local paths.
+_source "$HOME/.bash/paths"
+
+# if we're not using an interactive shell then get out of here before we
+# do anything other than set paths.
+[ -z "$PS1" ] && return
+
+# add all the subparts.
+_source "$HOME/.bash/options"
+_source "$HOME/.bash/prompt"
+_source "$HOME/.bash/aliases"
+
+# add any other local options/etc.
+_source "$HOME/.bash/local"
+

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+alias vim="vim -o"
+alias vi="vim -o"
+
+alias ls="ls --color=auto"
+alias grep="grep --color=auto"
+

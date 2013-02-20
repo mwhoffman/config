@@ -1,0 +1,21 @@
+[include]
+    path = ~/.gitconfig.include
+
+[core]
+	excludesfile = ~/.gitignore
+	pager = less -FXRS -x4
+
+[color]
+	diff = auto
+	status = auto
+
+[color "status"]
+	added = magenta
+	changed = green
+	untracked = cyan
+
+[alias]
+	st = status -sb
+	ci = commit
+	co = checkout
+
