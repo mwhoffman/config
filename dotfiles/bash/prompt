@@ -1,18 +1,31 @@
 #!/bin/bash
 
 # set up a few colors for setting the prompt.
-BLUE='\[\e[0;1;34m\]'
-GREEN='\[\e[0;1;32m\]'
-CYAN='\[\e[0;1;36m\]'
-BLACK='\[\e[0;0;00m\]'
+local BLUE='\[\e[  1;34m\]'
+local GREEN='\[\e[ 1;32m\]'
+local CYAN='\[\e[  1;36m\]'
+local RESET='\[\e[ 0;00m\]'
 
-HSTART='\[\e]0;'
-HEND='\a\]'
+# start and end tags to put things into the titlebar.
+local TSTART='\[\e]0;'
+local TEND='\a\]'
+
+function _git_dirty {
+	[[ \
+	    $(git status 2> /dev/null | tail -n1) \
+	    != "nothing to commit (working directory clean)" ]] && \
+	echo "*"
+} 
+
+function _git_branch {
+	git branch --no-color 2> /dev/null \
+	    | sed -e '/^[^*]/d' -e "s/* \(.*\)/:\1$(_git_dirty)/"
+}
 
 PS1="\
-$HSTART\u@\h$HEND\
-$GREEN\u@\h$BLACK:\
-$BLUE\w$BLACK\$ "
+$TSTART\u@\h$TEND\
+$GREEN\u@\h$RESET:\
+$BLUE\w$CYAN\$(_git_branch)$RESET\$ "
 
 # this variable is used to specify a command which is called every time
 # before displaying a prompt. if I really wanted this, I'd set it
