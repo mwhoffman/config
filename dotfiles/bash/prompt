@@ -6,8 +6,17 @@ GREEN='\[\e[0;1;32m\]'
 CYAN='\[\e[0;1;36m\]'
 BLACK='\[\e[0;0;00m\]'
 
+HSTART='\[\e]0;'
+HEND='\a\]'
+
 PS1="\
-\[\e]0;\u@\h:\w\a\]\
+$HSTART\u@\h$HEND\
 $GREEN\u@\h$BLACK:\
 $BLUE\w$BLACK\$ "
+
+# this variable is used to specify a command which is called every time
+# before displaying a prompt. if I really wanted this, I'd set it
+# myself, and Macs use this to update the terminal title... which I'd
+# rather it not do.
+unset PROMPT_COMMAND
 
