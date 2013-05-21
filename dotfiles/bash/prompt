@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # set up a few colors for setting the prompt.
-local BLUE='\[\e[  1;34m\]'
+local GREY='\[\e[  0;37m\]'
 local GREEN='\[\e[ 1;32m\]'
+local BLUE='\[\e[  1;34m\]'
 local CYAN='\[\e[  1;36m\]'
 local RESET='\[\e[ 0;00m\]'
 
@@ -23,9 +24,11 @@ function _git_branch {
 }
 
 PS1="\
-$TSTART\u@\h$TEND\
-$GREEN\u@\h$RESET:\
-$BLUE\w$CYAN\$(_git_branch)$RESET\$ "
+${TSTART}\u@\h${TEND}\
+${GREEN}\u@\h\
+${RESET}:${BLUE}\w\
+${CYAN}\$(_git_branch)\
+${RESET}\$ "
 
 # this variable is used to specify a command which is called every time
 # before displaying a prompt. if I really wanted this, I'd set it

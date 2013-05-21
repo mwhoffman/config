@@ -13,7 +13,7 @@ set number                  " show numbers on the left-margin.
 set tabstop=4               " how many spaces tabs are displayed as.
 set copyindent              " copy indention when moving down a line.
 set pastetoggle=<C-P>       " key to move into paste mode.
-set textwidth=72            " width at which to wrap.
+set textwidth=80            " width at which to wrap.
 set scrolloff=5             " number of lines above/below to display.
 set laststatus=2            " always show status line (useful for 'tabs').
 set ruler                   " show line and column numbers.
