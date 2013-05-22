@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # set up a few colors for setting the prompt.
-local BLUE='\[\e[  1;34m\]'
-local GREEN='\[\e[ 1;32m\]'
-local CYAN='\[\e[  1;36m\]'
-local RESET='\[\e[ 0;00m\]'
+local BLUE='\[\e[1;34m\]'
+local GREEN='\[\e[1;32m\]'
+local CYAN='\[\e[1;36m\]'
+local RESET='\[\e[0;00m\]'
 
 # start and end tags to put things into the titlebar.
 local TSTART='\[\e]0;'
