@@ -1,0 +1,9 @@
+startup_message off     # no splash screen
+shelltitle 'no title'   # default title
+escape ^Bb              # use ctrl-b instead of ctrl-a
+autodetach on           # detach on hangup instead of closing
+
+# set the status line
+hardstatus alwayslastline
+hardstatus string "%{.bw}[ %H ][ %n %t ][%= %+w  %-w %=]"
+
