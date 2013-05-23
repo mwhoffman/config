@@ -7,6 +7,20 @@ everything else should keep its name as-is.
 """
 
 import os
+import errno
+
+
+def mkdir_p(dirname):
+    """
+    Run the equivalent of the shell command `mkdir -p dirname`, where we ignore
+    any errors that are raised if the directories exist.
+    """
+    try:
+        os.makedirs(dirname)
+    except OSError as err:
+        if err.errno == errno.EEXIST and os.path.isdir(dirname):
+            pass
+        else: raise
 
 
 if __name__ == '__main__':
@@ -25,5 +39,6 @@ if __name__ == '__main__':
                     continue
             else:
                 print "Creating file '%s'" % dst
+                mkdir_p(os.path.dirname(dst))
                 os.symlink(src, dst)
 
