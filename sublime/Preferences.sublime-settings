@@ -1,0 +1,29 @@
+{
+	"WrapPlus.break_on_hyphens": false,
+	"auto_complete_delay": 300,
+	"auto_indent": true,
+	"bold_folder_labels": true,
+	"create_window_at_startup": true,
+	"detect_indentation": false,
+	"tab_size": 4,
+	"ensure_newline_at_eof_on_save": true,
+	"font_face": "Droid Sans Mono",
+	"font_size": 10,
+	"ignored_packages":
+	[
+	],
+	"margin": 0,
+	"preview_on_click": false,
+	"rulers":
+	[
+		80
+	],
+	"scroll_past_end": true,
+	"smart_indent": true,
+	"theme": "Soda Dark 3.sublime-theme",
+	"translate_tabs_to_spaces": true,
+	"trim_trailing_white_space_on_save": true,
+	"use_tab_stops": true,
+	"vintage_start_in_command_mode": true,
+	"word_wrap": false
+}

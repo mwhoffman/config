@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 
 """
-Link everything in the subdirectory `dotfiles` into the home directory. The
-target of every top-level file/directory should be prepended with a `.`;
-everything else should keep its name as-is.
+Link all configuration files into place.
 """
 
 import os
@@ -23,13 +21,18 @@ def mkdir_p(dirname):
         else: raise
 
 
-if __name__ == '__main__':
-    dotfiles = 'dotfiles'
-    k = len(dotfiles) + len(os.sep)
-    for dirpath, dirnames, filenames in os.walk(dotfiles):
+def link(srcdir, dstdir, dotted=False, verbose=False):
+    """
+    Link all files from `srcdir` into `dstdir`. If `dotted` is True then prepend
+    the top-level file or directory with a '.'.
+    """
+    k = len(srcdir) + len(os.sep)
+    for dirpath, dirnames, filenames in os.walk(srcdir):
         for filename in filenames:
             src = os.path.join(dirpath, filename)
-            dst = os.path.expanduser(os.path.join('~', '.' + src[k:]))
+            if verbose:
+                print "Processing file '%s'" % src
+            dst = os.path.expanduser(os.path.join(dstdir, ('.' if dotted else '') + src[k:]))
             src = os.path.abspath(src)
             if os.path.lexists(dst):
                 if os.path.samefile(src, dst):
@@ -41,4 +44,9 @@ if __name__ == '__main__':
                 print "Creating file '%s'" % dst
                 mkdir_p(os.path.dirname(dst))
                 os.symlink(src, dst)
+
+
+if __name__ == '__main__':
+    link('dotfiles', '~', dotted=True)
+    link('sublime', '~/Library/Application Support/Sublime Text 3/Packages/User')
 
