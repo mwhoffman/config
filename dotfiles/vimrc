@@ -55,6 +55,11 @@ map J <PageDown>
 " these types aren't really standard.
 autocmd BufRead *.cls set filetype=tex
 autocmd BufRead *.config set filetype=cfg
+autocmd BufRead *.md set filetype=Markdown
+
+" this is for the definition files used by f2py for creating interfaces between
+" fortran code and python/numpy.
+autocmd BufRead *.pyf set filetype=fortran
 
 " the python syntax file has some highlight options...
 let python_highlight_all = 1
