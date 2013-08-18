@@ -11,16 +11,10 @@ local RESET='\[\e[0;00m\]'
 local TSTART='\[\e]0;'
 local TEND='\a\]'
 
-function _git_dirty {
-	[[ \
-	    $(git status 2> /dev/null | tail -n1) \
-	    != "nothing to commit (working directory clean)" ]] && \
-	echo "*"
-} 
-
 function _git_branch {
-	git branch --no-color 2> /dev/null \
-	    | sed -e '/^[^*]/d' -e "s/* \(.*\)/:\1$(_git_dirty)/"
+    [[ -d '.git' ]] && \
+    echo -n ":$(git rev-parse --abbrev-ref HEAD)" && \
+    [[ -n $(git status --porcelain) ]] && echo -n '*'
 }
 
 PS1="\
