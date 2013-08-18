@@ -14,7 +14,10 @@ local TEND='\a\]'
 function _git_branch {
     [[ -d '.git' ]] && \
     echo -n ":$(git rev-parse --abbrev-ref HEAD)" && \
-    [[ -n $(git status --porcelain) ]] && echo -n '*'
+    [[ 
+        -n $(git status --porcelain) ||
+        $(git log --oneline origin/master..HEAD | wc -l) -gt "0"
+    ]] && echo -n '*'
 }
 
 PS1="\
