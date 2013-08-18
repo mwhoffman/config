@@ -1,7 +1,8 @@
 ! this just makes sure that the capslock key is disabled and turn it into a
 ! third control key.
-remove Lock = Caps_Lock
-keysym Caps_Lock = Control_L
+clear Lock
+keycode 66 = Control_L
+add Control = Control_L
 
 ! this maps everything that can be remapped on a UK keyboard into their
 ! equivalent US positions.
