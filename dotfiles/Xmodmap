@@ -1,0 +1,20 @@
+! this just makes sure that the capslock key is disabled and turn it into a
+! third control key.
+remove Lock = Caps_Lock
+keysym Caps_Lock = Control_L
+
+! this maps everything that can be remapped on a UK keyboard into their
+! equivalent US positions.
+keycode 11 = 2 at
+keycode 12 = 3 numbersign
+keycode 48 = apostrophe quotedbl
+keycode 49 = grave asciitilde
+
+! the return key is too tall but also too skinny on its bottom half. and there
+! is a new key there that is taken up by "#~". For now lets replace that with
+! the "\|" key that is usurped by the top of the return key.
+keycode 51 = backslash bar
+
+! one final problem is that the left-shift is too short and the right half of
+! that is replaced by "\|". For now I'll leave that alone.
+
