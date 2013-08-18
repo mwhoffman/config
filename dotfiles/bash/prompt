@@ -14,10 +14,13 @@ local TEND='\a\]'
 function _git_branch {
     [[ -d '.git' ]] && \
     echo -n ":$(git rev-parse --abbrev-ref HEAD)" && \
-    [[ 
-        -n $(git status --porcelain) ||
-        $(git log --oneline origin/master..HEAD | wc -l) -gt "0"
-    ]] && echo -n '*'
+    [[ -n $(git status --porcelain) ]] && echo -n '*'
+
+    # FIXME: we could also do the following to check if we have unpushed
+    # changes. however this isn't quite what we want if we aren't on master.
+    # getting rid of the "/master" doesn't work if the branch hasn't been pushed
+    # at all.
+    # $(git log --oneline origin/master..HEAD | wc -l) -gt "0"
 }
 
 PS1="\
