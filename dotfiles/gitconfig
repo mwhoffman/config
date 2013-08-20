@@ -19,6 +19,7 @@
 	st = status -sb
 	ci = commit
 	co = checkout
+    graph = log --graph --abbrev-commit --date=relative --all --format=format:'%C(bold blue)%h%C(reset) - %s %C(bold yellow)%d%C(reset)'
 
 [push]
 	default = simple
