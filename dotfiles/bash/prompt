@@ -12,7 +12,7 @@ local TSTART='\[\e]0;'
 local TEND='\a\]'
 
 function _git_branch {
-    [[ -d '.git' ]] && \
+    ([ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1) && \
     echo -n ":$(git rev-parse --abbrev-ref HEAD)" && \
     [[ -n $(git status --porcelain) ]] && echo -n '*'
 
