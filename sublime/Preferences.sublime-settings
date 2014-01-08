@@ -3,6 +3,7 @@
 	"auto_complete_delay": 300,
 	"auto_indent": true,
 	"bold_folder_labels": true,
+	"caret_style": "solid",
 	"color_scheme": "Packages/Color Scheme - Default/Mac Classic.tmTheme",
 	"create_window_at_startup": true,
 	"detect_indentation": false,
@@ -12,7 +13,6 @@
 	"ignored_packages":
 	[
 	],
-	"margin": 0,
 	"preview_on_click": false,
 	"rulers":
 	[
@@ -26,5 +26,6 @@
 	"trim_trailing_white_space_on_save": true,
 	"use_tab_stops": true,
 	"vintage_start_in_command_mode": true,
+	"vintage_use_clipboard": true,
 	"word_wrap": false
 }
