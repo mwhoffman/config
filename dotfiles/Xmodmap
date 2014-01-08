@@ -4,10 +4,14 @@ clear Lock
 keycode 66 = Control_L
 add Control = Control_L
 
+keycode 133 = Mode_switch
+keycode 134 = Mode_switch
+
 ! this maps everything that can be remapped on a UK keyboard into their
 ! equivalent US positions.
 keycode 11 = 2 at
-keycode 12 = 3 numbersign
+keycode 12 = 3 numbersign sterling
+keycode 13 = 4 dollar EuroSign
 keycode 48 = apostrophe quotedbl
 keycode 49 = grave asciitilde
 

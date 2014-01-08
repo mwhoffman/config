@@ -14,6 +14,9 @@ unset MAILPATH  # disable mail checking.
 export HISTCONTROL=ignoredups:ignorespace
 export HISTIGNORE="&:ls:bg:fg"
 
+# make sorting be in "normal" c-mode.
+export LC_COLLATE="C"
+
 # app defaults.
 export EDITOR="vim"
 export PAGER="less"
