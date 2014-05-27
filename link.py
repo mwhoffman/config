@@ -26,13 +26,20 @@ def link(srcdir, dstdir, dotted=False, verbose=False):
     Link all files from `srcdir` into `dstdir`. If `dotted` is True then prepend
     the top-level file or directory with a '.'.
     """
+    # expand the base destination directory and make sure that it exists.
+    dstdir = os.path.expanduser(dstdir)
+    if not os.path.exists(dstdir):
+        if verbose:
+            print "destination '%s' does not exist. skipping." % dstdir
+        return
+
     k = len(srcdir) + len(os.sep)
     for dirpath, dirnames, filenames in os.walk(srcdir):
         for filename in filenames:
             src = os.path.join(dirpath, filename)
             if verbose:
                 print "Processing file '%s'" % src
-            dst = os.path.expanduser(os.path.join(dstdir, ('.' if dotted else '') + src[k:]))
+            dst = os.path.join(dstdir, ('.' if dotted else '') + src[k:])
             src = os.path.abspath(src)
             if os.path.lexists(dst):
                 if os.path.samefile(src, dst):
@@ -48,5 +55,9 @@ def link(srcdir, dstdir, dotted=False, verbose=False):
 
 if __name__ == '__main__':
     link('dotfiles', '~', dotted=True)
-    link('sublime', '~/Library/Application Support/Sublime Text 3/Packages/User')
+
+    # link sublime files based for both linux/osx.
+    # FIXME: check which type of system we're on.
+    #link('sublime', '~/Library/Application Support/Sublime Text 3/Packages/User')
+    #link('sublime', '~/.config/sublime-text-3/Packages/User')
 
