@@ -2,24 +2,24 @@
     path = ~/.gitconfig.include
 
 [core]
-	excludesfile = ~/.gitignore
-	pager = less -FXRS -x4
+    excludesfile = ~/.gitignore
+    pager = less -FXRS -x4
 
 [color]
-	diff = auto
-	status = auto
+    diff = auto
+    status = auto
 
 [color "status"]
-	added = magenta
-	changed = green
-	untracked = cyan
+    added = magenta
+    changed = green
+    untracked = cyan
 
 [alias]
     undo = reset --soft HEAD^
-	st = status -sb
-	ci = commit
-	co = checkout
+    st = status -sb
+    ci = commit
+    co = checkout
     graph = log --graph --abbrev-commit --date=relative --all --format=format:'%C(bold blue)%h%C(reset) - %s %C(bold yellow)%d%C(reset)'
 
 [push]
-	default = simple
+    default = simple
