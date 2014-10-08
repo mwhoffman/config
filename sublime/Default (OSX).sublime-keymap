@@ -1,12 +1,37 @@
 [
-    { "keys": ["ctrl+q"], "command": "wrap_lines_plus" },
     {
-        "context": [{"key": "setting.command_mode"}],
-        "keys": ["g", "q"],
-        "command": "set_action",
-        "args": {"action": "wrap_lines_plus", "description": "Wrap Lines"},
+        "keys": ["ctrl+q"],
+        "command": "wrap_lines_plus"
     },
-
+    {
+        "keys": ["g", "q"],
+        "context": [{"key": "setting.command_mode", "operand": true}],
+        "command": "wrap_lines_plus"
+    },
+    {
+        "keys": ["ctrl+v"],
+        "command": "select_lines",
+        "args": {"forward": true}
+    },
     { "keys": ["home"], "command": "move_to", "args": {"to": "bof"} },
-    { "keys": ["end"], "command": "move_to", "args": {"to": "eof"} },
+    { "keys": ["home"], "command": "move_to", "args": {"to": "bof"} },
+    { "keys": ["end"],  "command": "move_to", "args": {"to": "eof"} },
+    { "keys": ["ctrl+super+1"], "command": "focus_group", "args": { "group": 0 } },
+    { "keys": ["ctrl+super+2"], "command": "focus_group", "args": { "group": 1 } },
+    { "keys": ["ctrl+super+3"], "command": "focus_group", "args": { "group": 2 } },
+    { "keys": ["ctrl+super+4"], "command": "focus_group", "args": { "group": 3 } },
+    { "keys": ["ctrl+super+5"], "command": "focus_group", "args": { "group": 4 } },
+    { "keys": ["ctrl+super+6"], "command": "focus_group", "args": { "group": 5 } },
+    { "keys": ["ctrl+super+7"], "command": "focus_group", "args": { "group": 6 } },
+    { "keys": ["ctrl+super+8"], "command": "focus_group", "args": { "group": 7 } },
+    { "keys": ["ctrl+super+9"], "command": "focus_group", "args": { "group": 8 } },
+    { "keys": ["ctrl+super+shift+1"], "command": "move_to_group", "args": { "group": 0 } },
+    { "keys": ["ctrl+super+shift+2"], "command": "move_to_group", "args": { "group": 1 } },
+    { "keys": ["ctrl+super+shift+3"], "command": "move_to_group", "args": { "group": 2 } },
+    { "keys": ["ctrl+super+shift+4"], "command": "move_to_group", "args": { "group": 3 } },
+    { "keys": ["ctrl+super+shift+5"], "command": "move_to_group", "args": { "group": 4 } },
+    { "keys": ["ctrl+super+shift+6"], "command": "move_to_group", "args": { "group": 5 } },
+    { "keys": ["ctrl+super+shift+7"], "command": "move_to_group", "args": { "group": 6 } },
+    { "keys": ["ctrl+super+shift+8"], "command": "move_to_group", "args": { "group": 7 } },
+    { "keys": ["ctrl+super+shift+9"], "command": "move_to_group", "args": { "group": 8 } },
 ]
