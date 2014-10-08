@@ -1,4 +1,7 @@
+.coverage
 .DS_Store
 *.sublime-workspace
+*.sublime-project
 *.swp
 *.pyc
+*.so
