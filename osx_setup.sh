@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COMPUTER_NAME="MattsBook-Pro"
+COMPUTER_NAME="MattsBookPro"
 
 # setup the computer's name.
 sudo scutil --set ComputerName $COMPUTER_NAME
