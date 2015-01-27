@@ -5,10 +5,10 @@
 	"bold_folder_labels": true,
 	"caret_style": "solid",
 	"color_scheme": "Packages/User/Mac Classic (SL).tmTheme",
-	"create_window_at_startup": true,
+	"create_window_at_startup": false,
 	"detect_indentation": false,
 	"ensure_newline_at_eof_on_save": true,
-	"font_face": "Source Code Pro",
+	"font_face": "Input Mono",
 	"font_options":
 	[
 		"no_italic"
@@ -16,7 +16,7 @@
 	"font_size": 10,
 	"ignored_packages":
 	[
-		"WordHighlight"
+        "Vintage"
 	],
 	"preview_on_click": false,
 	"rulers":
@@ -26,11 +26,12 @@
 	"scroll_past_end": true,
 	"smart_indent": true,
 	"tab_size": 4,
-	"theme": "Soda Light 3.sublime-theme",
+	"theme": "El Capitan.sublime-theme",
 	"translate_tabs_to_spaces": true,
-	"trim_trailing_white_space_on_save": true,
+	"trim_trailingwhite_space_on_save": true,
 	"use_tab_stops": true,
 	"vintage_start_in_command_mode": true,
-	"vintage_use_clipboard": true,
+    "vintageous_use_ctrl_keys": true,
+    "vintageous_hlsearch": true,
 	"word_wrap": false
 }

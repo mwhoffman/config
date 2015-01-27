@@ -8,11 +8,6 @@
         "context": [{"key": "setting.command_mode", "operand": true}],
         "command": "wrap_lines_plus"
     },
-    {
-        "keys": ["ctrl+v"],
-        "command": "select_lines",
-        "args": {"forward": true}
-    },
     { "keys": ["home"], "command": "move_to", "args": {"to": "bof"} },
     { "keys": ["home"], "command": "move_to", "args": {"to": "bof"} },
     { "keys": ["end"],  "command": "move_to", "args": {"to": "eof"} },
