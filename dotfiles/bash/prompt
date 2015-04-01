@@ -11,17 +11,26 @@ local RESET='\[\e[0;00m\]'
 local TSTART='\[\e]0;'
 local TEND='\a\]'
 
-function _git_branch {
-    (git rev-parse --git-dir > /dev/null 2>&1) && \
-        echo -n ":$(git symbolic-ref --short HEAD)" &&
+function _branch {
+    gbranch=$(git symbolic-ref --short HEAD 2> /dev/null)
+    hbranch=$(hg branch 2>/dev/null)
+
+    # echo git status
+    [[ -n "${gbranch}" ]] && \
+        echo -n ":${gbranch}" &&
         [[ -n $(git status --porcelain) ]] && echo -n '*'
+
+    # echo mercurial status
+    [[ -n "${hbranch}" ]] && \
+        echo -n ":${hbranch}" &&
+        [[ -n $(hg status) ]] && echo -n '*'
 }
 
 PS1="\
 ${TSTART}\u@\h${TEND}\
 ${GREEN}\u@\h\
 ${RESET}:${BLUE}\w\
-${CYAN}\$(_git_branch)\
+${CYAN}\$(_branch)\
 ${RESET}\$ "
 
 # this variable is used to specify a command which is called every time
