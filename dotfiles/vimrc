@@ -2,92 +2,73 @@
 " because it changes other options as a side effect.
 set nocompatible
 
-" make sure to turn syntax highlighting on.
+" turn syntax highlighting and indent plugins
 syntax on
-
-set hlsearch                " highlight search terms.
-set autoindent              " autoindent text.
-set expandtab               " expand tabs to spaces.
-set nobackup                " don't create a backup file.
-set number                  " show numbers on the left-margin.
-set tabstop=4               " how many spaces tabs are displayed as.
-set copyindent              " copy indention when moving down a line.
-set pastetoggle=<C-P>       " key to move into paste mode.
-set textwidth=80            " width at which to wrap.
-set scrolloff=5             " number of lines above/below to display.
-set laststatus=2            " always show status line (useful for 'tabs').
-set ruler                   " show line and column numbers.
-set backspace=2             " make backspace work like it should.
-set viminfo='20,\"100       " set limits on what is stored in .viminfo.
-set history=50              " how much history to save.
-set wildmode=longest:list   " how to treat wilds in completions.
-set modelines=1             " how many lines to look for modelines.
-set showmatch               " briefly jump to matching braces/etc.
-set formatoptions=croql     " standard formatting options.
-
-set wrap                    " display-wrap text.
-set linebreak               " wrap at word boundaries
-
-" make the shiftwidth (for autoindent) and softtabstop (for simulating tabs)
-" variables match up with tabstop.
-let &shiftwidth=&tabstop
-let &softtabstop=&tabstop
-
-" add plugins
-set loadplugins
 filetype plugin indent on
 
-" The two lines below make vim actually work in utf-8 and get some unicode
-" characters working. This is mostly a work-around for something tricky going on
-" with Apple's Terminal.app, and I don't care to find the underlying cause.
-set encoding=utf-8
-let &termencoding=&encoding
+" execute pathogen so we can find plugins
+execute pathogen#infect()
 
-"-------------------------------------------------------------------------------
-" a few helpful macros.
+set hlsearch                " highlight search terms
+set autoindent              " autoindent text
+set expandtab               " expand tabs to spaces
+set nobackup                " don't create a backup file
+set number                  " show numbers on the left-margin
+set tabstop=4               " how many spaces tabs are displayed as
+set copyindent              " copy indention when moving down a line
+set pastetoggle=<C-P>       " key to move into paste mode
+set textwidth=79            " width at which to wrap
+set scrolloff=5             " number of lines above/below to display
+set backspace=2             " make backspace work like it should
+set viminfo='20,\"100       " set limits on what is stored in .viminfo
+set history=50              " how much history to save
+set wildmode=longest:list   " how to treat wilds in completions
+set modelines=1             " how many lines to look for modelines
+set showmatch               " briefly jump to matching braces/etc
+set formatoptions=croql     " standard formatting options
+set laststatus=2            " make the status bar always show up
+set showtabline=2           " always show the tab line
+set wrap                    " display-wrap text
+set linebreak               " wrap at word boundaries
+set noshowmode              " don't show the mode since airline does this
+set smarttab
+set hidden
 
-map K <PageUp>
-map J <PageDown>
+" copy the tabstop settings from above
+let &shiftwidth=&tabstop
+let &softtabstop=&tabstop
+let mapleader=","
 
-"-------------------------------------------------------------------------------
-" Filetype specific stuff.
-
-" these types aren't really standard.
+" set some nonstandard filetypes
 autocmd BufRead *.cls set filetype=tex
 autocmd BufRead *.config set filetype=cfg
 autocmd BufRead *.md set filetype=Markdown
-
-" this is for the definition files used by f2py for creating interfaces between
-" fortran code and python/numpy.
 autocmd BufRead *.pyf set filetype=fortran
 
-" the python syntax file has some highlight options...
-let python_highlight_all = 1
-let python_highlight_indent_errors = 0
-let python_highlight_space_errors = 0
+" enable the list of buffers in airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
 
-"-------------------------------------------------------------------------------
-" Commands for moving between windows.
+" ignore files in nerdtree
+let NERDTreeIgnore = ['\.pyc$', '\.egg-info$']
 
-map <C-k> <C-W>k:resize<CR>
-map <C-j> <C-W>j:resize<CR>
-map <C-l> <C-W>l
-map <C-h> <C-W>h
+" a few helpful macros.
+nmap <C-k> <PageUp>
+nmap <C-j> <PageDown>
 
-" This makes it so that each window can be minimized down to nothing-ness, so
-" that only its title shows up.
-set winminheight=0
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
 
-" Resize windows to either minimize every window but the current one, or
-" equalize all such windows.
-map <C-o> :resize<CR>
-map <C-i> <C-W>=<CR>
-
-"-------------------------------------------------------------------------------
 " When editing a file, always jump to the last known cursor position.  Don't do
 " it when the position is invalid or when inside an event handler (happens when
 " dropping a file on gvim).
-
 autocmd BufReadPost *
 	\ if line("'\"") > 0 && line("'\"") <= line("$") |
 	\   exe "normal g`\"" |

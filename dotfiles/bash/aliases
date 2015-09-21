@@ -1,9 +1,6 @@
 #!/bin/bash
 
-alias vim="vim -o"
-alias vi="vim -o"
-
-alias pylab="ipython qtconsole --pylab"
+alias pylab="ipython qtconsole --matplotlib"
 
 alias ls="ls --color=auto"
 alias grep="grep --color=auto"

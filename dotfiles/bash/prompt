@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # set up a few colors for setting the prompt.
-local GREY='\[\e[0;37m\]'
 local GREEN='\[\e[1;32m\]'
 local BLUE='\[\e[1;34m\]'
 local CYAN='\[\e[1;36m\]'

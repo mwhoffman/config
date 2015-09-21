@@ -1,5 +1,6 @@
 .coverage
 .DS_Store
+*.egg-info
 *.sublime-workspace
 *.sublime-project
 *.swp

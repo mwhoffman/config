@@ -21,5 +21,19 @@
     co = checkout
     graph = log --graph --abbrev-commit --date=relative --all --format=format:'%C(bold blue)%h%C(reset) - %s %C(bold yellow)%d%C(reset)'
 
+[difftool.latex]
+    cmd = latexdiff --flatten "$LOCAL" "$REMOTE"
+
 [push]
     default = simple
+
+[pull]
+    ff = only
+
+[merge]
+    ff = false
+
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
