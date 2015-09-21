@@ -1,37 +1,49 @@
 {
-	"WrapPlus.break_on_hyphens": false,
 	"auto_complete_delay": 300,
 	"auto_indent": true,
 	"bold_folder_labels": true,
 	"caret_style": "solid",
-	"color_scheme": "Packages/User/Mac Classic (SL).tmTheme",
+	"color_scheme": "Packages/User/SublimeLinter/Afterglow-monokai (SL).tmTheme",
 	"create_window_at_startup": false,
 	"detect_indentation": false,
 	"ensure_newline_at_eof_on_save": true,
-	"font_face": "Input Mono",
-	"font_options":
+	"file_exclude_patterns":
 	[
-		"no_italic"
+		".DS_Store",
+		".coverage",
+		"*.so",
+		"*.swp",
+		"*.pyc"
 	],
+	"folder_exclude_patterns":
+	[
+		".git",
+		"htmlcov",
+		"*.egg-info",
+		"*.jugdata"
+	],
+	"font_face": "InputMono",
 	"font_size": 10,
+	"hot_exit": false,
 	"ignored_packages":
 	[
-        "Vintage"
+		"Vintage"
 	],
 	"preview_on_click": false,
+	"remember_open_files": true,
 	"rulers":
 	[
 		79
 	],
 	"scroll_past_end": true,
 	"smart_indent": true,
+	"status_bar_brighter": true,
 	"tab_size": 4,
-	"theme": "El Capitan.sublime-theme",
+	"tabs_small": true,
+	"theme": "Afterglow.sublime-theme",
 	"translate_tabs_to_spaces": true,
 	"trim_trailingwhite_space_on_save": true,
 	"use_tab_stops": true,
-	"vintage_start_in_command_mode": true,
-    "vintageous_use_ctrl_keys": true,
-    "vintageous_hlsearch": true,
-	"word_wrap": false
+	"vintageous_use_ctrl_keys": true,
+	"vintageous_use_sys_clipboard": true
 }

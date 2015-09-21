@@ -1,0 +1,20 @@
+<snippet>
+    <content><![CDATA[
+"""
+$1
+"""
+
+from __future__ import division
+from __future__ import absolute_import
+from __future__ import print_function
+
+import numpy as np
+
+__all__ = []
+
+
+$2
+]]></content>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.python</scope>
+</snippet>
