@@ -13,11 +13,20 @@
 		".coverage",
 		"*.so",
 		"*.swp",
-		"*.pyc"
+		"*.pyc",
+		"*.aux",
+		"*.bbl",
+		"*.blg",
+		"*.fdb_latexmk",
+		"*.fls",
+		"*.log",
+		"*.out"
 	],
 	"folder_exclude_patterns":
 	[
 		".git",
+		".hg",
+		".hgcheck",
 		"htmlcov",
 		"*.egg-info",
 		"*.jugdata"

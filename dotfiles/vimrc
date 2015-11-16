@@ -53,8 +53,8 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
 let NERDTreeIgnore = ['\.pyc$', '\.egg-info$']
 
 " a few helpful macros.
-nmap <C-k> <PageUp>
-nmap <C-j> <PageDown>
+map <C-k> <PageUp>
+map <C-j> <PageDown>
 
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
