@@ -8,10 +8,7 @@
 function _source { [ -r $1 ] && source $1; }
 
 # add all the subparts.
-_source "$HOME/.bash/options"
-_source "$HOME/.bash/prompt"
-_source "$HOME/.bash/aliases"
-
-# add any other local options/etc.
-_source "$HOME/.bash/local"
+for file in $HOME/.bash/* ; do
+    _source "$file"
+done
 
