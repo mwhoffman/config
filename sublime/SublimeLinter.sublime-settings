@@ -8,7 +8,7 @@
         "lint_mode": "background",
         "linters": {
             "pep8": {
-                "@disable": false,
+                "@disable": true,
                 "args": [],
                 "excludes": [],
                 "ignore": "",
@@ -23,7 +23,7 @@
                 "excludes": [],
                 "paths": [],
                 "rcfile": "",
-                "show-codes": false
+                "show-codes": true
             }
         },
         "mark_style": "stippled underline",

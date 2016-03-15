@@ -20,7 +20,11 @@
 		"*.fdb_latexmk",
 		"*.fls",
 		"*.log",
-		"*.out"
+		"*.out",
+		"*.vrb",
+		"*.toc",
+		"*.snm",
+		"*.nav"
 	],
 	"folder_exclude_patterns":
 	[
@@ -31,8 +35,8 @@
 		"*.egg-info",
 		"*.jugdata"
 	],
-	"font_face": "InputMono",
-	"font_size": 10,
+	"font_face": "Inconsolata",
+	"font_size": 12,
 	"hot_exit": false,
 	"ignored_packages":
 	[
