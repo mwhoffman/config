@@ -35,8 +35,8 @@
 		"*.egg-info",
 		"*.jugdata"
 	],
-	"font_face": "Inconsolata",
-	"font_size": 12,
+	"font_face": "InputMono",
+	"font_size": 11,
 	"hot_exit": false,
 	"ignored_packages":
 	[

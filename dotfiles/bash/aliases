@@ -1,7 +1,2 @@
 #!/bin/bash
 
-alias pylab="ipython qtconsole --matplotlib"
-
-alias ls="ls --color=auto"
-alias grep="grep --color=auto"
-
