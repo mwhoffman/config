@@ -3,8 +3,9 @@
 set nocompatible
 
 " turn syntax highlighting and indent plugins
+filetype indent on
+filetype plugin on
 syntax on
-filetype plugin indent on
 
 " execute pathogen so we can find plugins
 execute pathogen#infect()
@@ -14,7 +15,7 @@ set autoindent              " autoindent text
 set expandtab               " expand tabs to spaces
 set nobackup                " don't create a backup file
 set number                  " show numbers on the left-margin
-set tabstop=4               " how many spaces tabs are displayed as
+set tabstop=2               " how many spaces tabs are
 set copyindent              " copy indention when moving down a line
 set pastetoggle=<C-P>       " key to move into paste mode
 set textwidth=79            " width at which to wrap
@@ -34,10 +35,14 @@ set noshowmode              " don't show the mode since airline does this
 set smarttab
 set hidden
 
+colorscheme monokai
+
 " copy the tabstop settings from above
-let &shiftwidth=&tabstop
-let &softtabstop=&tabstop
+let shiftwidth=&tabstop
+let softtabstop=&tabstop
 let mapleader=","
+
+autocmd Filetype python setlocal ts=2 sw=2 expandtab
 
 " set some nonstandard filetypes
 autocmd BufRead *.cls set filetype=tex
@@ -46,11 +51,14 @@ autocmd BufRead *.md set filetype=Markdown
 autocmd BufRead *.pyf set filetype=fortran
 
 " enable the list of buffers in airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline_theme='base16_monokai'
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#buffer_idx_mode=1
+let g:airline#extensions#tmuxline#enabled=0
 
 " ignore files in nerdtree
-let NERDTreeIgnore = ['\.pyc$', '\.egg-info$']
+let NERDTreeIgnore=['\.pyc$', '\.egg-info$']
 
 " a few helpful macros.
 map <C-k> <PageUp>
