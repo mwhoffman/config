@@ -6,6 +6,7 @@ set nocompatible
 filetype indent on
 filetype plugin on
 syntax on
+colorscheme monokai
 
 " execute pathogen so we can find plugins
 execute pathogen#infect()
@@ -15,7 +16,6 @@ set autoindent              " autoindent text
 set expandtab               " expand tabs to spaces
 set nobackup                " don't create a backup file
 set number                  " show numbers on the left-margin
-set tabstop=2               " how many spaces tabs are
 set copyindent              " copy indention when moving down a line
 set pastetoggle=<C-P>       " key to move into paste mode
 set textwidth=79            " width at which to wrap
@@ -32,17 +32,17 @@ set showtabline=2           " always show the tab line
 set wrap                    " display-wrap text
 set linebreak               " wrap at word boundaries
 set noshowmode              " don't show the mode since airline does this
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set smarttab
 set hidden
 
-colorscheme monokai
-
-" copy the tabstop settings from above
-let shiftwidth=&tabstop
-let softtabstop=&tabstop
+" this is the key used to prefix many commands and can be used as <leader>; see
+" the airline tab commands below.
 let mapleader=","
 
-autocmd Filetype python setlocal ts=2 sw=2 expandtab
+" autocmd Filetype python setlocal ts=2 sw=2 expandtab
 
 " set some nonstandard filetypes
 autocmd BufRead *.cls set filetype=tex
