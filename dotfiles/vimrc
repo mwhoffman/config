@@ -68,7 +68,7 @@ let NERDTreeIgnore=['\.pyc$', '\.egg-info$']
 " a few helpful macros.
 map <c-k> <pageup>
 map <c-j> <pagedown>
-map <c-l> :nohl<cr>
+map <silent> <c-l> :nohl<cr>
 
 map <leader>1 <plug>AirlineSelectTab1
 map <leader>2 <plug>AirlineSelectTab2
