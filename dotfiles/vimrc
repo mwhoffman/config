@@ -11,43 +11,48 @@ colorscheme monokai
 " execute pathogen so we can find plugins
 execute pathogen#infect()
 
-set hlsearch                " highlight search terms
-set autoindent              " autoindent text
-set expandtab               " expand tabs to spaces
-set nobackup                " don't create a backup file
-set number                  " show numbers on the left-margin
-set copyindent              " copy indention when moving down a line
-set pastetoggle=<C-P>       " key to move into paste mode
-set textwidth=79            " width at which to wrap
-set scrolloff=5             " number of lines above/below to display
-set backspace=2             " make backspace work like it should
-set viminfo='20,\"100       " set limits on what is stored in .viminfo
-set history=50              " how much history to save
-set wildmode=longest:list   " how to treat wilds in completions
-set modelines=1             " how many lines to look for modelines
-set showmatch               " briefly jump to matching braces/etc
-set formatoptions=croql     " standard formatting options
-set laststatus=2            " make the status bar always show up
-set showtabline=2           " always show the tab line
-set wrap                    " display-wrap text
-set linebreak               " wrap at word boundaries
-set noshowmode              " don't show the mode since airline does this
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set smarttab
-set hidden
+set hlsearch               " highlight search terms
+set autoindent             " autoindent text
+set expandtab              " expand tabs to spaces
+set tabstop=2              " the width of a hard tab
+set softtabstop=2          " the width of a soft tab
+set shiftwidth=2           " the width used by reindent operations
+set nobackup               " don't create a backup file
+set number                 " show numbers on the left-margin
+set copyindent             " copy indention when moving down a line
+set pastetoggle=<C-P>      " key to move into paste mode
+set textwidth=79           " width at which to wrap
+set scrolloff=5            " number of lines above/below to display
+set backspace=2            " make backspace work like it should
+set viminfo='20,\"100      " set limits on what is stored in .viminfo
+set history=50             " how much history to save
+set wildmode=longest:list  " how to treat wilds in completions
+set modelines=1            " how many lines to look for modelines
+set showmatch              " briefly jump to matching braces/etc
+set formatoptions=croql    " standard formatting options
+set laststatus=2           " make the status bar always show up
+set showtabline=2          " always show the tab line
+set wrap                   " display-wrap text
+set linebreak              " wrap at word boundaries
+set noshowmode             " don't show the mode since airline does this
+set hidden                 " hide unsaved buffers rather than closing
 
 " this is the key used to prefix many commands and can be used as <leader>; see
 " the airline tab commands below.
 let mapleader=","
 
-" autocmd Filetype python setlocal ts=2 sw=2 expandtab
+" newer versions of the vim ftplugin for python (as of vim 7.4) automatically
+" set the tab parameters to follow PEP8. So if for whatever reason we don't
+" want to do that we must manually override this.
+autocmd Filetype python let &l:et=&g:et
+autocmd Filetype python let &l:sw=&g:sw
+autocmd Filetype python let &l:sts=&g:sts
+autocmd Filetype python let &l:sts=&g:sts
 
 " set some nonstandard filetypes
 autocmd BufRead *.cls set filetype=tex
 autocmd BufRead *.config set filetype=cfg
-autocmd BufRead *.md set filetype=Markdown
+autocmd BufRead *.md set filetype=markdown
 autocmd BufRead *.pyf set filetype=fortran
 
 " enable the list of buffers in airline
@@ -61,20 +66,21 @@ let g:airline#extensions#tmuxline#enabled=0
 let NERDTreeIgnore=['\.pyc$', '\.egg-info$']
 
 " a few helpful macros.
-map <C-k> <PageUp>
-map <C-j> <PageDown>
+map <c-k> <pageup>
+map <c-j> <pagedown>
+map <silent> <c-l> :nohl<cr>
 
-nmap <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>AirlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
+map <leader>1 <plug>AirlineSelectTab1
+map <leader>2 <plug>AirlineSelectTab2
+map <leader>3 <plug>AirlineSelectTab3
+map <leader>4 <plug>AirlineSelectTab4
+map <leader>5 <plug>AirlineSelectTab5
+map <leader>6 <plug>AirlineSelectTab6
+map <leader>7 <plug>AirlineSelectTab7
+map <leader>8 <plug>AirlineSelectTab8
+map <leader>9 <plug>AirlineSelectTab9
 
-" When editing a file, always jump to the last known cursor position.  Don't do
+" When editing a file, always jump to the last known cursor position. Don't do
 " it when the position is invalid or when inside an event handler (happens when
 " dropping a file on gvim).
 autocmd BufReadPost *
