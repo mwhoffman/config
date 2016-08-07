@@ -26,10 +26,10 @@ bind(mash1, '5', layout.set_layout('west'))
 bind(mash1, '6', layout.set_layout('east'))
 
 -- change the focus
-bind(mash1, 'h', layout.set_focus('west'))
-bind(mash1, 'j', layout.set_focus('south'))
-bind(mash1, 'k', layout.set_focus('north'))
-bind(mash1, 'l', layout.set_focus('east'))
+bind(mash1, 'h', hs.window.filter.focusWest)
+bind(mash1, 'j', hs.window.filter.focusSouth)
+bind(mash1, 'k', hs.window.filter.focusNorth)
+bind(mash1, 'l', hs.window.filter.focusEast)
 
 -- show a grid to resize windows
 bind(mash1, 'a', hs.grid.show)
@@ -37,10 +37,10 @@ bind(mash1, 'r', hs.reload)
 bind(mash1, 'o', hs.openConsole)
 
 function activate(name)
-    return function()
-        local app = hs.application.find(name)
-        app:activate()
-    end
+  return function()
+    local app = hs.application.find(name)
+    app:activate()
+  end
 end
 
 bind(mash2, 'm', activate('Mail'))
