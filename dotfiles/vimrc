@@ -77,6 +77,8 @@ map <c-k> <pageup>
 map <c-j> <pagedown>
 map <silent> <c-l> :nohl<cr>
 
+map <leader>q :Bdelete<cr>
+
 map <leader>1 <plug>AirlineSelectTab1
 map <leader>2 <plug>AirlineSelectTab2
 map <leader>3 <plug>AirlineSelectTab3
