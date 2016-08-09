@@ -41,8 +41,8 @@ if filereadable(glob("~/.vimrc.local"))
 endif
 
 " make sure that all other indent parameters follow tabstop
-let &softtabstop=&tabstop
-let &shiftwidth=&tabstop
+let &g:softtabstop=&g:tabstop
+let &g:shiftwidth=&g:tabstop
 
 " this is the key used to prefix many commands and can be used as <leader>; see
 " the airline tab commands below.
@@ -53,7 +53,7 @@ let mapleader=","
 " want to do that we must manually override this.
 autocmd Filetype python let &l:et=&g:et
 autocmd Filetype python let &l:sw=&g:sw
-autocmd Filetype python let &l:sts=&g:sts
+autocmd Filetype python let &l:ts=&g:ts
 autocmd Filetype python let &l:sts=&g:sts
 
 " set some nonstandard filetypes
