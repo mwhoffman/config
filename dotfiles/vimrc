@@ -34,15 +34,7 @@ set wrap                   " display-wrap text
 set linebreak              " wrap at word boundaries
 set noshowmode             " don't show the mode since airline does this
 set hidden                 " hide unsaved buffers rather than closing
-
-" try and read any local vim configuration
-if filereadable(glob("~/.vimrc.local"))
-  source ~/.vimrc.local
-endif
-
-" make sure that all other indent parameters follow tabstop
-let &g:softtabstop=&g:tabstop
-let &g:shiftwidth=&g:tabstop
+set nojoinspaces
 
 " this is the key used to prefix many commands and can be used as <leader>; see
 " the airline tab commands below.
@@ -77,8 +69,13 @@ map <c-k> <pageup>
 map <c-j> <pagedown>
 map <silent> <c-l> :nohl<cr>
 
+" slimux commands
+vmap <leader>s :SlimuxREPLSendSelection<cr>
+
+" close the current buffer
 map <leader>q :Bdelete<cr>
 
+" select buffers based on the numbered airline tab
 map <leader>1 <plug>AirlineSelectTab1
 map <leader>2 <plug>AirlineSelectTab2
 map <leader>3 <plug>AirlineSelectTab3
@@ -97,3 +94,11 @@ autocmd BufReadPost *
   \   exe "normal g`\"" |
   \ endif
 
+" try and read any local vim configuration
+if filereadable(glob("~/.vimrc.local"))
+  source ~/.vimrc.local
+endif
+
+" make sure that all other indent parameters follow tabstop
+let &softtabstop=&g:tabstop
+let &shiftwidth=&g:tabstop
