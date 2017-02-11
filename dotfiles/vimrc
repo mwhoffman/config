@@ -35,6 +35,7 @@ set linebreak              " wrap at word boundaries
 set noshowmode             " don't show the mode since airline does this
 set hidden                 " hide unsaved buffers rather than closing
 set nojoinspaces
+set colorcolumn=80         " create a colored column at the char limit
 
 " this is the key used to prefix many commands and can be used as <leader>; see
 " the airline tab commands below.
