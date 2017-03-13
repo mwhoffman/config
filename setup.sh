@@ -31,5 +31,6 @@ _git "$HOME/.vim/bundle" 'https://github.com/scrooloose/nerdtree.git'
 _git "$HOME/.vim/bundle" 'https://github.com/edkolev/tmuxline.vim'
 _git "$HOME/.vim/bundle" 'https://github.com/vim-airline/vim-airline'
 _git "$HOME/.vim/bundle" 'https://github.com/vim-airline/vim-airline-themes'
+_git "$HOME/.vim/bundle" 'https://github.com/vim-syntastic/syntastic.git'
 _git "$HOME/.vim/bundle" 'https://github.com/moll/vim-bbye.git'
 
