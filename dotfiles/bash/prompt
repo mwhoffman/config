@@ -1,48 +1,45 @@
 #!/bin/bash
 
-# set up a few colors for setting the prompt.
-local GREEN='\[\e[1;32m\]'
-local YELLOW='\[\e[1;33m\]'
-local BLUE='\[\e[1;34m\]'
-local CYAN='\[\e[1;36m\]'
-local RESET='\[\e[0;00m\]'
-
-# start and end tags to put things into the titlebar.
-local TSTART='\[\e]0;'
-local TEND='\a\]'
-
 function _branch {
-    gbranch=$(git symbolic-ref --short HEAD 2> /dev/null)
-    hbranch=$(hg branch 2>/dev/null)
+    local gbranch=$(git symbolic-ref --short HEAD 2> /dev/null)
+    local hbranch=$(hg branch 2>/dev/null)
 
     # echo git status
     [[ -n "${gbranch}" ]] && \
-        echo -n ":${gbranch}" &&
+        echo -n ${gbranch} &&
         [[ -n $(git status --porcelain) ]] && echo -n '*'
 
     # echo mercurial status
     [[ -n "${hbranch}" ]] && \
-        echo -n ":${hbranch}" &&
+        echo -n ${hbranch} &&
         [[ -n $(hg status) ]] && echo -n '*'
 }
 
+function _echo_pwd {
+  if [[ $PWD == ${HOME}* ]]; then
+    echo -n "~${PWD#${HOME}}";
+  else
+    echo -n $PWD;
+  fi
+}
 
-PS1="\
-${YELLOW}\u@\h\
-${RESET}:${BLUE}\w\
-${CYAN}\$(_branch)\
-${RESET}\$ "
+function _echo_ps1 {
+  # set up a few colors for setting the prompt.
+  local GREEN='\[\e[1;32m\]'
+  local YELLOW='\[\e[1;33m\]'
+  local BLUE='\[\e[1;34m\]'
+  local CYAN='\[\e[1;36m\]'
+  local RESET='\[\e[0;00m\]'
+  local BRANCH=$(_branch)
+  local PWD=$(_echo_pwd)
 
-# update the PS1 to add something to the title bar, but ONLY if we're running
-# in an xterm!
-case $TERM in
-    xterm*)
-        PS1="${TSTART}\u@\h${TEND}${PS1}"
-esac
+  PS1="${YELLOW}\u@\h${RESET}:${BLUE}${PWD}${RESET}"
+  if [[ $BRANCH != "" ]]; then
+    PS1="${PS1}:${CYAN}${BRANCH}${RESET}"
+  fi
+  PS1="${PS1}\$ "
+}
 
-# this variable is used to specify a command which is called every time
-# before displaying a prompt. if I really wanted this, I'd set it
-# myself, and Macs use this to update the terminal title... which I'd
-# rather it not do.
-unset PROMPT_COMMAND
+PS1="\u@\h\$ "
+PROMPT_COMMAND=_echo_ps1
 
