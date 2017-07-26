@@ -27,6 +27,7 @@ function _get
 # install vim packages (including the simple pathogen manager)
 _get "$HOME/.vim/autoload" 'https://tpo.pe/pathogen.vim'
 _git "$HOME/.vim/bundle" 'https://github.com/epeli/slimux.git'
+_git "$HOME/.vim/bundle" 'https://github.com/mhinz/vim-signify.git'
 _git "$HOME/.vim/bundle" 'https://github.com/scrooloose/nerdtree.git'
 _git "$HOME/.vim/bundle" 'https://github.com/edkolev/tmuxline.vim'
 _git "$HOME/.vim/bundle" 'https://github.com/vim-airline/vim-airline'
