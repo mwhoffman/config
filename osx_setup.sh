@@ -8,8 +8,6 @@ sudo scutil --set HostName $COMPUTER_NAME
 sudo scutil --set LocalHostName $COMPUTER_NAME
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $COMPUTER_NAME
 
-defaults write com.apple.mail PreferPlainText -bool TRUE
-
 # install homebrew
 HOMEBREW='/usr/local/homebrew'
 sudo mkdir $HOMEBREW && sudo chown $USER $HOMEBREW

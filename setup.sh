@@ -16,7 +16,7 @@ function _get
 {
   dir=$1
   src=$2
-  target="$1/`basename $src | cut -f1 -d'.'`"
+  target="$1/`basename $src`"
   if [ ! -e $target ]; then
     echo "installing '$target'"
     mkdir -p $dir
