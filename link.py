@@ -56,8 +56,3 @@ def link(srcdir, dstdir, dotted=False, verbose=False):
 if __name__ == '__main__':
     link('dotfiles', '~', dotted=True)
 
-    # link sublime files based for both linux/osx.
-    # FIXME: check which type of system we're on.
-    #link('sublime', '~/Library/Application Support/Sublime Text 3/Packages/User')
-    #link('sublime', '~/.config/sublime-text-3/Packages/User')
-
