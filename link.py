@@ -55,4 +55,5 @@ def link(srcdir, dstdir, dotted=False, verbose=False):
 
 if __name__ == '__main__':
     link('dotfiles', '~', dotted=True)
+    link('dotfiles_local', '~', dotted=True)
 
