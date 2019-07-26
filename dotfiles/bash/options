@@ -20,5 +20,5 @@ export LC_COLLATE="C"
 # app defaults.
 export EDITOR="vim"
 export PAGER="less"
-export LESS="-R"
+export LESS="FRX"
 
