@@ -2,6 +2,9 @@
 " because it changes other options as a side effect.
 set nocompatible
 
+" execute pathogen so we can find plugins
+execute pathogen#infect()
+
 " turn syntax highlighting and indent plugins
 filetype indent on
 filetype plugin on
@@ -10,9 +13,6 @@ syntax on
 colorscheme monokai
 hi Pmenu ctermbg=59
 hi PmenuSel ctermfg=235 ctermbg=231
-
-" execute pathogen so we can find plugins
-execute pathogen#infect()
 
 " this is the key used to prefix many commands and can be used as <leader>; see
 " the airline tab commands below.
