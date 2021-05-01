@@ -19,7 +19,6 @@ case $(uname -s) in
 
   # Run linux-specific scripts.
   Linux)
-    PACKAGES+=("x11")
   ;;
 
 esac
