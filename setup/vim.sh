@@ -1,24 +1,23 @@
 #!/bin/bash
-#
 # A collection of "default" plugins that I use for vim. This script will
 # download and install them in the correct places under the ~/.vim directory.
 
-# Source some helper functions.
+# Include helpers.
 . "$(dirname ${BASH_SOURCE[0]})/helpers.sh"
 
 # The pathogen package manager.
-_get "$HOME/.vim/autoload" 'https://tpo.pe/pathogen.vim'
+install_url "$HOME/.vim/autoload" 'https://tpo.pe/pathogen.vim'
 
 # Show diffs in a gutter on the left.
-_git "$HOME/.vim/bundle" 'https://github.com/mhinz/vim-signify.git'
+install_git "$HOME/.vim/bundle" 'https://github.com/mhinz/vim-signify'
 
 # A filesystem explorer.
-_git "$HOME/.vim/bundle" 'https://github.com/scrooloose/nerdtree.git'
+install_git "$HOME/.vim/bundle" 'https://github.com/scrooloose/nerdtree'
 
 # Pretty status/tablines.
-_git "$HOME/.vim/bundle" 'https://github.com/vim-airline/vim-airline'
-_git "$HOME/.vim/bundle" 'https://github.com/vim-airline/vim-airline-themes'
+install_git "$HOME/.vim/bundle" 'https://github.com/vim-airline/vim-airline'
+install_git "$HOME/.vim/bundle" 'https://github.com/vim-airline/vim-airline-themes'
 
 # Close and remove buffers.
-_git "$HOME/.vim/bundle" 'https://github.com/moll/vim-bbye.git'
+install_git "$HOME/.vim/bundle" 'https://github.com/moll/vim-bbye'
 
