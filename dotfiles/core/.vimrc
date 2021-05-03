@@ -4,6 +4,7 @@ set nocompatible
 
 " execute pathogen so we can find plugins
 execute pathogen#infect()
+execute pathogen#helptags()
 
 " turn syntax highlighting and indent plugins
 filetype indent on
@@ -76,9 +77,6 @@ let g:NERDTreeWinSize = 25
 map <c-k> <pageup>
 map <c-j> <pagedown>
 map <silent> <c-l> :nohl<cr>
-
-" slimux commands
-vmap <leader>s :SlimuxREPLSendSelection<cr>
 
 " close the current buffer
 map <leader>q :Bdelete<cr>
