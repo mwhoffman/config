@@ -33,11 +33,15 @@ function _echo_ps1 {
   local BRANCH=$(_branch)
   local PWD=$(_echo_pwd)
 
+  # Reset the PS1 variable.
   PS1="${YELLOW}\u@\h${RESET}:${BLUE}${PWD}${RESET}"
   if [[ $BRANCH != "" ]]; then
     PS1="${PS1}:${CYAN}${BRANCH}${RESET}"
   fi
   PS1="${PS1}\$ "
+
+  # Echo a window name.
+  echo -ne "\033]0;$USER@${HOSTNAME%%.*}\007"
 }
 
 PS1="\u@\h\$ "
