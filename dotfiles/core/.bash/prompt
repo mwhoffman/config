@@ -39,9 +39,6 @@ function _echo_ps1 {
     PS1="${PS1}:${CYAN}${BRANCH}${RESET}"
   fi
   PS1="${PS1}\$ "
-
-  # Echo a window name.
-  echo -ne "\033]0;$USER@${HOSTNAME%%.*}\007"
 }
 
 PS1="\u@\h\$ "
