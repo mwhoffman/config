@@ -101,8 +101,8 @@ autocmd BufReadPost *
   \ endif
 
 " try and read any local vim configuration
-if filereadable(glob("~/.vimrc.local"))
-  source ~/.vimrc.local
+if filereadable(glob("~/.vimrc.include"))
+  source ~/.vimrc.include
 endif
 
 " make sure that all other indent parameters follow tabstop
