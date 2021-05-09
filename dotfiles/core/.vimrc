@@ -1,28 +1,12 @@
-" Use Vim settings, rather then Vi settings (much better!). This must be first,
-" because it changes other options as a side effect.
-set nocompatible
-
-" execute pathogen so we can find plugins
+" This runs pathogen (which should be in ~/.vim/autoload/pathogen.vim) and
+" allows for the loading of any plugins found in ~/.vim/bundle.
 execute pathogen#infect()
 execute pathogen#helptags()
-
-" turn syntax highlighting and indent plugins
-filetype indent on
-filetype plugin on
-syntax on
-
-colorscheme monokai
-hi Pmenu ctermbg=59
-hi PmenuSel ctermfg=235 ctermbg=231
-
-" this is the key used to prefix many commands and can be used as <leader>; see
-" the airline tab commands below.
-let mapleader=","
 
 set hlsearch                " highlight search terms
 set autoindent              " autoindent text
 set expandtab               " expand tabs to spaces
-set tabstop=4               " the width of a hard tab
+set tabstop=2               " the width of a hard tab
 set nobackup                " don't create a backup file
 set number                  " show numbers on the left-margin
 set copyindent              " copy indention when moving down a line
@@ -48,6 +32,11 @@ set mouse=a                 " allow mouse selection
 set ttymouse=xterm2         " mouse selections update while dragging
 set completeopt-=preview    " don't let completions open up a preview window
 
+" Load plugin and indent files based on the current filetype. Also turn on
+" syntax highlighting.
+filetype plugin indent on
+syntax on
+
 " newer versions of the vim ftplugin for python (as of vim 7.4) automatically
 " set the tab parameters to follow PEP8. So if for whatever reason we don't
 " want to do that we must manually override this.
@@ -62,7 +51,10 @@ autocmd BufRead *.config set filetype=cfg
 autocmd BufRead *.md set filetype=markdown
 autocmd BufRead *.pyf set filetype=fortran
 
-" enable the list of buffers in airline
+" Set the colorscheme.
+colorscheme monokai
+
+" Set up airline.
 let g:airline_theme='base16_monokai'
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled=1
@@ -73,15 +65,15 @@ let g:airline#extensions#tmuxline#enabled=0
 let g:NERDTreeIgnore=['\.pyc$', '\.egg-info$']
 let g:NERDTreeWinSize = 25
 
-" a few helpful macros.
+" Set the 'leader' key which can be used as <leader> in key mappings.
+let mapleader=","
+
+" Set useful mappings for pageup and pagedown.
 map <c-k> <pageup>
 map <c-j> <pagedown>
-map <silent> <c-l> :nohl<cr>
 
-" close the current buffer
-map <leader>q :Bdelete<cr>
-
-" select buffers based on the numbered airline tab
+" Use the leader key and then 1-9 to select individual tabs or use q to lose
+" the current tab (i.e. buffer).
 map <leader>1 <plug>AirlineSelectTab1
 map <leader>2 <plug>AirlineSelectTab2
 map <leader>3 <plug>AirlineSelectTab3
@@ -91,6 +83,16 @@ map <leader>6 <plug>AirlineSelectTab6
 map <leader>7 <plug>AirlineSelectTab7
 map <leader>8 <plug>AirlineSelectTab8
 map <leader>9 <plug>AirlineSelectTab9
+map <leader>q :Bdelete<cr>
+
+" Turn off tablines in airline if displaying a diff.
+if &diff
+  set showtabline=0
+  let g:airline#extensions#tabline#enabled=0
+endif
+
+" Turn off background color erase.
+let &t_ut=''
 
 " When editing a file, always jump to the last known cursor position. Don't do
 " it when the position is invalid or when inside an event handler (happens when
@@ -105,18 +107,8 @@ if filereadable(glob("~/.vimrc.include"))
   source ~/.vimrc.include
 endif
 
-" make sure that all other indent parameters follow tabstop
+" Make sure that all other indent parameters follow tabstop. Do this after
+" sourcing the include above so that it can override the tabstop value.
 let &softtabstop=&g:tabstop
 let &shiftwidth=&g:tabstop
-
-if &diff
-  set showtabline=0
-  let g:airline#extensions#tabline#enabled=0
-endif
-
-" vim hardcodes background color erase even if the terminfo file does not
-" contain bce (not to mention that libvte based terminals incorrectly contain
-" bce in their terminfo files). This causes incorrect background rendering when
-" using a color theme with a background color.
-let &t_ut=''
 
