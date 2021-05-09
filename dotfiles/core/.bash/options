@@ -22,3 +22,6 @@ export EDITOR="vim"
 export PAGER="less"
 export LESS="FRX"
 
+# Use dircolors to set environment variables for ls --color.
+eval $(dircolors ~/.dircolors)
+
