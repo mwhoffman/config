@@ -44,4 +44,5 @@ fi
 # Symlink g-prefixed coreutils into place.
 install_link "$BREW_PREFIX/bin/gls" "$BREW_PREFIX/bin/ls"
 install_link "$BREW_PREFIX/bin/gdircolors" "$BREW_PREFIX/bin/dircolors"
+install_link "$BREW_PREFIX/bin/gecho" "$BREW_PREFIX/bin/echo"
 

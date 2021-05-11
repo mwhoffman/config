@@ -39,26 +39,26 @@ TERM xterm*
 # Background color codes:
 # 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
 
-NORMAL                 00;97     # global default
-RESET                  00;97     # reset to normal color
-FILE                   00;97     # normal file
-MULTIHARDLINK          00        # regular file with more than one link
-DIR                    01;34     # directory
-LINK                   01;36     # symlink. "target" uses the linked color.
-FIFO                   01;04;31  # pipe
-SOCK                   01;04;31  # socket
-DOOR                   01;04;31  # door
-BLK                    01;04;31  # block device driver
-CHR                    01;04;31  # character device driver
-ORPHAN                 01;09;36  # orphaned symlink
-MISSING                01;09;31  # ... and the files they point to
-SETUID                 01;30;41  # file that is setuid (u+s)
-SETGID                 01;30;42  # file that is setgid (g+s)
-CAPABILITY             01;30;42  # file with capability
-EXEC                   01;32     # file with execute permission
-STICKY_OTHER_WRITABLE  01;30;44  # dir that is sticky and other-writable
-STICKY                 01;30;44  # dir that is sticky and not other-writable
-OTHER_WRITABLE         01;30;44  # dir that is other-writable and not sticky
+NORMAL                 00;38     # global default
+RESET                  00;38     # reset to normal color
+FILE                   00;38     # normal file
+MULTIHARDLINK          00;38     # regular file with more than one link
+DIR                    00;34     # directory
+LINK                   00;36     # symlink. "target" uses the linked color.
+FIFO                   00;04;31  # pipe
+SOCK                   00;04;31  # socket
+DOOR                   00;04;31  # door
+BLK                    00;04;31  # block device driver
+CHR                    00;04;31  # character device driver
+ORPHAN                 00;09;36  # orphaned symlink
+MISSING                00;09;31  # ... and the files they point to
+SETUID                 00;30;41  # file that is setuid (u+s)
+SETGID                 00;30;42  # file that is setgid (g+s)
+CAPABILITY             00;30;42  # file with capability
+EXEC                   00;32     # file with execute permission
+STICKY_OTHER_WRITABLE  00;30;44  # dir that is sticky and other-writable
+STICKY                 00;30;44  # dir that is sticky and not other-writable
+OTHER_WRITABLE         00;30;44  # dir that is other-writable and not sticky
 
 # What follows are color specifications for individual file extensions. This
 # mainly includes groupings for compressed archives and image/audio/video

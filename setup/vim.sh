@@ -16,7 +16,9 @@ install_git "$HOME/.vim/bundle" 'https://github.com/scrooloose/nerdtree'
 
 # Pretty status/tablines.
 install_git "$HOME/.vim/bundle" 'https://github.com/vim-airline/vim-airline'
-install_git "$HOME/.vim/bundle" 'https://github.com/vim-airline/vim-airline-themes'
+
+# The gruvbox theme for syntax/airline.
+install_git "$HOME/.vim/bundle" 'https://github.com/morhetz/gruvbox'
 
 # Close and remove buffers.
 install_git "$HOME/.vim/bundle" 'https://github.com/moll/vim-bbye'
