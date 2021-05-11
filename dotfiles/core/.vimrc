@@ -51,8 +51,8 @@ autocmd BufRead *.config set filetype=cfg
 autocmd BufRead *.pyf set filetype=fortran
 
 " Use the gruvbox color scheme.
-let g:gruvbox_contrast_dark='hard'
-let g:gruvbox_contrast_light='hard'
+let g:gruvbox_contrast_dark='medium'
+let g:gruvbox_contrast_light='medium'
 let g:gruvbox_italic=1
 let g:gruvbox_underline=1
 let g:gruvbox_undercurl=1
@@ -79,7 +79,6 @@ let g:NERDTreeStatusline='NERDTree'
 let g:NERDTreeHighlightCursorline=0
 let g:NERDTreeShowHidden=1
 let g:NERDTreeMinimalUI=1
-let g:NERDTreeSkipTrailing=1
 let g:NERDTreeIgnore=['\.swp$', '^\.git$', '\.pyc$', '\.egg-info$']
 let g:NERDTreeWinSize=25
 
@@ -87,7 +86,6 @@ let g:NERDTreeWinSize=25
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#buffer_idx_mode=1
-let g:airline#extensions#tmuxline#enabled=0
 
 " Set the 'leader' key which can be used as <leader> in key mappings.
 let mapleader=','
@@ -96,7 +94,7 @@ let mapleader=','
 nmap <c-k> <pageup>
 nmap <c-j> <pagedown>
 nmap <c-l> :noh<cr>
-nmap <c-t> :NERDTreeToggle<cr>:wincmd p<cr>
+nmap <silent> <c-t> :NERDTreeToggle<cr>:wincmd p<cr>
 
 " Use the leader key and then 1-9 to select individual tabs or use q to close
 " the current tab (i.e. buffer).
