@@ -1,18 +1,31 @@
 #!/bin/bash
 
 function _branch {
-    local gbranch=$(git symbolic-ref --short HEAD 2> /dev/null)
-    local hbranch=$(hg branch 2>/dev/null)
+  # Echo the VCS branch/status. This relies on the vcprompt command and will
+  # pass on to slower methods if it doesn't exist.
+  if [[ -n $(command -v vcprompt) ]]; then
+    vcprompt -f "%b%d"
+    return
+  fi
 
-    # echo git status
-    [[ -n "${gbranch}" ]] && \
-        echo -n ${gbranch} &&
-        [[ -n $(git status --porcelain) ]] && echo -n '*'
+  local branch
 
-    # echo mercurial status
-    [[ -n "${hbranch}" ]] && \
-        echo -n ${hbranch} &&
-        [[ -n $(hg status) ]] && echo -n '*'
+  # Echo the git branch/status. Try this first because git is faster than
+  # mercurial.
+  branch=$(git symbolic-ref --short HEAD 2> /dev/null)
+  if [[ -n "${branch}" ]]; then
+    echo -n ${branch}
+    [[ -n $(git status --porcelain) ]] && echo -n '*'
+    return
+  fi
+
+  # Echo the mercurial branch/status.
+  branch=$(hg branch 2>/dev/null)
+  if [[ -n "${branch}" ]]; then
+    echo -n ${branch}
+    [[ -n $(hg status) ]] && echo -n '*'
+    return
+  fi
 }
 
 function _echo_pwd {
@@ -35,7 +48,7 @@ function _echo_ps1 {
 
   # Reset the PS1 variable.
   PS1="${YELLOW}\u@\h${RESET}:${BLUE}${PWD}${RESET}"
-  if [[ $BRANCH != "" ]]; then
+  if [[ -n $BRANCH ]]; then
     PS1="${PS1}:${CYAN}${BRANCH}${RESET}"
   fi
   PS1="${PS1}\$ "
