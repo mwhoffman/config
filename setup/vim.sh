@@ -8,18 +8,18 @@
 # The pathogen package manager.
 install_url "$HOME/.vim/autoload" 'https://tpo.pe/pathogen.vim'
 
-# Show diffs in a gutter on the left.
-install_git "$HOME/.vim/bundle" 'https://github.com/mhinz/vim-signify'
-
-# A filesystem explorer.
-install_git "$HOME/.vim/bundle" 'https://github.com/scrooloose/nerdtree'
-
-# Pretty status/tablines.
+# Interface plugins. Improves the status line a la powerline, adds VCS markers
+# in the gutter, and adds a filesystem explorer.
 install_git "$HOME/.vim/bundle" 'https://github.com/vim-airline/vim-airline'
+install_git "$HOME/.vim/bundle" 'https://github.com/mhinz/vim-signify'
+install_git "$HOME/.vim/bundle" 'https://github.com/preservim/nerdtree'
 
-# The gruvbox theme for syntax/airline.
+# The gruvbox colorscheme and improved python syntax.
 install_git "$HOME/.vim/bundle" 'https://github.com/morhetz/gruvbox'
+install_git "$HOME/.vim/bundle" 'https://github.com/vim-python/python-syntax'
 
-# Close and remove buffers.
+# Asynchronous linting.
+install_git "$HOME/.vim/bundle" 'https://github.com/dense-analysis/ale'
+
+# Provide a command to delete buffers.
 install_git "$HOME/.vim/bundle" 'https://github.com/moll/vim-bbye'
-
