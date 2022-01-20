@@ -119,8 +119,9 @@ let mapleader=','
 nmap <c-k> <pageup>
 nmap <c-j> <pagedown>
 nmap <c-l> :noh<cr>
-nmap <silent> <c-t> :NERDTreeToggle<cr>:wincmd p<cr>
-nmap <silent> <c-f> :NERDTreeFind<cr>
+nmap <silent> <c-n> :NERDTreeToggle<cr>:wincmd p<cr>
+nmap <silent> <c-t> :NERDTreeFind<cr>
+nmap <silent> <c-f> :FZF<cr>
 
 " Use the leader key and then 1-9 to select individual tabs or use q to close
 " the current tab (i.e. buffer).
