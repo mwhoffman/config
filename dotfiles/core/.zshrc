@@ -1,8 +1,8 @@
 # .zshrc
 #
 
-source '.zshrc.local'
-source '.zshrc.include'
+[ -f '.zshrc.local'   ] && source '.zshrc.local'
+[ -f '.zshrc.include' ] && source '.zshrc.include'
 
 unset INPUTRC
 unset MAILPATH
