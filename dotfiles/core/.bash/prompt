@@ -85,6 +85,9 @@ function _echo_ps1 {
 
   # Trailing symbol.
   PS1="${PS1}${RESET}\$ "
+
+  # Echo the window title.
+  echo -en "\033]0;$(hostname -s):${PWD}\a"
 }
 
 PS1="\u@\h\$ "
