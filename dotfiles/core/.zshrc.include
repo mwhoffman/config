@@ -1,0 +1,61 @@
+#!/bin/zsh
+
+function _parse_pwd {
+  # The variable $PWD_PATHS can be set to a space-separated list of global
+  # paths with a single capture group () each. Any of these paths which match
+  # the base path of $PWD will be abbreviated as "//foo/bar" where the base
+  # component has been removed and replaced with "//". The string in the
+  # capture-group will be assigned to $PWD_NAME which can then be used in $PS1
+  # below.
+
+  PWD_=$PWD
+  PWD_NAME=""
+
+  # Rewrite $PWD using any of the paths in $PWD_ARRAY. See above for an
+  # explanation of how this is used.
+  if [[ -n $PWD_PATH ]]; then
+    if [[ $PWD_ =~ "^$PWD_PATH/?" ]]; then
+      PWD_="//${PWD_#$MATCH}"
+      PWD_NAME=$match[1]
+    fi
+  fi
+
+  # Rewrite $PWD to translate $HOME into ~.
+  if [[ $PWD_ == ${HOME}* ]]; then
+    PWD_="~${PWD_#$HOME}"
+  fi
+
+  export PWD_
+  export PWD_NAME
+}
+
+function _parse_branch {
+  # The VCS branch/status of the current directory (if applicable).
+  BRANCH=""
+
+  # First try and set $BRANCH using vcprompt if it exists. Otherwise fall back
+  # on the git/hg command line tools.
+  if [[ -n $(command -v vcprompt) ]]; then
+    BRANCH=$(vcprompt -f "%b%d")
+
+  else
+    # Get the git branch/status; do this before mercurial because it's faster.
+    if [[ -z "${BRANCH}" ]]; then
+      BRANCH=$(git symbolic-ref --short HEAD 2> /dev/null)
+      if [[ -n $BRANCH && -n $(git status --porcelain) ]]; then
+        BRANCH+='*'
+      fi
+    fi
+
+    # Get the mercurial branch/status.
+    if [[ -z "${BRANCH}" ]]; then
+      BRANCH=$(hg branch 2>/dev/null)
+      if [[ -n $BRANCH && -n $(hg status) ]]; then
+        BRANCH+='*'
+      fi
+    fi
+  fi
+
+  export BRANCH
+}
+
