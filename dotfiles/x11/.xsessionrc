@@ -1,5 +1,0 @@
-export PATH=$HOME/bin:$PATH
-eval $(ssh-agent -s)
-xsetroot -solid "#333333"
-pulseaudio --start
-exec i3

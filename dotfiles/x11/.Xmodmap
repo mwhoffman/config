@@ -1,6 +1,0 @@
-! this just makes sure that the capslock key is disabled and turn it into a
-! third control key.
-clear Lock
-keycode 66 = Control_L
-add Control = Control_L
-
