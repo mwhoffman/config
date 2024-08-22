@@ -1,7 +1,3 @@
-" This runs pathogen (which should be in ~/.vim/autoload/pathogen.vim) and
-" allows for the loading of any plugins found in ~/.vim/bundle.
-execute pathogen#infect()
-
 set hlsearch                " highlight search terms
 set autoindent              " autoindent text
 set expandtab               " expand tabs to spaces
