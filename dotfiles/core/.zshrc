@@ -1,8 +1,8 @@
 # .zshrc
 #
 
-[ -f '.zshrc.local'   ] && source '.zshrc.local'
-[ -f '.zshrc.include' ] && source '.zshrc.include'
+[ -f "$HOME/.zshrc.local"   ] && source "$HOME/.zshrc.local"
+[ -f "$HOME/.zshrc.include" ] && source "$HOME/.zshrc.include"
 
 unset INPUTRC
 unset MAILPATH
@@ -17,8 +17,8 @@ alias ls="ls -N --color=auto"
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 autoload -Uz compinit && compinit
 
-source .bash/gruvbox
-eval $(dircolors ~/.dircolors)
+source "$HOME/.bash/gruvbox"
+eval $(dircolors $HOME/.dircolors)
 
 bindkey -v
 bindkey "^A" beginning-of-line
