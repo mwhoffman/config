@@ -17,7 +17,7 @@ alias ls="ls -N --color=auto"
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 autoload -Uz compinit && compinit
 
-source "$HOME/.bash/gruvbox"
+source "$HOME/.gruvbox"
 eval $(dircolors $HOME/.dircolors)
 
 bindkey -v
