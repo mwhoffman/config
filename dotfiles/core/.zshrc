@@ -1,5 +1,4 @@
 # .zshrc
-#
 
 [ -f "$HOME/.zshrc.local"   ] && source "$HOME/.zshrc.local"
 [ -f "$HOME/.zshrc.include" ] && source "$HOME/.zshrc.include"
@@ -8,7 +7,7 @@ unset INPUTRC
 unset MAILPATH
 
 export MOSH_TITLE_NOPREFIX=1
-export EDITOR="vim"
+export EDITOR="nvim"
 export PAGER="less"
 export LESS="FRX"
 export HISTFILE="$HOME/.zsh_history"
@@ -17,13 +16,14 @@ export SAVEHIST=10000
 
 setopt APPEND_HISTORY
 
-alias ls="ls -N --color=auto"
-
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 autoload -Uz compinit && compinit
 
 source "$HOME/.gruvbox"
 eval $(dircolors $HOME/.dircolors)
+
+alias ls="ls -N --color=auto"
+alias vi="nvim"
 
 bindkey -v
 bindkey "^A" beginning-of-line
