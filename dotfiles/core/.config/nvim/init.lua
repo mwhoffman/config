@@ -1,6 +1,7 @@
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 
+vim.opt.background = 'dark'
 vim.opt.backup = false
 vim.opt.colorcolumn = '+0'
 vim.opt.expandtab = true
@@ -38,5 +39,5 @@ vim.opt.rtp:prepend(lazypath)
 -- Use lazy to manage plugins configured in lua/plugins.
 require('lazy').setup('plugins')
 
-vim.cmd.colorscheme "catppuccin-mocha"
+vim.cmd.colorscheme 'gruvbox'
 
