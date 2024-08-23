@@ -4,6 +4,7 @@ vim.g.loaded_netrwPlugin = 1
 
 return {
   'nvim-tree/nvim-tree.lua',
+  name='nvim-tree',
   version = '*',
   lazy = false,
   dependencies = {
@@ -12,11 +13,12 @@ return {
   config = function()
     require('nvim-tree').setup({
       renderer = {
+        symlink_destination=false,
         icons = {
           git_placement='after'
         }
       }
     })
-  end,
+  end
 }
 

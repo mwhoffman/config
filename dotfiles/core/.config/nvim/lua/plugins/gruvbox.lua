@@ -9,6 +9,6 @@ return {
           SignColumn = {bg='bg'},
         },
       })
-    end,
-  },
+    end
+  }
 }
