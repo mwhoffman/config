@@ -27,31 +27,30 @@ bindkey "^K" kill-line
 bindkey "^R" history-incremental-search-backward
 
 precmd() {
+  # Parse out any strings we need for the window title and prompt.
   _parse_branch
   _parse_pwd
 
-  # Hostname part of the prompt.
-  PROMPT="%F{yellow}%B%m%b%f"
+  # Initialize the title and prompt with the hostname.
   TITLE="%m"
+  PROMPT="%F{yellow}%B%m%b%f"
 
-  # If we're in a "named" directory.
+  # If we're in a named directory then add the name.
   if [[ -n ${PWD_NAME} ]]; then
     PROMPT+=":%F{green}%B${PWD_NAME}%b%f"
-    TITLE+=":${PWD_NAME}"
   fi
 
-  # Add the current directory after mangling.
+  # Add the current working directory after name mangling.
   PROMPT+=":%F{blue}%B${PWD_}%b%f"
-  TITLE+=":${PWD_}"
 
-  # The VCS branch name.
+  # If we're in a VCS directory then add the name/status of the current branch.
   if [[ -n ${BRANCH} ]]; then
     PROMPT+=":%F{cyan}%B${BRANCH}%b%f"
   fi
 
-  # Trailing part of the prompt.
+  # Add the trailing part of the prompt.
   PROMPT+="%# "
 
-  # Print to the window title.
+  # Print the window title.
   print -Pn "\e]0;${TITLE}\a"
 }
