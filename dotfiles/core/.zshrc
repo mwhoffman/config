@@ -7,17 +7,15 @@
 unset INPUTRC
 unset MAILPATH
 
-MOSH_TITLE_NOPREFIX=1
-EDITOR="vim"
-PAGER="less"
-LESS="FRX"
-HISTFILE="$HOME/.zsh_history"
-HISTSIZE=10000
-SAVEHIST=10000
+export MOSH_TITLE_NOPREFIX=1
+export EDITOR="vim"
+export PAGER="less"
+export LESS="FRX"
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=10000
+export SAVEHIST=10000
 
 setopt APPEND_HISTORY
-
-export MOSH_TITLE_NOPREFIX
 
 alias ls="ls -N --color=auto"
 
