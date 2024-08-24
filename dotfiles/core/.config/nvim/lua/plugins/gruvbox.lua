@@ -23,6 +23,8 @@ return {
         gruvbox.setup({
           overrides = {
             SignColumn = {bg=bg0},
+            WinSeparator = {bg=bg1},
+            StatusLine = {fg=bg1},
             NvimTreeNormal = {bg=bg1},
           },
         })

@@ -11,6 +11,10 @@ return {
     end,
     config=function()
       require('barbar').setup({
+        icons = {
+          separator = {left='▕', right=''},
+          inactive = {separator={left='▕', right=''}},
+        },
         sidebar_filetypes = {
           NvimTree = true,
         },

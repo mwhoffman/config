@@ -6,7 +6,7 @@ vim.opt.backup = false
 vim.opt.colorcolumn = '+0'
 vim.opt.copyindent = true
 vim.opt.expandtab = true
-vim.opt.fillchars = {vert='▏', eob=' '}
+vim.opt.fillchars = {vert='▕', eob=' '} -- ▏▕
 vim.opt.hlsearch = true
 vim.opt.linebreak = true
 vim.opt.mouse = 'a'
