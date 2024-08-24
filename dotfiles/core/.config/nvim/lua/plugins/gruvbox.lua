@@ -12,15 +12,18 @@ return {
       gruvbox.load = function()
         -- Set the background based on whether we want a dark theme or not.
         if vim.o.background == 'dark' then
-          bg = gruvbox.palette.dark0
+          bg0 = gruvbox.palette.dark0
+          bg1 = gruvbox.palette.dark1
         else
-          bg = gruvbox.palette.light0
+          bg0 = gruvbox.palette.light0
+          bg1 = gruvbox.palette.light1
         end
 
         -- Run the setup; override SignColumn's bg color.
         gruvbox.setup({
           overrides = {
-            SignColumn={bg=bg},
+            SignColumn={bg=bg0},
+            NvimTreeNormal={bg=bg1},
           },
         })
 

@@ -13,8 +13,18 @@ return {
           lualine_y={},
           lualine_z={'progress'},
         },
+        inactive_sections={
+          lualine_a={'filename'},
+          lualine_b={},
+          lualine_c={},
+          lualine_x={},
+          lualine_y={},
+          lualine_z={},
+        },
         extensions={'nvim-tree'},
-        options={theme='gruvbox'},
+        options={
+          theme='auto', 
+        },
       })
     end,
   },

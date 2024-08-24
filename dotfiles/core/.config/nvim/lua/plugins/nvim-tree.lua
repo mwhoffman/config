@@ -4,7 +4,7 @@ vim.g.loaded_netrwPlugin = 1
 
 return {
   'nvim-tree/nvim-tree.lua',
-  name='nvim-tree',
+  name = 'nvim-tree',
   version = '*',
   lazy = false,
   dependencies = {
@@ -13,11 +13,17 @@ return {
   config = function()
     require('nvim-tree').setup({
       renderer = {
-        symlink_destination=false,
+        symlink_destination = false,
         icons = {
-          git_placement='after'
-        }
-      }
+          git_placement = 'after',
+        },
+      },
+      view = {
+        width = {max=60},
+      },
+      filters = {
+        custom = {'^\\.git$'},
+      },
     })
   end
 }
