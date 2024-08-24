@@ -5,7 +5,7 @@ vim.opt.background = 'dark'
 vim.opt.backup = false
 vim.opt.copyindent = true
 vim.opt.expandtab = true
-vim.opt.fillchars = {vert='▕', eob=' '} -- ▏▕
+vim.opt.fillchars = {vert='▕', eob=' '} -- useful fillchars: ▏▕
 vim.opt.hlsearch = true
 vim.opt.linebreak = true
 vim.opt.mouse = 'a'
