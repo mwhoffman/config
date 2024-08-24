@@ -1,7 +1,7 @@
 return {
   {
     'lewis6991/gitsigns.nvim',
-    name='gitsigns',
-    config=true,
+    name = 'gitsigns',
+    config = true,
   }
 }

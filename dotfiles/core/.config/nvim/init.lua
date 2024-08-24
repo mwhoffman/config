@@ -6,7 +6,7 @@ vim.opt.backup = false
 vim.opt.colorcolumn = '+0'
 vim.opt.copyindent = true
 vim.opt.expandtab = true
-vim.opt.fillchars:append('vert:▏')
+vim.opt.fillchars = {vert='▏', eob=' '}
 vim.opt.hlsearch = true
 vim.opt.linebreak = true
 vim.opt.mouse = 'a'
@@ -36,8 +36,8 @@ end
 -- Run lazy using plugins configured in ./lua/plugins.
 vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
-  spec='plugins',
-  change_detection={enabled=false},
+  spec = 'plugins',
+  change_detection = {enabled=false},
 })
 
 -- Set the colorscheme.

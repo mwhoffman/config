@@ -1,9 +1,9 @@
 return {
   {
     'ellisonleao/gruvbox.nvim',
-    name='gruvbox',
-    priority=1000,
-    config=function()
+    name = 'gruvbox',
+    priority = 1000,
+    config = function()
       -- Include the package and save the load function.
       gruvbox = require('gruvbox')
       gruvbox_load = gruvbox.load
@@ -22,8 +22,8 @@ return {
         -- Run the setup; override SignColumn's bg color.
         gruvbox.setup({
           overrides = {
-            SignColumn={bg=bg0},
-            NvimTreeNormal={bg=bg1},
+            SignColumn = {bg=bg0},
+            NvimTreeNormal = {bg=bg1},
           },
         })
 
