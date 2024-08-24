@@ -3,7 +3,6 @@ vim.g.maplocalleader = ','
 
 vim.opt.background = 'dark'
 vim.opt.backup = false
-vim.opt.colorcolumn = '+0'
 vim.opt.copyindent = true
 vim.opt.expandtab = true
 vim.opt.fillchars = {vert='▕', eob=' '} -- ▏▕
