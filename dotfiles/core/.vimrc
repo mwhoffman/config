@@ -35,9 +35,6 @@ set fillchars=vert:│        " Mark vertical splits with an unbroken line.
 filetype plugin indent on
 syntax on
 
-let g:ale_sign_error='✘'
-let g:ale_sign_warning='‼'
-
 " Turn on more modern highlighting for python. Requires the python-syntax
 " plugin.
 let g:python_highlight_all=1
@@ -77,28 +74,6 @@ hi! link pythonClassVar GruvboxPurple
 hi! link pythonFunctionCall GruvboxFG
 hi! link pythonOperator GruvboxFG
 
-" Gruvbox defines how directory information is highlighted. Overwrite this so
-" that it corresponds to dircolors.
-hi! link Directory GruvboxBlue
-hi! link NERDTreeDir Directory
-hi! link NERDTreeDirSlash Directory
-hi! link NERDTreeCWD GruvboxGray
-hi! link NERDTreeExecFile GruvboxGreen
-hi! link NERDTreeLinkFile GruvboxAqua
-
-" Nerdtree insists on displaying the target for symlinks, but we can use syntax
-" highlighting to hide this. It would be much nicer to use conceal, but that's
-" not always compiled in to vim.
-hi! link NERDTreeLinkTarget GruvboxBG0
-
-" Set options for nerdtree.
-let g:NERDTreeStatusline='NERDTree'
-let g:NERDTreeHighlightCursorline=0
-let g:NERDTreeShowHidden=1
-let g:NERDTreeMinimalUI=1
-let g:NERDTreeIgnore=['\.swp$', '^\.git$', '\.pyc$', '\.egg-info$']
-let g:NERDTreeWinSize=30
-
 " Set options for airline.
 let g:airline_powerline_fonts=1
 let g:airline_section_z='%p%% %#__accent_bold#%{g:airline_symbols.linenr}%l/%L'
@@ -115,9 +90,6 @@ let mapleader=','
 nmap <c-k> <pageup>
 nmap <c-j> <pagedown>
 nmap <c-l> :noh<cr>
-nmap <silent> <c-n> :NERDTreeToggle<cr>:wincmd p<cr>
-nmap <silent> <c-t> :NERDTreeFind<cr>
-nmap <silent> <c-f> :FZF<cr>
 
 " Use the leader key and then 1-9 to select individual tabs or use q to close
 " the current tab (i.e. buffer).
