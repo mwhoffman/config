@@ -1,0 +1,7 @@
+- name: Install gui packages
+  ansible.builtin.package:
+    name:
+      - kitty
+  become: true
+  tags: become
+

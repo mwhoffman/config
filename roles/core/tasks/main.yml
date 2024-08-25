@@ -1,0 +1,61 @@
+- name: Install stow (linux)
+  ansible.builtin.package:
+    name: stow
+  become: true
+  tags: become
+  when: ansible_facts.system == "Linux"
+
+- name: Install dotfiles
+  ansible.builtin.shell: "stow -vv --no-folding -d dotfiles -t {{ ansible_facts.user_dir }} core"
+  no_log: True
+  register: result
+  changed_when: "result.stderr is search('LINK: ')"
+
+- name: Install dotfiles (mac)
+  ansible.builtin.shell: "stow -vv --no-folding -d dotfiles -t {{ ansible_facts.user_dir }} mac"
+  no_log: True
+  register: result
+  changed_when: "result.stderr is search('LINK: ')"
+  when: ansible_facts.system == "Darwin"
+
+# This installs dotfiles from the dotfiles/templates/ directory into $HOME. It
+# does NOT create any intermediate directories, but that's a bit of a pain
+# with ansible, and anything should have really been created by stow in the
+# previous step.
+- name: Install dotfile templates
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ ansible_facts.user_dir }}/{{ item.path }}"
+  with_filetree: "dotfiles/templates/"
+  when: item.state == "file"
+  loop_control:
+    label: "{{ item.path }}"
+
+- name: Install vim plugins
+  ansible.builtin.git:
+    repo: "https://github.com/{{ item.github_profile }}/{{ item.repo }}"
+    dest: "{{ ansible_facts.user_dir }}/.vim/pack/dist/start/{{ item.repo }}"
+  loop:
+    - { github_profile: "vim-airline", repo: "vim-airline" }
+    - { github_profile: "moll", repo: "vim-bbye" }
+    - { github_profile: "morhetz", repo: "gruvbox" }
+  loop_control:
+    label: "github.com/{{ item.github_profile }}/{{ item.repo }}"
+
+- name: Install core packages (linux)
+  ansible.builtin.package:
+    name:
+      - neovim
+      - tmux
+      - zsh
+  become: true
+  tags: become
+  when: ansible_facts.system == "Linux"
+
+- name: Change default shell
+  ansible.builtin.user:
+    name: "{{ ansible_facts.user_id }}"
+    shell: "/bin/zsh"
+  become: true
+  tags: become
+
