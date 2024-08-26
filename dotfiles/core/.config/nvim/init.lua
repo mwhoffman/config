@@ -13,6 +13,7 @@ vim.opt.number = true
 vim.opt.showmode = false
 vim.opt.signcolumn = 'yes'
 vim.opt.scrolloff = 5
+vim.opt.smartindent = false
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
@@ -39,10 +40,16 @@ require('lazy').setup({
   change_detection = {enabled=false},
 })
 
--- Set the colorscheme.
-vim.cmd.colorscheme 'gruvbox'
-
 -- Add keymappings.
 vim.keymap.set('n', '<c-k>', '<pageup>')
 vim.keymap.set('n', '<c-j>', '<pagedown>')
+
+-- Set the colorscheme.
+vim.cmd.colorscheme 'gruvbox'
+
+-- Don't let the the python ftplugin override tabwidth behavior.
+vim.cmd 'autocmd Filetype python let &l:et=&g:et'
+vim.cmd 'autocmd Filetype python let &l:sw=&g:sw'
+vim.cmd 'autocmd Filetype python let &l:ts=&g:ts'
+vim.cmd 'autocmd Filetype python let &l:sts=&g:sts'
 
