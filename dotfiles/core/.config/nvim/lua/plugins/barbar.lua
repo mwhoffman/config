@@ -14,6 +14,9 @@ return {
         icons = {
           separator = {left='▕', right=''},
           inactive = {separator={left='▕', right=''}},
+          filetype = {enabled=false},
+          buffer_index = 'superscript',
+          button = false,
         },
         sidebar_filetypes = {
           NvimTree = true,
