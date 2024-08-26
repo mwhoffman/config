@@ -24,7 +24,8 @@ return {
           bg3 = gruvbox.palette.light3
         end
 
-        -- Run the setup; override SignColumn's bg color.
+        -- Run the setup; but provide various overrides based on the background
+        -- colors grabbed above.
         gruvbox.setup({
           overrides = {
             SignColumn = {bg=bg0},
