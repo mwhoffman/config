@@ -8,7 +8,7 @@ local function extra_config ()
   -- Add an autocmd to turn on the cursorline and hide the cursor whenever we
   -- enter the nvim-tree window.
   vim.api.nvim_create_autocmd(
-    {"WinEnter", "BufWinEnter", "ColorScheme"},
+    {"WinEnter", "BufWinEnter", "ColorScheme", "CmdlineLeave"},
     {
       callback = function ()
         if vim.bo.filetype == "NvimTree" then
@@ -32,6 +32,16 @@ local function extra_config ()
         end
       end
     })
+
+  -- Turn the cursor back on if we enter the command line.
+  vim.api.nvim_create_autocmd(
+    {"CmdlineEnter"},
+    {
+      callback = function ()
+        vim.opt.guicursor = opt_guicursor
+      end
+    })
+
 end
 
 return {
