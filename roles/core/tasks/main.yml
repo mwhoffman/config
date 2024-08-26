@@ -2,12 +2,13 @@
   ansible.builtin.package:
     name: stow
   become: true
-  tags: become
+  tags: [become, install]
   when: ansible_facts.system == "Linux"
 
 - name: Install stow (mac)
   community.general.homebrew:
     name: stow
+  tags: install
   when: ansible_facts.system == "Darwin"
 
 - name: Install dotfiles
@@ -54,7 +55,7 @@
       - tmux
       - zsh
   become: true
-  tags: become
+  tags: [become, install]
   when: ansible_facts.system == "Linux"
 
 - name: Install core packages (mac)
@@ -62,6 +63,7 @@
     name:
       - neovim
       - tmux
+  tags: install
   when: ansible_facts.system == "Darwin"
 
 - name: Change default shell
@@ -69,5 +71,5 @@
     name: "{{ ansible_facts.user_id }}"
     shell: "/bin/zsh"
   become: true
-  tags: become
+  tags: [become, install]
 

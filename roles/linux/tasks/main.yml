@@ -3,5 +3,5 @@
     name:
       - kitty
   become: true
-  tags: become
+  tags: [become, install]
 
