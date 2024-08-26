@@ -5,6 +5,11 @@
   tags: become
   when: ansible_facts.system == "Linux"
 
+- name: Install stow (mac)
+  community.general.homebrew:
+    name: stow
+  when: ansible_facts.system == "Darwin"
+
 - name: Install dotfiles
   ansible.builtin.shell: "stow -vv --no-folding -d dotfiles -t {{ ansible_facts.user_dir }} core"
   no_log: True
@@ -51,6 +56,13 @@
   become: true
   tags: become
   when: ansible_facts.system == "Linux"
+
+- name: Install core packages (mac)
+  community.general.homebrew:
+    name:
+      - neovim
+      - tmux
+  when: ansible_facts.system == "Darwin"
 
 - name: Change default shell
   ansible.builtin.user:
