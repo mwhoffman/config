@@ -59,3 +59,38 @@ function _parse_branch {
   export BRANCH
 }
 
+function _make_prompt {
+  PROMPT=""
+
+  # Add the hostname.
+  PROMPT+="%F{yellow}%B%m%b%f"
+  PROMPT+="  "
+
+  # Add the current virtual environment's name.
+  if [[ -n $VIRTUAL_ENV ]]; then
+    if [[ $VIRTUAL_ENV:t == ".venv" ]]; then
+      PROMPT+="${VIRTUAL_ENV:h:t}"
+    elif [[ -n $VIRTUAL_ENV ]]; then
+      PROMPT+="${VIRTUAL_ENV:t}"
+    fi
+    PROMPT+="  "
+  fi
+
+  # If we're in a named directory then add the name.
+  if [[ -n $PWD_NAME ]]; then
+    PROMPT+="%F{blue}%B$PWD_NAME%b%f"
+    PROMPT+="  "
+  fi
+
+  # Add the current working directory.
+  PROMPT+="%F{blue}%B$PWD_%b%f"
+
+  # If we're in a VCS directory then add the name/status of the current branch.
+  if [[ -n $BRANCH ]]; then
+    PROMPT+=" on %F{cyan} %B$BRANCH%b%f"
+  fi
+
+  # Add the trailing part of the prompt.
+  PROMPT+="  "
+}
+

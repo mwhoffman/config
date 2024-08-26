@@ -36,36 +36,9 @@ precmd() {
   # Parse out any strings we need for the window title and prompt.
   _parse_branch
   _parse_pwd
+  _make_prompt
 
-  TITLE=""
-  PROMPT=""
-
-  # Initialize the title and prompt with the hostname.
-  TITLE+="%m"
-  PROMPT+="%F{yellow}%B%m%b%f"
-
-  # If we're in a named directory then add the name.
-  if [[ -n $PWD_NAME ]]; then
-    PROMPT+=":%F{green}%B$PWD_NAME%b%f"
-  fi
-
-  # Add the current working directory after name mangling.
-  PROMPT+=":%F{blue}%B$PWD_%b%f"
-
-  # If we're in a VCS directory then add the name/status of the current branch.
-  if [[ -n $BRANCH ]]; then
-    PROMPT+=":%F{cyan}%B$BRANCH%b%f"
-  fi
-
-  if [[ -n $VIRTUAL_ENV && $VIRTUAL_ENV:t == ".venv" ]]; then
-    PROMPT+=" [${VIRTUAL_ENV:h:t}]"
-  elif [[ -n $VIRTUAL_ENV ]]; then
-    PROMPT+=" [${VIRTUAL_ENV:t}]"
-  fi
-
-  # Add the trailing part of the prompt.
-  PROMPT+="%# "
-
-  # Print the window title.
-  print -Pn "\e]0;$TITLE\a"
+  # Print the window title. This is simply the hostname.
+  print -Pn "\e]0;%m\a"
 }
+
