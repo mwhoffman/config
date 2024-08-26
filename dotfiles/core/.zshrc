@@ -7,6 +7,7 @@ unset INPUTRC
 unset MAILPATH
 
 export MOSH_TITLE_NOPREFIX=1
+export LC_ALL="en_US"
 export EDITOR="nvim"
 export PAGER="less"
 export LESS="FRX"
