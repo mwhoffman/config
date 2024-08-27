@@ -61,10 +61,12 @@ function _parse_branch {
 
 function _make_prompt {
   PROMPT=""
+  CARAT1=$'\uf105'
+  CARAT2=$'\uf101'
 
   # Add the hostname.
   PROMPT+="%F{yellow}%B%m%b%f"
-  PROMPT+="  "
+  PROMPT+=" $CARAT1 "
 
   # Add the current virtual environment's name.
   if [[ -n $VIRTUAL_ENV ]]; then
@@ -79,7 +81,7 @@ function _make_prompt {
   # If we're in a named directory then add the name.
   if [[ -n $PWD_NAME ]]; then
     PROMPT+="%F{blue}%B$PWD_NAME%b%f"
-    PROMPT+="  "
+    PROMPT+=" $CARAT1 "
   fi
 
   # Add the current working directory.
@@ -91,6 +93,6 @@ function _make_prompt {
   fi
 
   # Add the trailing part of the prompt.
-  PROMPT+="  "
+  PROMPT+=" $CARAT2 "
 }
 
