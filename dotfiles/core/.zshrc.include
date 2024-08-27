@@ -33,26 +33,19 @@ function _parse_branch {
   # The VCS branch/status of the current directory (if applicable).
   BRANCH=""
 
-  # First try and set $BRANCH using vcprompt if it exists. Otherwise fall back
-  # on the git/hg command line tools.
-  if [[ -n $(command -v vcprompt) ]]; then
-    BRANCH=$(vcprompt -f "%b%d")
-
-  else
-    # Get the git branch/status; do this before mercurial because it's faster.
-    if [[ -z "${BRANCH}" ]]; then
-      BRANCH=$(git symbolic-ref --short HEAD 2> /dev/null)
-      if [[ -n $BRANCH && -n $(git status --porcelain) ]]; then
-        BRANCH+='*'
-      fi
+  # Get the git branch/status; do this before mercurial because it's faster.
+  if [[ -z "${BRANCH}" ]]; then
+    BRANCH=$(git symbolic-ref --short HEAD 2> /dev/null)
+    if [[ -n $BRANCH && -n $(git status --porcelain) ]]; then
+      BRANCH+='*'
     fi
+  fi
 
-    # Get the mercurial branch/status.
-    if [[ -z "${BRANCH}" ]]; then
-      BRANCH=$(hg branch 2>/dev/null)
-      if [[ -n $BRANCH && -n $(hg status) ]]; then
-        BRANCH+='*'
-      fi
+  # Get the mercurial branch/status.
+  if [[ -z "${BRANCH}" ]]; then
+    BRANCH=$(chg branch 2>/dev/null)
+    if [[ -n $BRANCH && -n $(chg status) ]]; then
+      BRANCH+='*'
     fi
   fi
 
