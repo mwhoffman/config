@@ -27,6 +27,7 @@ return {
         -- Run the setup; but provide various overrides based on the background
         -- colors grabbed above.
         gruvbox.setup({
+          terminal_colors = true,
           overrides = {
             SignColumn = {bg=bg0},
             WinSeparator = {bg=bg1},
@@ -37,7 +38,13 @@ return {
         })
 
         -- Run the original load.
-        return gruvbox_load()
+        result = gruvbox_load()
+
+        -- Override the color of directories.
+        vim.api.nvim_set_hl(0, "Directory", {link='GruvboxBlueBold'})
+        vim.api.nvim_set_hl(0, "NvimTreeRootFolder", {link='GruvboxGreenBold'})
+
+        return result
       end
     end
   }

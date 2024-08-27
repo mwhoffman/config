@@ -65,9 +65,14 @@ return {
     return {
       renderer = {
         symlink_destination = false,
+        special_files = {},
         icons = {
           git_placement = 'after',
         },
+      },
+      sort = {
+        sorter="case_sensitive",
+        folders_first=false,
       },
       view = {
         width = {max=60},
