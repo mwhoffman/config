@@ -32,12 +32,22 @@ function _parse_pwd {
 function _parse_branch {
   # The VCS branch/status of the current directory (if applicable).
   BRANCH=""
+  BRANCH_MODIFIED=0
+  BRANCH_UNTRACKED=0
+  BRANCH_AHEAD=0
+  BRANCH_BEHIND=0
 
   # Get the git branch/status; do this before mercurial because it's faster.
   if [[ -z "${BRANCH}" ]]; then
     BRANCH=$(git symbolic-ref --short HEAD 2> /dev/null)
-    if [[ -n $BRANCH && -n $(git status --porcelain) ]]; then
-      BRANCH+='*'
+    if [[ -n $BRANCH ]]; then
+      STATUS=$(git status --porcelain --branch)
+      for line in ${(f)STATUS}; do
+        if [[ $line == ' M'* ]]; then BRANCH_MODIFIED=1; fi
+        if [[ $line == '??'* ]]; then BRANCH_UNTRACKED=1; fi
+        if [[ $line == '## '*'[ahead '*']' ]]; then BRANCH_AHEAD=1; fi
+        if [[ $line == '## '*'[behind '*']' ]]; then BRANCH_BEHIND=1; fi
+      done
     fi
   fi
 
@@ -45,11 +55,15 @@ function _parse_branch {
   if [[ -z "${BRANCH}" ]]; then
     BRANCH=$(chg branch 2>/dev/null)
     if [[ -n $BRANCH && -n $(chg status) ]]; then
-      BRANCH+='*'
+      BRANCH_MODIFIED=1
     fi
   fi
 
   export BRANCH
+  export BRANCH_MODIFIED
+  export BRANCH_UNTRACKED
+  export BRANCH_AHEAD
+  export BRANCH_BEHIND
 }
 
 function _make_prompt {
@@ -82,7 +96,22 @@ function _make_prompt {
 
   # If we're in a VCS directory then add the name/status of the current branch.
   if [[ -n $BRANCH ]]; then
-    PROMPT+=" on %F{cyan} %B$BRANCH%b%f"
+    PROMPT+=" on %F{cyan} "
+    PROMPT+=$'\ue725'
+    PROMPT+=" %B$BRANCH"
+    if [[ $BRANCH_MODIFIED -gt 0 ]]; then
+      PROMPT+="*"
+    fi
+    if [[ $BRANCH_UNTRACKED -gt 0 ]]; then
+      PROMPT+="?"
+    fi
+    if [[ $BRANCH_AHEAD -gt 0 ]]; then
+      PROMPT+=$'\uf176'
+    fi
+    if [[ $BRANCH_BEHIND -gt 0 ]]; then
+      PROMPT+=$'\uf175'
+    fi
+    PROMPT+="%b%f"
   fi
 
   # Add the trailing part of the prompt.
