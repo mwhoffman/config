@@ -32,7 +32,8 @@ function _parse_pwd {
 function _parse_branch {
   # The VCS branch/status of the current directory (if applicable).
   BRANCH=""
-  BRANCH_MODIFIED=0
+  BRANCH_STAGED=0
+  BRANCH_UNSTAGED=0
   BRANCH_UNTRACKED=0
   BRANCH_AHEAD=0
   BRANCH_BEHIND=0
@@ -43,8 +44,9 @@ function _parse_branch {
     if [[ -n $BRANCH ]]; then
       STATUS=$(git status --porcelain --branch)
       for line in ${(f)STATUS}; do
-        if [[ $line == ' M'* ]]; then BRANCH_MODIFIED=1; fi
-        if [[ $line == '??'* ]]; then BRANCH_UNTRACKED=1; fi
+        if [[ $line =~ '[MAD].*' ]]; then BRANCH_STAGED=1; fi
+        if [[ $line =~ '.[MD].*' ]]; then BRANCH_UNSTAGED=1; fi
+        if [[ $line =~ '\?\?.*' ]]; then BRANCH_UNTRACKED=1; fi
         if [[ $line == '## '*'[ahead '*']' ]]; then BRANCH_AHEAD=1; fi
         if [[ $line == '## '*'[behind '*']' ]]; then BRANCH_BEHIND=1; fi
       done
@@ -54,13 +56,18 @@ function _parse_branch {
   # Get the mercurial branch/status.
   if [[ -z "${BRANCH}" ]]; then
     BRANCH=$(chg branch 2>/dev/null)
-    if [[ -n $BRANCH && -n $(chg status) ]]; then
-      BRANCH_MODIFIED=1
+    if [[ -n $BRANCH ]]; then
+      STATUS=$(chg status)
+      for line in ${(f)STATUS}; do
+        if [[ $line =~ '[MA!] .*' ]]; then BRANCH_UNSTAGED=1; fi
+        if [[ $line == '? '* ]]; then BRANCH_UNTRACKED=1; fi
+      done
     fi
   fi
 
   export BRANCH
-  export BRANCH_MODIFIED
+  export BRANCH_STAGED
+  export BRANCH_UNSTAGED
   export BRANCH_UNTRACKED
   export BRANCH_AHEAD
   export BRANCH_BEHIND
@@ -99,7 +106,7 @@ function _make_prompt {
     PROMPT+=" on %F{cyan} "
     PROMPT+=$'\ue725'
     PROMPT+=" %B$BRANCH"
-    if [[ $BRANCH_MODIFIED -gt 0 ]]; then
+    if [[ $BRANCH_STAGED -gt 0 || $BRANCH_UNSTAGED -gt 0 ]]; then
       PROMPT+="*"
     fi
     if [[ $BRANCH_UNTRACKED -gt 0 ]]; then
