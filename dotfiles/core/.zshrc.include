@@ -44,7 +44,9 @@ function _parse_branch {
     if [[ -n $BRANCH ]]; then
       STATUS=$(git status --porcelain --branch)
       for line in ${(f)STATUS}; do
-        if [[ $line =~ '[MAD].*' ]]; then BRANCH_STAGED=1; fi
+        if [[ $line == 'M'* ]]; then BRANCH_STAGED=1; fi
+        if [[ $line == 'A'* ]]; then BRANCH_STAGED=1; fi
+        if [[ $line == 'D'* ]]; then BRANCH_STAGED=1; fi
         if [[ $line =~ '.[MD].*' ]]; then BRANCH_UNSTAGED=1; fi
         if [[ $line =~ '\?\?.*' ]]; then BRANCH_UNTRACKED=1; fi
         if [[ $line == '## '*'[ahead '*']' ]]; then BRANCH_AHEAD=1; fi
@@ -106,8 +108,16 @@ function _make_prompt {
     PROMPT+=" on %F{cyan} "
     PROMPT+=$'\ue725'
     PROMPT+=" %B$BRANCH"
-    if [[ $BRANCH_STAGED -gt 0 || $BRANCH_UNSTAGED -gt 0 ]]; then
-      PROMPT+="*"
+    if [[ $BRANCH_STAGED -gt 0 || $BRANCH_UNSTAGED -gt 0 ||
+          $BRANCH_UNTRACKED -gt 0 || $BRANCH_AHEAD -gt 0 ||
+          $BRANCH_BEHIND -gt 0 ]]; then
+      PROMPT+=" "
+    fi
+    if [[ $BRANCH_STAGED -gt 0 ]]; then
+      PROMPT+=$'\uf00c'
+    fi
+    if [[ $BRANCH_UNSTAGED -gt 0 ]]; then
+      PROMPT+=$'\uf069'
     fi
     if [[ $BRANCH_UNTRACKED -gt 0 ]]; then
       PROMPT+="?"
