@@ -1,0 +1,7 @@
+- name: Install cli packages
+  community.general.homebrew:
+    name:
+      - neovim
+      - tmux
+  tags: install
+

@@ -48,28 +48,3 @@
   loop_control:
     label: "github.com/{{ item.github_profile }}/{{ item.repo }}"
 
-- name: Install core packages (linux)
-  ansible.builtin.package:
-    name:
-      - neovim
-      - tmux
-      - zsh
-  become: true
-  tags: [become, install]
-  when: ansible_facts.system == "Linux"
-
-- name: Install core packages (mac)
-  community.general.homebrew:
-    name:
-      - neovim
-      - tmux
-  tags: install
-  when: ansible_facts.system == "Darwin"
-
-- name: Change default shell
-  ansible.builtin.user:
-    name: "{{ ansible_facts.user_id }}"
-    shell: "/bin/zsh"
-  become: true
-  tags: [become, install]
-

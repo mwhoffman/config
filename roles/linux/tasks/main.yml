@@ -1,7 +1,16 @@
+- name: Install cli packages
+  ansible.builtin.package:
+    name:
+      - neovim
+      - tmux
+      - zsh
+  become: true
+  tags: [become, install]
+
 - name: Install gui packages
   ansible.builtin.package:
     name:
       - kitty
   become: true
-  tags: [become, install]
+  tags: [become, install, gui]
 

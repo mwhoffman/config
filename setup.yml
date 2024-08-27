@@ -7,8 +7,13 @@
     - "{{ ansible_facts.user_dir }}/.variables.yml"
 
   roles:
-    - role: core
+    - role: dotfiles
 
     - role: linux
       when: ansible_facts.system == "Linux"
+
+    - role: mac
+      when: ansible_facts.system == "Darwin"
+
+    - role: post
 
