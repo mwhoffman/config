@@ -59,6 +59,9 @@ vim.api.nvim_create_autocmd(
       vim.cmd 'hi! link SignColumn Normal'
       vim.cmd('hi! WinSeparator guibg='..get_color('NvimTreeNormal', 'bg'))
       vim.cmd('hi! StatusLine guifg='..get_color('NvimTreeNormal', 'bg'))
+      vim.cmd 'hi! link SignifySignAdd GitSignsAdd'
+      vim.cmd 'hi! link SignifySignChange GitSignsChange'
+      vim.cmd 'hi! link SignifySignDelete GitSignsDelete'
     end
   })
 
