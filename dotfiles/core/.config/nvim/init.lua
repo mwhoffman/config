@@ -43,6 +43,8 @@ require('lazy').setup({
 -- Add keymappings.
 vim.keymap.set('n', '<c-k>', '<pageup>')
 vim.keymap.set('n', '<c-j>', '<pagedown>')
+vim.keymap.set('v', '<c-k>', '<pageup>')
+vim.keymap.set('v', '<c-j>', '<pagedown>')
 
 function get_color(group, attr)
     return vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID(group)), attr)

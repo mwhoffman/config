@@ -1,6 +1,4 @@
 return {
-  {
-    'numToStr/Comment.nvim',
-    opts = {},
-  }
+  'numToStr/Comment.nvim',
+  opts = {},
 }

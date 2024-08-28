@@ -1,8 +1,6 @@
 return {
-  {
-    'mhinz/vim-signify',
-    name = 'signify',
-    config = function()
-    end
-  }
+  'mhinz/vim-signify',
+  name = 'signify',
+  config = function()
+  end
 }

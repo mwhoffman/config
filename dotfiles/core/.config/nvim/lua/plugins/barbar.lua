@@ -18,33 +18,31 @@ local function extra_config ()
 end
 
 return {
-  {
-    'romgrk/barbar.nvim',
-    name = 'barbar',
-    dependencies = {
-      'lewis6991/gitsigns.nvim',
-      'nvim-tree/nvim-web-devicons',
-    },
-    init = function()
-      vim.g.barbar_auto_setup = false
-    end,
-    opts = function()
-      -- Run any extra config.
-      extra_config()
+  'romgrk/barbar.nvim',
+  name = 'barbar',
+  dependencies = {
+    'lewis6991/gitsigns.nvim',
+    'nvim-tree/nvim-web-devicons',
+  },
+  init = function()
+    vim.g.barbar_auto_setup = false
+  end,
+  opts = function()
+    -- Run any extra config.
+    extra_config()
 
-      -- Return the options.
-      return {
-        icons = {
-          separator = {left='▕', right=''},
-          inactive = {separator={left='▕', right=''}},
-          filetype = {enabled=false},
-          buffer_index = 'superscript',
-          button = false,
-        },
-        sidebar_filetypes = {
-          NvimTree = true,
-        },
-      }
-    end,
-  }
+    -- Return the options.
+    return {
+      icons = {
+        separator = {left='▕', right=''},
+        inactive = {separator={left='▕', right=''}},
+        filetype = {enabled=false},
+        buffer_index = 'superscript',
+        button = false,
+      },
+      sidebar_filetypes = {
+        NvimTree = true,
+      },
+    }
+  end,
 }

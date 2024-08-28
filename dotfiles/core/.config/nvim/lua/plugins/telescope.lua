@@ -3,17 +3,15 @@ local function extra_config ()
 end
 
 return {
-  {
-    'nvim-telescope/telescope.nvim',
-    name='telescope',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'BurntSushi/ripgrep',
-    },
-    opts = function()
-      extra_config()
+  'nvim-telescope/telescope.nvim',
+  name='telescope',
+  dependencies = {
+    'nvim-lua/plenary.nvim',
+    'BurntSushi/ripgrep',
+  },
+  opts = function()
+    extra_config()
 
-      return {}
-    end,
-  }
+    return {}
+  end,
 }
