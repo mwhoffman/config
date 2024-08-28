@@ -69,6 +69,9 @@ return {
         icons = {
           git_placement = 'after',
         },
+        root_folder_label = function (path)
+          return " " .. vim.fn.fnamemodify(path, ":t")
+        end,
       },
       sort = {
         sorter="case_sensitive",
