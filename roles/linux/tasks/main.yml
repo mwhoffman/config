@@ -7,17 +7,25 @@
   become: true
   tags: [become, install]
 
+- name: Install gui packages
+  ansible.builtin.package:
+    name:
+      - 1password
+      - kitty
+      - spotify-client
+  become: true
+  tags: [become, install, gui]
+
 - name: Install nerdfonts
   ansible.builtin.shell: |
     mkdir -p {{ ansible_facts.user_dir }}/.local/share/fonts/nerdfonts && \
-    curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/{{ item }}.tar.xz | \
+    curl -sSL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/{{ item }}.tar.xz | \
     tar -xJf - -C {{ ansible_facts.user_dir }}/.local/share/fonts/nerdfonts \
       --exclude=LICENSE --exclude=LICENSE.md --exclude=README.md
   args:
     creates: "{{ ansible_facts.user_dir }}/.local/share/fonts/nerdfonts/{{ item }}NerdFont-Regular.ttf"
   register: nerdfonts
   loop:
-    - 0xProto
     - Hack
   tags: [install, gui]
 
@@ -25,11 +33,4 @@
   ansible.builtin.shell: fc-cache
   when: nerdfonts is changed
   tags: [install, gui]
-
-- name: Install gui packages
-  ansible.builtin.package:
-    name:
-      - kitty
-  become: true
-  tags: [become, install, gui]
 
