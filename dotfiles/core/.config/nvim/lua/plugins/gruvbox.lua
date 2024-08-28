@@ -4,8 +4,8 @@ return {
   priority = 1000,
   config = function()
     -- Include the package and save the load function.
-    gruvbox = require('gruvbox')
-    gruvbox_load = gruvbox.load
+    local gruvbox = require('gruvbox')
+    local gruvbox_load = gruvbox.load
 
     -- Override the load function to check the background option.
     gruvbox.load = function()
