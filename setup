@@ -1,0 +1,66 @@
+#!/bin/bash
+
+OPTSTRING=":sgh"
+USAGE="Usage: $0 [OPTIONS]
+Run the ansible playbook defined by setup.yml with tags defined by the OPTIONS
+given to this script.
+
+OPTIONS:
+  -s: include tags which require sudo permission.
+  -g: include tags for installation of GUI tools.
+  -h: display this help.
+"
+
+while getopts ${OPTSTRING} OPT; do
+  case ${OPT} in
+    s)
+      SUDO=true
+      ;;
+    g)
+      GUI=true
+      ;;
+    h)
+      echo "$USAGE"
+      exit 0
+      ;;
+    ?)
+      echo "$0: invalid option -${OPTARG}"
+      echo
+      echo "$USAGE"
+      exit 1
+      ;;
+  esac
+done
+
+shift $((OPTIND-1))
+
+if [ -n "$*" ]; then
+  echo "$0: invalid positional arguments '$*'"
+  echo
+  echo "$USAGE"
+  exit 1
+fi
+
+FLAGS=()
+SKIP_TAGS=()
+
+if [ -n "$SUDO" ]; then
+  FLAGS+=('-K');
+fi
+
+if [ -z "$SUDO" ]; then
+  SKIP_TAGS+=('become');
+fi
+
+if [ -z "$GUI"  ]; then
+  SKIP_TAGS+=('gui');
+fi
+
+SKIP_TAGS=$(IFS=,; echo "${SKIP_TAGS[*]}")
+if [ -n "$SKIP_TAGS" ]; then
+  FLAGS+=("--skip-tags ${SKIP_TAGS}")
+fi
+
+set -x
+ansible-playbook ${FLAGS[*]} setup.yml
+
