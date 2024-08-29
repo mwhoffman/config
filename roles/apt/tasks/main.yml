@@ -18,6 +18,7 @@
       sudo tee /etc/apt/sources.list.d/1password.list
   args:
     creates: /etc/apt/sources.list.d/1password.list
+  register: onepassword
   become: true
   tags: [become, install, gui]
 
@@ -30,6 +31,7 @@
       sudo tee /etc/apt/sources.list.d/spotify.list
   args:
     creates: /etc/apt/sources.list.d/spotify.list
+  register: spotify
   become: true
   tags: [become, install, gui]
 
@@ -38,4 +40,5 @@
     update_cache: yes
   become: true
   tags: [become, install]
+  when: onepassword is changed or spotify is changed
 
