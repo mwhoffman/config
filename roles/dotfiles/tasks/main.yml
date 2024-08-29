@@ -2,13 +2,13 @@
   ansible.builtin.package:
     name: stow
   become: true
-  tags: [become, install]
+  tags: [become, install, linux]
   when: ansible_facts.system == "Linux"
 
 - name: Install stow (mac)
   community.general.homebrew:
     name: stow
-  tags: install
+  tags: install, mac
   when: ansible_facts.system == "Darwin"
 
 - name: Link dotfiles
@@ -22,6 +22,7 @@
   no_log: True
   register: result
   changed_when: "result.stderr is search('LINK: ')"
+  tags: mac
   when: ansible_facts.system == "Darwin"
 
 # This installs dotfiles from the dotfiles/templates/ directory into $HOME. It
