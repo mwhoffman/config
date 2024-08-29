@@ -9,6 +9,9 @@
   roles:
     - role: dotfiles
 
+    - role: apt
+      when: ansible_facts.system == "Linux"
+
     - role: linux
       when: ansible_facts.system == "Linux"
 

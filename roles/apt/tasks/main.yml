@@ -1,0 +1,41 @@
+- name: Install 1password source
+  ansible.builtin.shell: |
+    curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
+      sudo gpg --dearmor --yes --output /usr/share/keyrings/1password-archive-keyring.gpg
+
+    sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22
+    sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
+
+    curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | \
+      sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
+
+    curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
+      sudo gpg --dearmor --yes --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
+
+    echo \
+      'deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg]' \
+      'https://downloads.1password.com/linux/debian/amd64 stable main' | \
+      sudo tee /etc/apt/sources.list.d/1password.list
+  args:
+    creates: /etc/apt/sources.list.d/1password.list
+  become: true
+  tags: [become, install, gui]
+
+- name: Install spotify source
+  ansible.builtin.shell: |
+    curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | \
+      sudo gpg --dearmor --yes --output /etc/apt/trusted.gpg.d/spotify.gpg
+
+    echo 'deb http://repository.spotify.com stable non-free' | \
+      sudo tee /etc/apt/sources.list.d/spotify.list
+  args:
+    creates: /etc/apt/sources.list.d/spotify.list
+  become: true
+  tags: [become, install, gui]
+
+- name: Update repositories cache
+  ansible.builtin.apt:
+    update_cache: yes
+  become: true
+  tags: [become, install]
+
