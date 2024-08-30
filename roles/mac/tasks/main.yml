@@ -3,5 +3,19 @@
     name:
       - neovim
       - tmux
-  tags: install
+  tags: package
+
+- name: Install nerdfonts
+  ansible.builtin.shell: |
+    mkdir -p {{ ansible_facts.user_dir }}/Library/Fonts/ && \
+    curl -sSL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/{{ item }}.tar.xz | \
+    tar -xJf - -C {{ ansible_facts.user_dir }}/Library/Fonts/ \
+      --exclude=README.md --exclude=LICENSE \
+      --exclude=LICENSE.txt --exclude=LICENSE.TXT --exclude=LICENSE.md
+  args:
+    creates: "{{ ansible_facts.user_dir }}/Library/Fonts/{{ item }}NerdFont-Regular.ttf"
+  register: nerdfonts
+  loop:
+    - Hack
+  tags: [gui]
 

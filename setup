@@ -1,14 +1,14 @@
 #!/bin/bash
 
-OPTSTRING=":sgih"
+OPTSTRING=":sgph"
 USAGE="Usage: $0 [OPTIONS]
 Run the ansible playbook defined by setup.yml with tags defined by the OPTIONS
 given to this script.
 
 OPTIONS:
-  -s: include tags which require sudo permission.
-  -g: include tags for installation of GUI tools.
-  -i: include tags for installation of general tools.
+  -s: include tags requiring sudo permission.
+  -g: include tags for GUI setup.
+  -p: include tags for package installation.
   -h: display this help.
 "
 
@@ -23,8 +23,8 @@ while getopts ${OPTSTRING} OPT; do
     g)
       GUI=true
       ;;
-    i)
-      INSTALL=true
+    p)
+      PACKAGE=true
       ;;
     h)
       echo "$USAGE"
@@ -61,7 +61,7 @@ UNAME=$(uname -s)
 # If the sudo option is set then append a flag to ask for the become (e.g. sudo)
 # password.
 if [[ -n "$SUDO" ]]; then
-  FLAGS+=('--ask-become-pass');
+  FLAGS+=("--ask-become-pass");
 fi
 
 # Add skip tags based on the system name, i.e. we'll skip all other systems. We
@@ -73,9 +73,9 @@ if [[ "$UNAME" == "Darwin" ]]; then SKIP_TAGS+=("linux"); fi
 
 # If the following options are NOT set then add their corresponding tags to the
 # SKIP_TAGS array.
-if [[ -z "$SUDO"    ]]; then SKIP_TAGS+=('become'); fi
-if [[ -z "$GUI"     ]]; then SKIP_TAGS+=('gui'); fi
-if [[ -z "$INSTALL" ]]; then SKIP_TAGS+=('install'); fi
+if [[ -z "$SUDO"    ]]; then SKIP_TAGS+=("become"); fi
+if [[ -z "$GUI"     ]]; then SKIP_TAGS+=("gui"); fi
+if [[ -z "$PACKAGE" ]]; then SKIP_TAGS+=("package"); fi
 
 # Join the SKIP_TAGS array as comma-separated list.
 SKIP_TAGS=$(IFS=,; echo "${SKIP_TAGS[*]}")

@@ -2,13 +2,13 @@
   ansible.builtin.package:
     name: stow
   become: true
-  tags: [become, install, linux]
+  tags: [become, package, linux]
   when: ansible_facts.system == "Linux"
 
 - name: Install stow (mac)
   community.general.homebrew:
     name: stow
-  tags: install, mac
+  tags: [package, mac]
   when: ansible_facts.system == "Darwin"
 
 - name: Link dotfiles
@@ -48,5 +48,4 @@
     - { github_profile: "morhetz", repo: "gruvbox" }
   loop_control:
     label: "github.com/{{ item.github_profile }}/{{ item.repo }}"
-  tags: install
 

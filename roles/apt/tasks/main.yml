@@ -20,7 +20,7 @@
     creates: /etc/apt/sources.list.d/1password.list
   register: onepassword
   become: true
-  tags: [become, install, gui]
+  tags: [become, package, gui]
 
 - name: Install spotify source
   ansible.builtin.shell: |
@@ -33,12 +33,12 @@
     creates: /etc/apt/sources.list.d/spotify.list
   register: spotify
   become: true
-  tags: [become, install, gui]
+  tags: [become, package, gui]
 
 - name: Update repositories cache
   ansible.builtin.apt:
     update_cache: yes
   become: true
-  tags: [become, install]
+  tags: [become, package]
   when: onepassword is changed or spotify is changed
 
