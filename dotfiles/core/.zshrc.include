@@ -35,6 +35,7 @@ function _parse_branch {
   BRANCH_STAGED=0
   BRANCH_UNSTAGED=0
   BRANCH_UNTRACKED=0
+  BRANCH_CONFLICT=0
   BRANCH_AHEAD=0
   BRANCH_BEHIND=0
 
@@ -47,6 +48,7 @@ function _parse_branch {
         if [[ $line == 'M'* ]]; then BRANCH_STAGED=1; fi
         if [[ $line == 'A'* ]]; then BRANCH_STAGED=1; fi
         if [[ $line == 'D'* ]]; then BRANCH_STAGED=1; fi
+        if [[ $line == 'U'* ]]; then BRANCH_CONFLICT=1; fi
         if [[ $line =~ '.[MD].*' ]]; then BRANCH_UNSTAGED=1; fi
         if [[ $line =~ '\?\?.*' ]]; then BRANCH_UNTRACKED=1; fi
         if [[ $line == '## '*'[ahead '*']' ]]; then BRANCH_AHEAD=1; fi
@@ -71,6 +73,7 @@ function _parse_branch {
   export BRANCH_STAGED
   export BRANCH_UNSTAGED
   export BRANCH_UNTRACKED
+  export BRANCH_CONFLICT
   export BRANCH_AHEAD
   export BRANCH_BEHIND
 }
@@ -118,6 +121,9 @@ function _make_prompt {
     fi
     if [[ $BRANCH_UNSTAGED -gt 0 ]]; then
       PROMPT+=$'\uf069'
+    fi
+    if [[ $BRANCH_CONFLICT -gt 0 ]]; then
+      PROMPT+="!"
     fi
     if [[ $BRANCH_UNTRACKED -gt 0 ]]; then
       PROMPT+="?"
