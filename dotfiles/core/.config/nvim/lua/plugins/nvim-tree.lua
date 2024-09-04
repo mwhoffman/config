@@ -4,36 +4,40 @@ local function extra_config ()
   
   -- Save the global guicursor setting.
   local opt_guicursor = vim.opt.guicursor
+  local opt_cursorline = vim.opt.cursorline
 
-  -- Add an autocmd to turn on the cursorline and hide the cursor whenever we
-  -- enter the nvim-tree window.
+  -- Behavior when we enter a new window or change the color scheme.
   vim.api.nvim_create_autocmd(
     {"WinEnter", "BufWinEnter", "ColorScheme", "CmdlineLeave"},
     {
       callback = function ()
         if vim.bo.filetype == "NvimTree" then
+          -- When we enter a tree-window hide the cursor and turn the cursorline
+          -- on, i.e. we will treat this as our cursor.
           vim.opt.cursorline = true
           vim.opt.guicursor = "a:block-Cursor"
           vim.cmd "hi Cursor blend=100"
+        else
+          -- When we enter any other window return to the standard cursor.
+          vim.opt.cursorline = opt_cursorline
+          vim.opt.guicursor = opt_guicursor
         end
       end
     })
 
-  -- Create an autocmd to restore the cursor. Note cursorline should be a
-  -- local opt, so by setting this we're only changing the cursorline for the
-  -- nvim-tree window.
+  -- When we leave an nvim-tree window turn the cursorline off to indicate that
+  -- we are not focusing that window.
   vim.api.nvim_create_autocmd(
     {"WinLeave", "BufWinLeave"},
     {
       callback = function ()
         if vim.bo.filetype == "NvimTree" then
           vim.opt.cursorline = false
-          vim.opt.guicursor = opt_guicursor
         end
       end
     })
 
-  -- Turn the cursor back on if we enter the command line.
+  -- Return to the standard cursor when we enter the cmdline.
   vim.api.nvim_create_autocmd(
     {"CmdlineEnter"},
     {
@@ -70,7 +74,7 @@ return {
           git_placement = 'after',
         },
         root_folder_label = function (path)
-          return " " .. vim.fn.fnamemodify(path, ":t")
+          return " " .. vim.fn.fnamemodify(path, ":t")
         end,
       },
       sort = {
