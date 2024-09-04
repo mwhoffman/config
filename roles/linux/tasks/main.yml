@@ -1,8 +1,11 @@
 - name: Install cli packages
   ansible.builtin.package:
     name:
+      - fd-find
       - neovim
+      - ripgrep
       - tmux
+      - tree
       - zsh
   become: true
   tags: [become, package]
