@@ -1,44 +1,63 @@
 # .zshrc
 
-[ -f "$HOME/.zshrc.local"   ] && source "$HOME/.zshrc.local"
-[ -f "$HOME/.zshrc.include" ] && source "$HOME/.zshrc.include"
+# Define a dirty function to source a given file only if it exists.
+function src { [ -f $1 ] && source $1; }
 
-unset INPUTRC
-unset MAILPATH
+# Include any local information (e.g. local prompts).
+src "$HOME/.zshrc.includes"
 
-export MOSH_TITLE_NOPREFIX=1
-export LC_COLLATE="POSIX"
-export EDITOR="nvim"
-export PAGER="less"
-export LESS="FRX"
-export HISTFILE="$HOME/.zsh_history"
-export HISTSIZE=10000
-export SAVEHIST=10000
+# Include the prompt configuration.
+src "$HOME/.zshrc.prompt"
 
-setopt APPEND_HISTORY
+export MOSH_TITLE_NOPREFIX=1   # Don't let mosh mess with window titles.
+export LC_COLLATE="POSIX"      # Use alphabetic ordering of files.
+export VISUAL="nvim"           # The visual editor to use.
+export EDITOR="nvim"           # "Plain" editor to use (mostly ignored).
+export PAGER="less"            # Replace more with less as the pager.
+export LESS="FRX"              # Default options for less.
 
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
-autoload -Uz compinit && compinit
+setopt EXTENDED_HISTORY        # Save extended history info.
+setopt SHARE_HISTORY           # Share history between sessions.
+setopt HIST_EXPIRE_DUPS_FIRST  # The rest of options basically just try and
+setopt HIST_IGNORE_DUPS        # eliminate all duplicate lines from history.
+setopt HIST_IGNORE_ALL_DUPS    # ...
+setopt HIST_FIND_NO_DUPS       # ...
+setopt HIST_SAVE_NO_DUPS       # ...
 
-source "$HOME/.gruvbox"
+# Define the $LS_COLORS variable used to color the output of ls, but we'll also
+# use it for completions.
 eval $(dircolors $HOME/.dircolors)
 
-alias ls="ls -N --color=auto"
-alias vi="nvim"
+# Initialize zsh completion.
+autoload -U compinit; compinit
 
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' menu select
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' completer _extensions _complete
+
+# Ignore case if necessary and look for within-string matches.
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
+# Color for descriptions (e.g. completion groups) and messages.
+zstyle ':completion:*:*:*:*:descriptions' format '%F{green}-- %d --%f'
+zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
+zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
+
+# Use $LS_COLORS to color completed files and directories.
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+
+# Use vim-mode but keep a few emacs-ish key combinations.
 bindkey -v
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
 bindkey "^K" kill-line
 bindkey "^R" history-incremental-search-backward
 
-precmd() {
-  # Parse out any strings we need for the window title and prompt.
-  _parse_branch
-  _parse_pwd
-  _make_prompt
+# Aliases.
+alias ls="ls -N --color=auto"
+alias vi="nvim"
 
-  # Print the window title. This is simply the hostname.
-  print -Pn "\e]0;%m\a"
-}
+# Include any local overrides.
+src "$HOME/.zshrc.overrides"
 

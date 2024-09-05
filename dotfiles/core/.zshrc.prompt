@@ -1,4 +1,4 @@
-#!/bin/zsh
+# zsh prompt function.
 
 function _parse_pwd {
   # The variable $PWD_PATHS can be set to a space-separated list of global
@@ -24,9 +24,6 @@ function _parse_pwd {
   if [[ $PWD_ == ${HOME}* ]]; then
     PWD_="~${PWD_#$HOME}"
   fi
-
-  export PWD_
-  export PWD_NAME
 }
 
 function _parse_branch {
@@ -68,17 +65,12 @@ function _parse_branch {
       done
     fi
   fi
-
-  export BRANCH
-  export BRANCH_STAGED
-  export BRANCH_UNSTAGED
-  export BRANCH_UNTRACKED
-  export BRANCH_CONFLICT
-  export BRANCH_AHEAD
-  export BRANCH_BEHIND
 }
 
 function _make_prompt {
+  _parse_pwd
+  _parse_branch
+
   PROMPT=""
   CARAT1=$'\uf105'
   CARAT2=$'\uf101'
@@ -140,4 +132,11 @@ function _make_prompt {
   # Add the trailing part of the prompt.
   PROMPT+=" $CARAT2 "
 }
+
+function _make_title {
+  print -Pn "\e]0;%m\a"
+}
+
+precmd_functions+=(_make_prompt)
+precmd_functions+=(_make_title)
 
