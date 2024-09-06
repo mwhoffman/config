@@ -5,7 +5,7 @@ vim.opt.background = 'dark'
 vim.opt.backup = false
 vim.opt.copyindent = true
 vim.opt.expandtab = true
-vim.opt.fillchars = {vert='▕', eob=' '} -- useful fillchars: ▏▕
+vim.opt.fillchars = {vert='▕', eob=' '}
 vim.opt.hlsearch = true
 vim.opt.linebreak = true
 vim.opt.mouse = 'a'
@@ -25,8 +25,8 @@ local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
   local out = vim.fn.system({
-      'git', 'clone', '--filter=blob:none', '--branch=stable',
-      lazyrepo, lazypath
+    'git', 'clone', '--filter=blob:none', '--branch=stable',
+    lazyrepo, lazypath
   })
   if vim.v.shell_error ~= 0 then
     error('Error cloning lazy.nvim:\n' .. out)
@@ -38,6 +38,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   spec = 'plugins',
   change_detection = {enabled=false},
+  rocks = {enabled=false},
 })
 
 -- Add keymappings.
