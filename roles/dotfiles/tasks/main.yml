@@ -17,7 +17,15 @@
   register: result
   changed_when: "result.stderr is search('LINK: ')"
 
-- name: Link dotfiles (mac)
+- name: Link dotfiles (linux-specific)
+  ansible.builtin.shell: "stow -vv --no-folding -d dotfiles -t {{ ansible_facts.user_dir }} linux"
+  no_log: True
+  register: result
+  changed_when: "result.stderr is search('LINK: ')"
+  tags: linux
+  when: ansible_facts.system == "Linux"
+
+- name: Link dotfiles (mac-specific)
   ansible.builtin.shell: "stow -vv --no-folding -d dotfiles -t {{ ansible_facts.user_dir }} mac"
   no_log: True
   register: result
