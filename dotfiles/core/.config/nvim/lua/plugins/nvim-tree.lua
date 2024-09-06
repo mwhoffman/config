@@ -1,7 +1,4 @@
 local function extra_config ()
-  -- Set nvim-specific keymappings.
-  vim.keymap.set('n', '<leader>t', ':NvimTreeToggle<cr>', {silent=true})
-
   -- Save the global guicursor setting.
   local opt_guicursor = vim.opt.guicursor
   local opt_cursorline = vim.opt.cursorline
@@ -55,6 +52,9 @@ return {
   lazy = false,
   dependencies = {
     'nvim-tree/nvim-web-devicons',
+  },
+  keys = {
+    {'<leader>t', ':NvimTreeToggle<cr>', silent=true},
   },
   init = function ()
     -- Mark netrw as already loaded so we can use nvim-tree instead.
