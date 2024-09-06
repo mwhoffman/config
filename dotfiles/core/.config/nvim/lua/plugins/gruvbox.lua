@@ -6,20 +6,17 @@ return {
     -- Include the package and save the load function.
     local gruvbox = require('gruvbox')
     local gruvbox_load = gruvbox.load
+    local bg1, bg3
 
     -- Override the load function to check the background option.
     gruvbox.load = function()
       -- Set the background based on whether we want a dark theme or not.
       if vim.o.background == 'dark' then
-        bg0 = gruvbox.palette.dark0
         bg1 = gruvbox.palette.dark1
-        bg2 = gruvbox.palette.dark2
         bg3 = gruvbox.palette.dark3
 
       else
-        bg0 = gruvbox.palette.light0
         bg1 = gruvbox.palette.light1
-        bg2 = gruvbox.palette.light2
         bg3 = gruvbox.palette.light3
       end
 
@@ -34,7 +31,7 @@ return {
       })
 
       -- Run the original load.
-      result = gruvbox_load()
+      local result = gruvbox_load()
 
       -- Override the color of directories.
       vim.api.nvim_set_hl(0, "Directory", {link='GruvboxBlueBold'})

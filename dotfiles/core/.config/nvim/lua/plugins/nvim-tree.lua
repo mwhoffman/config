@@ -1,7 +1,7 @@
 local function extra_config ()
   -- Set nvim-specific keymappings.
   vim.keymap.set('n', '<leader>t', ':NvimTreeToggle<cr>', {silent=true})
-  
+
   -- Save the global guicursor setting.
   local opt_guicursor = vim.opt.guicursor
   local opt_cursorline = vim.opt.cursorline

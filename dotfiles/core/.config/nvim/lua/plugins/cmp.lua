@@ -11,7 +11,7 @@ return {
   },
   config = function()
     -- See `:help cmp`
-    local cmp = require 'cmp'
+    local cmp = require('cmp')
 
     cmp.setup {
       completion = { completeopt = 'menu,menuone,noinsert' },
