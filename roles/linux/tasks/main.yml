@@ -15,6 +15,9 @@
     name:
       - 1password
       - kitty
+      - i3-wm
+      - polybar
+      - rofi
       - spotify-client
   become: true
   tags: [become, package, gui]

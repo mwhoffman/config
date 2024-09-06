@@ -74,3 +74,6 @@ vim.cmd 'autocmd Filetype python let &l:sw=&g:sw'
 vim.cmd 'autocmd Filetype python let &l:ts=&g:ts'
 vim.cmd 'autocmd Filetype python let &l:sts=&g:sts'
 
+-- Add filetype support for rasi, the configuration language for rofi.
+vim.cmd 'autocmd BufRead,BufNewFile *.rasi set filetype=rasi'
+

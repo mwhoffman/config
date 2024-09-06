@@ -1,0 +1,49 @@
+* {
+  font: "Hack Nerd Font Mono 24";
+  selected: #ebdbb2;
+  background: #458588;
+  foreground: #fbf1c7;
+
+  background-color: transparent;
+  text-color: inherit;
+}
+
+window {
+  width: 350px;
+  margin: 1px;
+  background: @background;
+  text-color: @foreground;
+}
+
+inputbar {
+  enabled: false;
+}
+
+listview {
+  padding: 0.5em;
+  background-color: @background;
+  lines: 3;
+}
+
+entry {
+  cursor: text;
+  padding: 0 0 0 0.2em;
+}
+
+element {
+  padding: 0.2em;
+}
+
+element-icon {
+  size: 1em;
+}
+
+element-text {
+  padding: 0 0 0 0.2em;
+}
+
+element selected {
+  background-color: @selected;
+  text-color: #282828;
+}
+

@@ -1,0 +1,64 @@
+* {
+  font: "Hack Nerd Font Mono 18";
+  accent: #458588;
+  selected: #ebdbb2;
+  background: #282828;
+  foreground: #fbf1c7;
+
+  background-color: transparent;
+  text-color: inherit;
+}
+
+window {
+  width: 700px;
+  margin: 1px;
+  background: @background;
+  text-color: @foreground;
+}
+
+inputbar {
+  spacing: 0;
+  padding: 0.5em;
+  background-color: @accent;
+  children: ["icon-search", "entry"];
+}
+
+listview {
+  padding: 0.5em;
+  background-color: @background;
+}
+
+prompt {
+  margin: 0px 10px 0px 11px;
+}
+
+icon-search {
+  expand: false;
+  margin: 0;
+  filename: "search";
+  size: 1em;
+  padding: 0 0 0 0.2em;
+}
+
+entry {
+  cursor: text;
+  padding: 0 0 0 0.2em;
+}
+
+element {
+  padding: 0.2em;
+}
+
+element-icon {
+  size: 1em;
+}
+
+element-text {
+  padding: 0 0 0 0.2em;
+}
+
+element selected {
+  background-color: @selected;
+  text-color: @background;
+}
+
