@@ -1,3 +1,15 @@
+-- Register a function which makes the buffer labels bold. This is cheap enough
+-- that we don't really need to worry about making it lazy, and it won't really
+-- do anything if we disable barbar.
+vim.api.nvim_create_autocmd(
+  {"ColorScheme"},
+  {
+    callback = function ()
+      vim.cmd 'hi! BufferDefaultCurrent gui=bold'
+      vim.cmd 'hi! BufferDefaultCurrentMod gui=bold'
+    end
+  })
+
 return {
   'romgrk/barbar.nvim',
   name = 'barbar',

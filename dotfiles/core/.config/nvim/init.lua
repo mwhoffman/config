@@ -47,25 +47,6 @@ vim.keymap.set('n', '<c-j>', '<pagedown>')
 vim.keymap.set('v', '<c-k>', '<pageup>')
 vim.keymap.set('v', '<c-j>', '<pagedown>')
 
-function get_color(group, attr)
-    return vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID(group)), attr)
-end
-
-vim.api.nvim_create_autocmd(
-  {"ColorScheme"},
-  {
-    callback = function ()
-      vim.cmd 'hi! BufferDefaultCurrent gui=bold'
-      vim.cmd 'hi! BufferDefaultCurrentMod gui=bold'
-      vim.cmd 'hi! link SignColumn Normal'
-      vim.cmd('hi! WinSeparator guibg='..get_color('NvimTreeNormal', 'bg'))
-      vim.cmd('hi! StatusLine guifg='..get_color('NvimTreeNormal', 'bg'))
-      vim.cmd 'hi! link SignifySignAdd GitSignsAdd'
-      vim.cmd 'hi! link SignifySignChange GitSignsChange'
-      vim.cmd 'hi! link SignifySignDelete GitSignsDelete'
-    end
-  })
-
 -- Set the colorscheme.
 vim.cmd.colorscheme 'gruvbox'
 

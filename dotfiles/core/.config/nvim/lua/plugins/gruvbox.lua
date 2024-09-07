@@ -1,3 +1,7 @@
+local function get_color(group, attr)
+  return vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID(group)), attr)
+end
+
 return {
   'ellisonleao/gruvbox.nvim',
   name = 'gruvbox',
@@ -36,6 +40,19 @@ return {
       -- Override the color of directories.
       vim.api.nvim_set_hl(0, 'Directory', {link='GruvboxBlueBold'})
       vim.api.nvim_set_hl(0, 'NvimTreeRootFolder', {link='GruvboxGreenBold'})
+
+      -- Make the sign column the same as normal text.
+      vim.cmd 'hi! link SignColumn Normal'
+
+      -- Make the window separators and statusline match nvim-tree so that they
+      -- "disappear".
+      vim.cmd('hi! WinSeparator guibg='..get_color('NvimTreeNormal', 'bg'))
+      vim.cmd('hi! StatusLine guifg='..get_color('NvimTreeNormal', 'bg'))
+
+      -- Match colros between signify/gitsigns.
+      vim.cmd 'hi! link SignifySignAdd GitSignsAdd'
+      vim.cmd 'hi! link SignifySignChange GitSignsChange'
+      vim.cmd 'hi! link SignifySignDelete GitSignsDelete'
 
       return result
     end
