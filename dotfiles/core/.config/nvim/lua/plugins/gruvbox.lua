@@ -34,8 +34,8 @@ return {
       local result = gruvbox_load()
 
       -- Override the color of directories.
-      vim.api.nvim_set_hl(0, "Directory", {link='GruvboxBlueBold'})
-      vim.api.nvim_set_hl(0, "NvimTreeRootFolder", {link='GruvboxGreenBold'})
+      vim.api.nvim_set_hl(0, 'Directory', {link='GruvboxBlueBold'})
+      vim.api.nvim_set_hl(0, 'NvimTreeRootFolder', {link='GruvboxGreenBold'})
 
       return result
     end

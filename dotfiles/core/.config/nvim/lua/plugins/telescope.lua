@@ -2,7 +2,7 @@ return {
   'nvim-telescope/telescope.nvim',
   name='telescope',
   dependencies = {
-    'nvim-lua/plenary.nvim',
+    {'nvim-lua/plenary.nvim', name='plenary'},
     'BurntSushi/ripgrep',
   },
   keys = {
