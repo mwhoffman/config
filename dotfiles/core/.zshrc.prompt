@@ -82,9 +82,9 @@ function _make_prompt {
   # Add the current virtual environment's name.
   if [[ -n $VIRTUAL_ENV ]]; then
     if [[ $VIRTUAL_ENV:t == ".venv" ]]; then
-      PROMPT+="${VIRTUAL_ENV:h:t}"
+      PROMPT+="%B${VIRTUAL_ENV:h:t}%b"
     elif [[ -n $VIRTUAL_ENV ]]; then
-      PROMPT+="${VIRTUAL_ENV:t}"
+      PROMPT+="%B${VIRTUAL_ENV:t}%b"
     fi
     PROMPT+="  "
   fi
