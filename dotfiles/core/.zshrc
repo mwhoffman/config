@@ -13,6 +13,11 @@ export EDITOR="nvim"           # "Plain" editor to use (mostly ignored).
 export PAGER="less"            # Replace more with less as the pager.
 export LESS="FRX"              # Default options for less.
 
+# Where and how much history to save.
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=10000
+
 # The following lines deal with history, first we store extended history
 # information, share history between sessions, and then (a) don't save duplicate
 # history lines, and ignore any duplicates if they exist.
