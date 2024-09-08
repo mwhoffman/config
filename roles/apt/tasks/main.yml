@@ -1,15 +1,15 @@
 - name: Install 1password source
   ansible.builtin.shell: |
-    curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
+    curl -fsS https://downloads.1password.com/linux/keys/1password.asc | \
       sudo gpg --dearmor --yes --output /usr/share/keyrings/1password-archive-keyring.gpg
 
     sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22
     sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
 
-    curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | \
+    curl -fsS https://downloads.1password.com/linux/debian/debsig/1password.pol | \
       sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
 
-    curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
+    curl -fsS https://downloads.1password.com/linux/keys/1password.asc | \
       sudo gpg --dearmor --yes --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
 
     echo \
@@ -24,7 +24,7 @@
 
 - name: Install spotify source
   ansible.builtin.shell: |
-    curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | \
+    curl -fsS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | \
       sudo gpg --dearmor --yes --output /etc/apt/trusted.gpg.d/spotify.gpg
 
     echo 'deb http://repository.spotify.com stable non-free' | \
@@ -35,10 +35,26 @@
   become: true
   tags: [become, package, gui]
 
+- name: Install charm source
+  ansible.builtin.shell: |
+    curl -fsS https://repo.charm.sh/apt/gpg.key | \
+      sudo gpg --dearmor --yes --output /usr/share/keyrings/charm.gpg
+
+    echo 'deb [signed-by=/usr/share/keyrings/charm.gpg]' \
+      'https://repo.charm.sh/apt/ * *' | \
+      sudo tee /etc/apt/sources.list.d/charm.list
+  args:
+    creates: /etc/apt/sources.list.d/charm.list
+  register: charm
+  become: true
+  tags: [become, package]
+
 - name: Update repositories cache
   ansible.builtin.apt:
     update_cache: yes
   become: true
   tags: [become, package]
-  when: onepassword is changed or spotify is changed
+  when: (onepassword is defined and onepassword.changed) or
+        (spotify is defined and spotify.changed) or
+        (charm is defined and charm.changed)
 
