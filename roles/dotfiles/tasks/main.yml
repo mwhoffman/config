@@ -22,7 +22,7 @@
   no_log: True
   register: result
   changed_when: "result.stderr is search('LINK: ')"
-  tags: linux
+  tags: [linux, gui]
   when: ansible_facts.system == "Linux"
 
 - name: Link dotfiles (mac-specific)
