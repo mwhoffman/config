@@ -6,7 +6,7 @@ return {
     'BurntSushi/ripgrep',
   },
   keys = {
-    {'<leader>f', ':Telescope find_files<cr>'},
+    {'<leader>ff', ':Telescope find_files<cr>'},
   },
   opts = {},
 }
