@@ -48,6 +48,7 @@ return {
   'nvim-tree/nvim-tree.lua',
   name = 'nvim-tree',
   lazy = false,
+  enabled = false,
   dependencies = {
     {'nvim-tree/nvim-web-devicons', name='web-devicons'}
   },

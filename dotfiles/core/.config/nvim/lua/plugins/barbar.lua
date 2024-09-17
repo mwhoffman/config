@@ -13,6 +13,7 @@ vim.api.nvim_create_autocmd(
 return {
   'romgrk/barbar.nvim',
   name = 'barbar',
+  enabled = false,
   dependencies = {
     {'lewis6991/gitsigns.nvim', name='gitsigns'},
     {'nvim-tree/nvim-web-devicons', name='web-devicons'},

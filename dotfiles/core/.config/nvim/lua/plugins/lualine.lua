@@ -19,7 +19,7 @@ return {
       lualine_y = {},
       lualine_z = {},
     },
-    extensions = {'nvim-tree'},
+    extensions = {'neo-tree'},
     options = {
       theme = 'auto',
     },

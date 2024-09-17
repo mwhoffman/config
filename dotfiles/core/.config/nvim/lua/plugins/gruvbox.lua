@@ -29,8 +29,8 @@ return {
       gruvbox.setup({
         terminal_colors = true,
         overrides = {
-          NvimTreeNormal = {bg=bg1},
-          NvimTreeCursorLine = {bg=bg3},
+          NeotreeNormal = {bg=bg1},
+          NeotreeCursorLine = {bg=bg3},
         },
       })
 
@@ -38,18 +38,19 @@ return {
       local result = gruvbox_load()
 
       -- Override the color of directories.
-      vim.api.nvim_set_hl(0, 'Directory', {link='GruvboxBlueBold'})
-      vim.api.nvim_set_hl(0, 'NvimTreeRootFolder', {link='GruvboxGreenBold'})
+      vim.cmd 'hi! link Directory GruvboxBlueBold'
 
       -- Make the sign column the same as normal text.
       vim.cmd 'hi! link SignColumn Normal'
+      vim.cmd 'hi! link NeotreeNormalNC NeotreeNormal'
+      vim.cmd 'hi! link NeoTreeSignColumn NeoTreeNormal'
 
       -- Make the window separators and statusline match nvim-tree so that they
       -- "disappear".
-      vim.cmd('hi! WinSeparator guibg='..get_color('NvimTreeNormal', 'bg'))
-      vim.cmd('hi! StatusLine guifg='..get_color('NvimTreeNormal', 'bg'))
+      vim.cmd('hi! WinSeparator guibg='..get_color('NeotreeNormal', 'bg'))
+      vim.cmd('hi! StatusLine guifg='..get_color('NeotreeNormal', 'bg'))
 
-      -- Match colros between signify/gitsigns.
+      -- Match colors between signify/gitsigns.
       vim.cmd 'hi! link SignifySignAdd GitSignsAdd'
       vim.cmd 'hi! link SignifySignChange GitSignsChange'
       vim.cmd 'hi! link SignifySignDelete GitSignsDelete'

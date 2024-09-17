@@ -6,7 +6,12 @@ return {
     'BurntSushi/ripgrep',
   },
   keys = {
-    {'<leader>ff', ':Telescope find_files<cr>'},
+    {
+      '<leader>ff',
+      ':Telescope find_files find_command=rg,--ignore,--hidden,-L,--files<cr>',
+      silent=true
+    },
+    {'<leader>fb', ':Telescope buffers<cr>', silent=true},
   },
   opts = {},
 }
