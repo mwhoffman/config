@@ -1,7 +1,11 @@
 - name: Install cli packages
   community.general.homebrew:
     name:
+      - fd
+      - fzf
+      - lazygit
       - neovim
+      - rg
       - tmux
   tags: package
 
