@@ -1,7 +1,6 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
   name = "neotree",
-  lazy = false,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons",
@@ -13,9 +12,9 @@ return {
     vim.g.loaded_netrwPlugin = 1
   end,
   keys = {
-    {'<leader>t', ':Neotree position=left toggle=true<cr>', silent=true},
-    {'<leader>b', ':Neotree position=float source=buffers<cr>', silent=true},
-    {'<leader>T', ':Neotree position=float<cr>', silent=true},
+    {"<leader>t", ":Neotree position=float<cr>", silent=true},
+    {"<leader>b", ":Neotree position=float source=buffers<cr>", silent=true},
+    {"<leader>T", ":Neotree position=left toggle=true<cr>", silent=true},
   },
   opts = {
     close_if_last_window = true,
@@ -28,10 +27,10 @@ return {
       filtered_items = {
         hide_dotfiles = false,
         never_show = {
-          '.git',
+          ".git",
         },
       },
-      hijack_netrw_behavior = 'open_current',
+      hijack_netrw_behavior = "open_current",
     },
   },
 }

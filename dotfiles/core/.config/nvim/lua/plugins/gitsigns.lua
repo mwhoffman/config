@@ -1,5 +1,5 @@
 return {
-  'lewis6991/gitsigns',
-  name = 'gitsigns',
-  config = true
+  "lewis6991/gitsigns.nvim",
+  name = "gitsigns",
+  config = true,
 }

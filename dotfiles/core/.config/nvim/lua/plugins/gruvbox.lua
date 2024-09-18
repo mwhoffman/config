@@ -3,19 +3,19 @@ local function get_color(group, attr)
 end
 
 return {
-  'ellisonleao/gruvbox.nvim',
-  name = 'gruvbox',
+  "ellisonleao/gruvbox.nvim",
+  name = "gruvbox",
   priority = 1000,
   config = function()
     -- Include the package and save the load function.
-    local gruvbox = require('gruvbox')
+    local gruvbox = require("gruvbox")
     local gruvbox_load = gruvbox.load
     local bg1, bg3
 
     -- Override the load function to check the background option.
     gruvbox.load = function()
       -- Set the background based on whether we want a dark theme or not.
-      if vim.o.background == 'dark' then
+      if vim.o.background == "dark" then
         bg1 = gruvbox.palette.dark1
         bg3 = gruvbox.palette.dark3
 
@@ -38,22 +38,22 @@ return {
       local result = gruvbox_load()
 
       -- Override the color of directories.
-      vim.cmd 'hi! link Directory GruvboxBlueBold'
+      vim.cmd "hi! link Directory GruvboxBlueBold"
 
       -- Make the sign column the same as normal text.
-      vim.cmd 'hi! link SignColumn Normal'
-      vim.cmd 'hi! link NeotreeNormalNC NeotreeNormal'
-      vim.cmd 'hi! link NeoTreeSignColumn NeoTreeNormal'
+      vim.cmd "hi! link SignColumn Normal"
+      vim.cmd "hi! link NeotreeNormalNC NeotreeNormal"
+      vim.cmd "hi! link NeoTreeSignColumn NeoTreeNormal"
 
       -- Make the window separators and statusline match nvim-tree so that they
       -- "disappear".
-      vim.cmd('hi! WinSeparator guibg='..get_color('NeotreeNormal', 'bg'))
-      vim.cmd('hi! StatusLine guifg='..get_color('NeotreeNormal', 'bg'))
+      vim.cmd("hi! WinSeparator guibg="..get_color("NeotreeNormal", "bg"))
+      vim.cmd("hi! StatusLine guifg="..get_color("NeotreeNormal", "bg"))
 
       -- Match colors between signify/gitsigns.
-      vim.cmd 'hi! link SignifySignAdd GitSignsAdd'
-      vim.cmd 'hi! link SignifySignChange GitSignsChange'
-      vim.cmd 'hi! link SignifySignDelete GitSignsDelete'
+      vim.cmd "hi! link SignifySignAdd GitSignsAdd"
+      vim.cmd "hi! link SignifySignChange GitSignsChange"
+      vim.cmd "hi! link SignifySignDelete GitSignsDelete"
 
       return result
     end

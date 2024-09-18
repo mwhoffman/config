@@ -1,61 +1,28 @@
-vim.g.mapleader = ','
-vim.g.maplocalleader = ','
+require("options")
+require("keymaps")
 
-vim.opt.background = 'dark'
-vim.opt.backup = false
-vim.opt.copyindent = true
-vim.opt.expandtab = true
-vim.opt.fillchars = {vert='▕', eob=' '}
-vim.opt.hlsearch = true
-vim.opt.linebreak = true
-vim.opt.mouse = 'a'
-vim.opt.number = true
-vim.opt.showmode = false
-vim.opt.signcolumn = 'yes'
-vim.opt.scrolloff = 5
-vim.opt.smartindent = false
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2
-vim.opt.textwidth = 80
-vim.opt.wrap = true
+-- Define where to find the lazy plugin manager.
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
--- Bootstrap lazy.nvim.
-local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+-- If lazy doesn't exist get it from github.
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
   local out = vim.fn.system({
-    'git', 'clone', '--filter=blob:none', '--branch=stable',
+    "git", "clone", "--filter=blob:none", "--branch=stable",
     lazyrepo, lazypath
   })
   if vim.v.shell_error ~= 0 then
-    error('Error cloning lazy.nvim:\n' .. out)
+    error("Error cloning lazy.nvim:\n" .. out)
   end
 end
 
 -- Run lazy using plugins configured in ./lua/plugins.
 vim.opt.rtp:prepend(lazypath)
-require('lazy').setup({
-  spec = 'plugins',
+require("lazy").setup({
+  spec = "plugins",
   change_detection = {enabled=false},
   rocks = {enabled=false},
 })
 
--- Add keymappings.
-vim.keymap.set('n', '<c-k>', '<pageup>')
-vim.keymap.set('n', '<c-j>', '<pagedown>')
-vim.keymap.set('v', '<c-k>', '<pageup>')
-vim.keymap.set('v', '<c-j>', '<pagedown>')
-
 -- Set the colorscheme.
-vim.cmd.colorscheme 'gruvbox'
-
--- Don't let the the python ftplugin override tabwidth behavior.
-vim.cmd 'autocmd Filetype python let &l:et=&g:et'
-vim.cmd 'autocmd Filetype python let &l:sw=&g:sw'
-vim.cmd 'autocmd Filetype python let &l:ts=&g:ts'
-vim.cmd 'autocmd Filetype python let &l:sts=&g:sts'
-
--- Add filetype support for rasi, the configuration language for rofi.
-vim.cmd 'autocmd BufRead,BufNewFile *.rasi set filetype=rasi'
-
+vim.cmd.colorscheme "gruvbox"

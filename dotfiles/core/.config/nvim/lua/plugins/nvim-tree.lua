@@ -5,15 +5,15 @@ local function extra_config ()
 
   -- Behavior when we enter a new window or change the color scheme.
   vim.api.nvim_create_autocmd(
-    {'WinEnter', 'BufWinEnter', 'ColorScheme', 'CmdlineLeave'},
+    {"WinEnter", "BufWinEnter", "ColorScheme", "CmdlineLeave"},
     {
       callback = function ()
-        if vim.bo.filetype == 'NvimTree' then
+        if vim.bo.filetype == "NvimTree" then
           -- When we enter a tree-window hide the cursor and turn the cursorline
           -- on, i.e. we will treat this as our cursor.
           vim.opt.cursorline = true
-          vim.opt.guicursor = 'a:block-Cursor'
-          vim.cmd 'hi Cursor blend=100'
+          vim.opt.guicursor = "a:block-Cursor"
+          vim.cmd "hi Cursor blend=100"
         else
           -- When we enter any other window return to the standard cursor.
           vim.opt.cursorline = opt_cursorline
@@ -25,10 +25,10 @@ local function extra_config ()
   -- When we leave an nvim-tree window turn the cursorline off to indicate that
   -- we are not focusing that window.
   vim.api.nvim_create_autocmd(
-    {'WinLeave', 'BufWinLeave'},
+    {"WinLeave", "BufWinLeave"},
     {
       callback = function ()
-        if vim.bo.filetype == 'NvimTree' then
+        if vim.bo.filetype == "NvimTree" then
           vim.opt.cursorline = false
         end
       end
@@ -36,7 +36,7 @@ local function extra_config ()
 
   -- Return to the standard cursor when we enter the cmdline.
   vim.api.nvim_create_autocmd(
-    {'CmdlineEnter'},
+    {"CmdlineEnter"},
     {
       callback = function ()
         vim.opt.guicursor = opt_guicursor
@@ -45,15 +45,15 @@ local function extra_config ()
 end
 
 return {
-  'nvim-tree/nvim-tree.lua',
-  name = 'nvim-tree',
+  "nvim-tree/nvim-tree.lua",
+  name = "nvim-tree",
   lazy = false,
   enabled = false,
   dependencies = {
-    {'nvim-tree/nvim-web-devicons', name='web-devicons'}
+    {"nvim-tree/nvim-web-devicons", name="web-devicons"}
   },
   keys = {
-    {'<leader>t', ':NvimTreeToggle<cr>', silent=true},
+    {"<leader>t", ":NvimTreeToggle<cr>", silent=true},
   },
   init = function ()
     -- Mark netrw as already loaded so we can use nvim-tree instead.
@@ -64,27 +64,27 @@ return {
     -- Run any extra config.
     extra_config()
 
-    -- Return the plugin's options.
+    -- Return the plugin"s options.
     return {
       renderer = {
         symlink_destination = false,
         special_files = {},
         icons = {
-          git_placement = 'after',
+          git_placement = "after",
         },
         root_folder_label = function (path)
-          return ' ' .. vim.fn.fnamemodify(path, ':t')
+          return " " .. vim.fn.fnamemodify(path, ":t")
         end,
       },
       sort = {
-        sorter='case_sensitive',
+        sorter="case_sensitive",
         folders_first=false,
       },
       view = {
         width = {max=60},
       },
       filters = {
-        custom = {'^\\.git$'},
+        custom = {"^\\.git$"},
       },
     }
   end,
