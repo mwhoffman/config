@@ -11,7 +11,7 @@
 
     - role: apt
       when: ansible_facts.system == "Linux"
-      tags: linux
+      tags: [linux, external]
 
     - role: linux
       when: ansible_facts.system == "Linux"
@@ -20,6 +20,3 @@
     - role: mac
       when: ansible_facts.system == "Darwin"
       tags: mac
-
-    - role: post
-
