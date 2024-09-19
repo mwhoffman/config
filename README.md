@@ -49,9 +49,9 @@ can all be done by running
 ```
 
 which is a small shell script wrapping the ansible run. By default this will
-just install the dotfiles, but it takes additional options, e.g. `-s` for setup
-that requires `sudo`, `-p` for any package installation, and `-g` for any
-gui-specific packages.
+just install the dotfiles, but it takes additional options, e.g. to install
+additional packages, do setup requiring sudo, etc. Use the `-h` option to see
+these flags.
 
 Using this script requires git and ansible to be installed already, and
 package-installation on macos requires brew. At some point I will likely get
