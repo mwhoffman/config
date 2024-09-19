@@ -5,6 +5,7 @@ return {
     {"nvim-lua/plenary.nvim", name="plenary"},
     "BurntSushi/ripgrep",
   },
+  lazy = false,
   keys = {
     {
       "<leader>ff",
