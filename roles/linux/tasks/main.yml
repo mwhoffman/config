@@ -2,6 +2,7 @@
   ansible.builtin.package:
     name:
       - fd-find
+      - fzf
       - neovim
       - ripgrep
       - tmux
