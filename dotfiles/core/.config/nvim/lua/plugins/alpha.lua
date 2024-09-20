@@ -24,7 +24,9 @@ return {
     dashboard.section.buttons.val = {
       dashboard.button("e", " New file", "<cmd>ene<cr>"),
       dashboard.button("f", " Find files", "<cmd>Telescope find_files<cr>"),
-      dashboard.button("r", " Recent files", "<cmd>Telescope oldfiles<cr>"),
+      dashboard.button("g", " Find strings (grep)", "<cmd>Telescope live_grep<cr>"),
+      dashboard.button("r", " Recent files (cwd)", "<cmd>Telescope oldfiles only_cwd=true<cr>"),
+      dashboard.button("R", " Recent files (all)", "<cmd>Telescope oldfiles<cr>"),
       dashboard.button("q", "󰅚 Quit", "<cmd>qa<cr>"),
     }
 

@@ -7,11 +7,10 @@ return {
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-emoji",
   },
-  config = function()
-    -- See `:help cmp`
+  opts = function()
     local cmp = require("cmp")
 
-    cmp.setup {
+    return {
       completion = {completeopt="menu,menuone,noinsert"},
 
       -- Mappings during completions.
@@ -34,7 +33,7 @@ return {
         {name="nvim_lsp"},
         {name="path"},
         {name="emoji"},
-      },
+      }
     }
   end,
 }

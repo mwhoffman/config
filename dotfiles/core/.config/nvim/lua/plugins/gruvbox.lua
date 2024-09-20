@@ -5,7 +5,6 @@ end
 return {
   "ellisonleao/gruvbox.nvim",
   name = "gruvbox",
-  priority = 1000,
   config = function()
     -- Include the package and save the load function.
     local gruvbox = require("gruvbox")

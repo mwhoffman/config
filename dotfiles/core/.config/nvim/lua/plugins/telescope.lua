@@ -7,8 +7,9 @@ return {
   },
   lazy = false,
   keys = {
-    {"<leader>ff", ":Telescope find_files<cr>", silent=true},
-    {"<leader>fb", ":Telescope buffers<cr>", silent=true},
+    {"<leader>ff", "<cmd>Telescope find_files<cr>", silent=true},
+    {"<leader>fb", "<cmd>Telescope buffers<cr>", silent=true},
+    {"<leader>fg", "<cmd>Telescope live_grep<cr>", silent=true},
   },
   opts = {
     defaults = {
@@ -20,7 +21,7 @@ return {
         "--line-number",
         "--column",
         "--smart-case",
-        -- "--hidden",
+        "--hidden",
       }
     },
     pickers = {

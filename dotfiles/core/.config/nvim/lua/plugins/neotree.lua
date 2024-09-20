@@ -13,7 +13,7 @@ return {
     vim.g.loaded_netrwPlugin = 1
   end,
   keys = {
-    {"<leader>t", ":Neotree position=float<cr>", silent=true},
+    {"<leader>t", ":Neotree position=float reveal_force_cwd<cr>", silent=true},
     {"<leader>b", ":Neotree position=float source=buffers<cr>", silent=true},
     {"<leader>T", ":Neotree position=left toggle=true<cr>", silent=true},
   },
