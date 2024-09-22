@@ -13,9 +13,9 @@ return {
     vim.g.loaded_netrwPlugin = 1
   end,
   keys = {
-    {"<leader>t", ":Neotree position=float reveal_force_cwd<cr>", silent=true},
-    {"<leader>b", ":Neotree position=float source=buffers<cr>", silent=true},
-    {"<leader>T", ":Neotree position=left toggle=true<cr>", silent=true},
+    {"<leader>t", ":Neotree toggle reveal_force_cwd position=float<cr>", silent=true},
+    {"<leader>T", ":Neotree toggle reveal_force_cwd position=left<cr>", silent=true},
+    {"<leader>b", ":Neotree toggle position=float source=buffers<cr>", silent=true},
   },
   opts = {
     close_if_last_window = true,

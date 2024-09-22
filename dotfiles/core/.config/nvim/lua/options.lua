@@ -7,6 +7,7 @@ opt.hlsearch = true
 opt.linebreak = true
 opt.mouse = "a"
 opt.number = true
+opt.showcmd = false
 opt.showmode = false
 opt.signcolumn = "yes"
 opt.scrolloff = 5
