@@ -7,11 +7,36 @@ return {
   },
   lazy = false,
   keys = {
-    {"<leader>ff", "<cmd>Telescope find_files<cr>", silent=true},
-    {"<leader>fb", "<cmd>Telescope buffers<cr>", silent=true},
-    {"<leader>fg", "<cmd>Telescope live_grep<cr>", silent=true},
-    {"<leader>fr", "<cmd>Telescope oldfiles only_cwd=true<cr>", silent=true},
-    {"<leader>fR", "<cmd>Telescope oldfiles<cr>", silent=true},
+    {
+      "<leader>ff",
+      "<cmd>Telescope find_files<cr>",
+      desc = "Find files",
+      silent = true,
+    },
+    {
+      "<leader>fb",
+      "<cmd>Telescope buffers<cr>",
+      desc = "Find buffers",
+      silent = true,
+    },
+    {
+      "<leader>fg",
+      "<cmd>Telescope live_grep<cr>",
+      desc = "Find word (grep)",
+      silent = true,
+    },
+    {
+      "<leader>fr",
+      "<cmd>Telescope oldfiles only_cwd=true<cr>",
+      desc = "Find recent files (cwd)",
+      silent = true,
+    },
+    {
+      "<leader>fR",
+      "<cmd>Telescope oldfiles only_cwd=true<cr>",
+      desc = "Find recent files (all)",
+      silent = true,
+    },
   },
   opts = {
     defaults = {
