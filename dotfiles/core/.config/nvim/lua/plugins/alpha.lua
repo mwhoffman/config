@@ -18,21 +18,26 @@ return {
     local alpha = require("alpha")
     local dashboard = require("alpha.themes.dashboard")
 
+    function button(key, txt, cmd, desc)
+      opts = {noremap=true, silent=true, nowait=true, desc=desc}
+      return dashboard.button(key, txt, cmd, opts)
+    end
+
+    dashboard.leader = "󱁐"
     dashboard.section.header.val = logo
     dashboard.section.header.opts.hl = "GruvboxBlue"
-
     dashboard.section.buttons.val = {
-      dashboard.button("e", " New file", "<cmd>ene<cr>"),
-      dashboard.button("f", " Find files", "<cmd>Telescope find_files<cr>"),
-      dashboard.button("g", " Find strings (grep)", "<cmd>Telescope live_grep<cr>"),
-      dashboard.button("r", " Recent files (cwd)", "<cmd>Telescope oldfiles only_cwd=true<cr>"),
-      dashboard.button("R", " Recent files (all)", "<cmd>Telescope oldfiles<cr>"),
-      dashboard.button("q", "󰅚 Quit", "<cmd>qa<cr>"),
+      button("e", " New file", "<cmd>ene<cr>", "New file"),
+      button("󱁐ff", " Find files", "<leader>ff"),
+      button("󱁐fg", " Find word (grep)", "<leader>fg"),
+      button("󱁐fr", " Recent files (cwd)", "<leader>fr"),
+      button("󱁐fR", " Recent files (all)", "<leader>fR"),
+      button("q", "󰅚 Quit", "<cmd>qa<cr>", "Quit"),
     }
 
     dashboard.section.buttons.opts.inherit = {
       hl_shortcut = "GruvboxYellow",
-      cursor = 30,
+      cursor = 0,
       width = 30,
     }
 

@@ -33,7 +33,7 @@ return {
     },
     {
       "<leader>fR",
-      "<cmd>Telescope oldfiles only_cwd=true<cr>",
+      "<cmd>Telescope oldfiles<cr>",
       desc = "Find recent files (all)",
       silent = true,
     },

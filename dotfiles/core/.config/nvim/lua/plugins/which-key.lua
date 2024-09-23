@@ -3,13 +3,11 @@ return {
   name = "which-key",
   opts = {
     preset = "helix",
-    win = {
-      col = 2,
-    },
+    icons = {mappings=false},
     plugins = {
       marks = false,
       registers = false,
-      spelling = {enabled=false},
+      spelling = {enabled=true},
       presets = {
         operators = true,
         motions = true,
@@ -21,8 +19,18 @@ return {
       },
     },
     spec = {
-      {"<leader>", group="+leader"},
-      {"<leader>f", group="+find objects"},
+      {"<leader>", group="Leader", mode="nv"},
+      {"<leader>c", group="Copy..."},
+      {"<leader>f", group="Find..."},
+      {"h", hidden=true, mode="n"},
+      {"j", hidden=true, mode="n"},
+      {"k", hidden=true, mode="n"},
+      {"l", hidden=true, mode="n"},
+      {"Y", desc="Yank to End of Line"},
+      {"D", desc="Delete to End of Line"},
+      {"<C-L>", desc="Clear screen"},
+      {"/", hidden=true, mode="o"},
+      {"?", hidden=true, mode="o"},
     },
   }
 }
