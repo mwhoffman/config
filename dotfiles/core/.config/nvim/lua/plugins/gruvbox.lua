@@ -5,6 +5,9 @@ end
 return {
   "ellisonleao/gruvbox.nvim",
   name = "gruvbox",
+  -- Load this plugin first since its our primary colorscheme.
+  lazy = false,
+  priority = 1000,
   config = function()
     -- Include the package and save the load function.
     local gruvbox = require("gruvbox")
@@ -59,5 +62,8 @@ return {
 
       return result
     end
+
+    -- Manually load the colorscheme.
+    vim.cmd.colorscheme "gruvbox"
   end
 }
