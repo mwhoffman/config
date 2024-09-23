@@ -1,11 +1,11 @@
 return {
   "nvim-telescope/telescope.nvim",
   name="telescope",
+  cmd = "Telescope",
   dependencies = {
     {"nvim-lua/plenary.nvim", name="plenary"},
     "BurntSushi/ripgrep",
   },
-  lazy = false,
   keys = {
     {
       "<leader>ff",
