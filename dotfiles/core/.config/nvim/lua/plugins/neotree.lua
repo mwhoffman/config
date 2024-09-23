@@ -2,9 +2,9 @@ return {
   "nvim-neo-tree/neo-tree.nvim",
   name = "neotree",
   dependencies = {
-    "nvim-lua/plenary.nvim",
+    {"nvim-lua/plenary.nvim", name="plenary"},
     "nvim-tree/nvim-web-devicons",
-    "MunifTanjim/nui.nvim",
+    {"MunifTanjim/nui.nvim", name="nui"},
   },
   lazy = false,
   init = function ()
