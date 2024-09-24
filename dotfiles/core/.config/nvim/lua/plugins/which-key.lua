@@ -20,8 +20,9 @@ return {
     },
     spec = {
       {"<leader>", group="Leader", mode="nv"},
-      {"<leader>c", group="Copy..."},
-      {"<leader>f", group="Find..."},
+      {"<leader>c", group="Copy…"},
+      {"<leader>f", group="Find…"},
+      {"<leader>h", group="Harpoon…"},
       {"h", hidden=true, mode="n"},
       {"j", hidden=true, mode="n"},
       {"k", hidden=true, mode="n"},
