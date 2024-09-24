@@ -37,7 +37,7 @@ return {
 
     dashboard.section.buttons.opts.inherit = {
       hl_shortcut = "GruvboxYellow",
-      cursor = 0,
+      cursor = 2,
       width = 30,
     }
 
