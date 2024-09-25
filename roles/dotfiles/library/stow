@@ -4,6 +4,8 @@
 This is a modified version of https://github.com/caian-org/ansible-stow.
 """
 
+from typing import Union
+
 import os
 import re
 
@@ -21,7 +23,7 @@ def has_stow(module: AnsibleModule) -> bool:
   return rc == 0
 
 
-def get_stow_version(module: AnsibleModule) -> str | None:
+def get_stow_version(module: AnsibleModule) -> Union[str, None]:
   """Get the installed stow version."""
   rc, stdout, _ = module.run_command("stow --version")
 
@@ -86,16 +88,19 @@ def run_stow(
 
   if rc != 0:
     conflicts = get_conflicts(stderr, version)
-    module.fail_json(msg=f"Conflicting targets: {", ".join(conflicts)}")
+    conflicts = ", ".join(conflicts)
+    module.fail_json(msg=f"Conflicting targets: {conflicts}")
 
   unlinked, linked = get_changes(stderr)
   changed = bool(linked | unlinked)
 
   msgs = []
   if unlinked:
-    msgs.append(f"unlinked: {", ".join(unlinked)}")
+    unlinked = ", ".join(unlinked)
+    msgs.append(f"unlinked: {unlinked}")
   if linked:
-    msgs.append(f"linked: {", ".join(linked)}")
+    linked = ", ".join(linked)
+    msgs.append(f"linked: {linked}")
   msg = "; ".join(msgs)
 
   return changed, msg
