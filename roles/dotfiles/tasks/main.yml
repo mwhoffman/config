@@ -45,9 +45,6 @@
     repo: "https://github.com/{{ item.profile }}/{{ item.repo }}"
     dest: "{{ ansible_facts.user_dir }}/{{ item.dest }}/{{ item.repo }}"
   loop:
-    - { dest: ".vim/pack/dist/start", profile: "vim-airline", repo: "vim-airline" }
-    - { dest: ".vim/pack/dist/start", profile: "moll", repo: "vim-bbye" }
-    - { dest: ".vim/pack/dist/start", profile: "morhetz", repo: "gruvbox" }
     - { dest: ".zsh", profile: "zsh-users", repo: "zsh-syntax-highlighting" }
     - { dest: ".zsh", profile: "zsh-users", repo: "zsh-autosuggestions" }
     - { dest: ".zsh", profile: "softmoth", repo: "zsh-vim-mode" }
