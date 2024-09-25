@@ -1,0 +1,140 @@
+#!/usr/bin/python3
+"""Simple implementation of a stow ansible module.
+
+This is a modified version of https://github.com/caian-org/ansible-stow.
+"""
+
+import os
+import re
+
+from ansible.module_utils.basic import AnsibleModule
+
+STOW_CONFLICT_RE = {
+  "2.3.1": r"^\* existing target is neither a link nor a directory: (?P<target>.+)$",
+  "2.4.0": r"^\* cannot stow (?.+) over existing target (?P<target>.+) .+$",
+}
+
+
+def has_stow(module: AnsibleModule) -> bool:
+  """Return whether stow exists."""
+  rc, _, _ = module.run_command("which stow", check_rc=False)
+  return rc == 0
+
+
+def get_stow_version(module: AnsibleModule) -> str | None:
+  """Get the installed stow version."""
+  rc, stdout, _ = module.run_command("stow --version")
+
+  if rc != 0:
+    return None
+
+  match = re.match(
+    r"^stow \(GNU Stow\) version (?P<version>\d+\.\d+\.\d+)$",
+    stdout.strip())
+
+  if not match:
+    return None
+
+  return match.group("version")
+
+
+def get_conflicts(stderr: str, version: str) -> set[str]:
+  """Return the error message."""
+  conflict_re = re.compile(STOW_CONFLICT_RE[version])
+  conflicts = set()
+  for line in stderr.split("\n"):
+    match = conflict_re.match(line.strip())
+    if match:
+      conflicts.add(match.group("target"))
+  return conflicts
+
+
+def get_changes(stderr: str) -> tuple[set[str], set[str]]:
+  """Return the set of unlinked and linked changes."""
+  unlinked_re = re.compile(r"^UNLINK: (?P<target>.+)$")
+  linked_re = re.compile(r"^LINK: (?P<target>.+) =>")
+  unlinked = set()
+  linked = set()
+  for line in stderr.split("\n"):
+    match = unlinked_re.match(line.strip())
+    if match:
+      unlinked.add(match.group("target"))
+      continue
+    match = linked_re.match(line.strip())
+    if match:
+      linked.add(match.group("target"))
+
+  return unlinked-linked, linked-unlinked
+
+
+def run_stow(
+  module: AnsibleModule,
+  version: str,
+  stowdir: str,
+  package: str,
+  target: str,
+) -> tuple[bool, str]:
+  """Run the stow command."""
+  # Construct the stow command.
+  cmd = f"stow -v --no-folding -d {stowdir} -R {package} -t {target}"
+
+  # In check mode add the -n option which should do nothing.
+  if module.check_mode:
+    cmd = f"{cmd} -n"
+
+  rc, _, stderr = module.run_command(cmd)
+
+  if rc != 0:
+    conflicts = get_conflicts(stderr, version)
+    module.fail_json(msg=f"Conflicting targets: {", ".join(conflicts)}")
+
+  unlinked, linked = get_changes(stderr)
+  changed = bool(linked | unlinked)
+
+  msgs = []
+  if unlinked:
+    msgs.append(f"unlinked: {", ".join(unlinked)}")
+  if linked:
+    msgs.append(f"linked: {", ".join(linked)}")
+  msg = "; ".join(msgs)
+
+  return changed, msg
+
+
+def main():
+  """The module main routine."""
+
+  module = AnsibleModule(
+    argument_spec={
+      "package": {"type": "str", "required": "True"},
+    },
+    supports_check_mode=True,
+  )
+
+  # Check that we can find stow.
+  if not has_stow(module):
+    module.fail_json(msg="unable to find stow")
+
+  # First get the stow version and fail early if we can't.
+  version = get_stow_version(module)
+  if not version:
+    module.fail_json(msg="unable to get stow version")
+
+  # Fail if we don't know how to check the conflicts.
+  if version not in STOW_CONFLICT_RE:
+    module.fail_json(msg=f"unsupported stow version {version}")
+
+  stowdir = "dotfiles"
+  package = module.params["package"]  # pyright: ignore[reportArgumentType]
+  target = os.environ.get("HOME")
+
+  if target is None:
+    module.fail_json(msg="cannot evaluate the target ($HOME)")
+
+  changed, msg = run_stow(module, version, stowdir, package, target)
+
+  module.exit_json(changed=changed, msg=msg)
+
+
+if __name__ == "__main__":
+  main()

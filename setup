@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OPTSTRING=":sgph"
+OPTSTRING=":sgpvnh"
 USAGE="Usage: $0 [OPTIONS]
 Run the ansible playbook defined by setup.yml with tags defined by the OPTIONS
 given to this script.
@@ -10,6 +10,8 @@ OPTIONS:
   -g: include tags for GUI setup.
   -p: include tags for package installation.
   -e: include tags for adding external packages.
+  -v: be verbose.
+  -n: do nothing; run checks (-C) in ansible.
   -h: display this help.
 "
 
@@ -29,6 +31,12 @@ while getopts ${OPTSTRING} OPT; do
       ;;
     e)
       EXTERNAL=true
+      ;;
+    v)
+      VERBOSE=true
+      ;;
+    n)
+      NOTHING=true
       ;;
     h)
       echo "$USAGE"
@@ -66,6 +74,16 @@ UNAME=$(uname -s)
 # password.
 if [[ -n "$SUDO" ]]; then
   FLAGS+=("--ask-become-pass");
+fi
+
+# Do nothing (if possible).
+if [[ -n "$NOTHING" ]]; then
+  FLAGS+=("-C");
+fi
+
+# Be verbose.
+if [[ -n "$VERBOSE" ]]; then
+  FLAGS+=("-v");
 fi
 
 # Add skip tags based on the system name, i.e. we'll skip all other systems. We
