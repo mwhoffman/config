@@ -6,7 +6,7 @@ return {
   },
   keys = {
     {
-      "<leader>ha",
+      "<leader>hm",
       function()
         require("harpoon.mark").add_file()
         print("Mark added")
@@ -14,7 +14,7 @@ return {
       desc = "Add mark",
     },
     {
-      "<leader>hm",
+      "<leader>hh",
       function() require("harpoon.ui").toggle_quick_menu() end,
       desc = "Show marks",
     },
