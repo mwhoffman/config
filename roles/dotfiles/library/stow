@@ -4,27 +4,44 @@
 This is a modified version of https://github.com/caian-org/ansible-stow.
 """
 
-from typing import Union
-
 import os
 import re
+from typing import Union
 
 from ansible.module_utils.basic import AnsibleModule
 
 STOW_CONFLICT_RE = {
-  "2.3.1": r"^\* existing target is neither a link nor a directory: (?P<target>.+)$",
+  "2.3.1": (
+    r"^\* existing target is neither a link nor a directory: "
+    r"(?P<target>.+)$"
+  ),
   "2.4.0": r"^\* cannot stow (?.+) over existing target (?P<target>.+) .+$",
 }
 
 
 def has_stow(module: AnsibleModule) -> bool:
-  """Return whether stow exists."""
+  """Return whether stow exists.
+
+  Args:
+    module: an AnsibleModule instance.
+
+  Returns:
+    bool indicating whether the stow binary exists.
+  """
   rc, _, _ = module.run_command("which stow", check_rc=False)
   return rc == 0
 
 
 def get_stow_version(module: AnsibleModule) -> Union[str, None]:
-  """Get the installed stow version."""
+  """Get the installed stow version.
+
+  Args:
+    module: an AnsibleModule instance.
+
+  Returns:
+    A string representing the stow version or `None` if the version cannot be
+    obtained.
+  """
   rc, stdout, _ = module.run_command("stow --version")
 
   if rc != 0:
@@ -40,8 +57,16 @@ def get_stow_version(module: AnsibleModule) -> Union[str, None]:
   return match.group("version")
 
 
-def get_conflicts(stderr: str, version: str) -> set[str]:
-  """Return the error message."""
+def get_conflicts_from_stderr(stderr: str, version: str) -> set[str]:
+  """Parse the stderr returned by stow and find any conflicts.
+
+  Args:
+    stderr: the stderr (str) returned by running stow.
+    version: the version of stow.
+
+  Returns:
+    A set of strings consisting of the conflicting files.
+  """
   conflict_re = re.compile(STOW_CONFLICT_RE[version])
   conflicts = set()
   for line in stderr.split("\n"):
@@ -51,12 +76,26 @@ def get_conflicts(stderr: str, version: str) -> set[str]:
   return conflicts
 
 
-def get_changes(stderr: str) -> tuple[set[str], set[str]]:
-  """Return the set of unlinked and linked changes."""
+def get_changes_from_stderr(stderr: str) -> tuple[set[str], set[str]]:
+  """Return the set of unlinked and linked changes.
+
+  Args:
+    stderr: the stderr (str) returned by running stow.
+
+  Returns:
+    Two sets of strings the first of which are the set of files that have been
+    removed by stow and the second is the set of files that have been added by
+    stow.
+  """
+  # Each line should contain info for a single file that was linked/unlinked. So
+  # we will grab that using the following regexes.
   unlinked_re = re.compile(r"^UNLINK: (?P<target>.+)$")
   linked_re = re.compile(r"^LINK: (?P<target>.+) =>")
+
+  # Build up these two sets.
   unlinked = set()
   linked = set()
+
   for line in stderr.split("\n"):
     match = unlinked_re.match(line.strip())
     if match:
@@ -84,24 +123,25 @@ def run_stow(
   if module.check_mode:
     cmd = f"{cmd} -n"
 
+  # Run the command. If rc is nonzero there should be conflicts which we can
+  # identify and mark as a failure.
   rc, _, stderr = module.run_command(cmd)
-
   if rc != 0:
-    conflicts = get_conflicts(stderr, version)
+    conflicts = get_conflicts_from_stderr(stderr, version)
     conflicts = ", ".join(conflicts)
     module.fail_json(msg=f"Conflicting targets: {conflicts}")
 
-  unlinked, linked = get_changes(stderr)
+  # Otherwise we can find the links that were either removed or added. If any
+  # were this counts as a change.
+  unlinked, linked = get_changes_from_stderr(stderr)
   changed = bool(linked | unlinked)
 
-  msgs = []
-  if unlinked:
-    unlinked = ", ".join(unlinked)
-    msgs.append(f"unlinked: {unlinked}")
-  if linked:
-    linked = ", ".join(linked)
-    msgs.append(f"linked: {linked}")
-  msg = "; ".join(msgs)
+  # Format the message.
+  msg = ""
+  for name, files in (("unlinked", unlinked), ("linked", linked)):
+    if files:
+      msg = msg + "; " if msg else ""
+      msg = msg + f"{name}: " + ", ".join(files)
 
   return changed, msg
 
@@ -133,6 +173,8 @@ def main():
   package = module.params["package"]  # pyright: ignore[reportArgumentType]
   target = os.environ.get("HOME")
 
+  # This is mostly here to help with typing. The HOME environment variable
+  # should always be set.
   if target is None:
     module.fail_json(msg="cannot evaluate the target ($HOME)")
 
