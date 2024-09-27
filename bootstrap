@@ -1,0 +1,72 @@
+#!/bin/bash
+
+set -eu
+
+TARGET="${HOME}/config"
+GITHUB="https://github.com/mwhoffman/config"
+GITHUB_SSH="git@github.com:mwhoffman/config.git"
+
+bootstrap_mac() {
+  echo "Unsupported OS."
+  exit 1
+}
+
+bootstrap_apt() {
+  # Find any missing packages.
+  local PACKAGES=()
+  command -v git 2>&1 >/dev/null || PACKAGES+=("git")
+  command -v ansible 2>&1 >/dev/null || PACKAGES+=("ansible")
+
+  # Run apt-get to install the missing packages.
+  if [ ${#PACKAGES[@]} -ne 0 ]; then
+    (set -x; sudo apt-get install -y ${PACKAGES[*]})
+  fi
+}
+
+# Bootstrap based on the OS. This really only knows how to bootstrap macs using
+# brew or something apt-based. But at least it should fail reasonably if
+# something else comes along.
+case $(uname -s) in
+  Darwin)
+    bootstrap_mac
+    ;;
+
+  Linux)
+    . /etc/os-release
+
+    case "$ID" in
+      debian | linuxmint | pop | ubuntu)
+        bootstrap_apt
+        ;;
+
+      *)
+        echo "Unsupported Linux Distribution."
+        exit 1
+        ;;
+    esac
+    ;;
+
+  *)
+    echo "Unsupported OS."
+    exit 1
+    ;;
+esac
+
+# Check the target config directory and try to clone from git. Otherwise fail if
+# the directory already exists and is not an existing clone.
+if [[ ! -d "${TARGET}" ]]; then
+  (set -x; git clone "${GITHUB}" "${TARGET}")
+
+elif [[ ! -d "${TARGET}/.git" ]]; then
+  echo "Unknown directory \"${TARGET}\" (not a git directory)."
+  exit 1
+
+else
+  ORIGIN=$(cd ${TARGET} && git remote get-url origin)
+  if [[ "${ORIGIN}" != "${GITHUB}" && "${ORIGIN}" != "${GITHUB_SSH}" ]]; then
+    echo "Unknown directory \"${TARGET}\" (incorrect origin)."
+  fi
+fi
+
+# We're done!
+echo "Config bootstrapped. Continue setup by running ${HOME}/config/setup."
