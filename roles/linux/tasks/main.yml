@@ -35,10 +35,10 @@
   register: nerdfonts
   loop:
     - Hack
-  tags: [gui]
+  tags: gui
 
 - name: Update font-cache
   ansible.builtin.shell: fc-cache
   when: nerdfonts is changed
-  tags: [gui]
+  tags: gui
 

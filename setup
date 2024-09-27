@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OPTSTRING=":sgpvnh"
+OPTSTRING=":sgpevnh"
 USAGE="Usage: $0 [OPTIONS]
 Run the ansible playbook defined by setup.yml with tags defined by the OPTIONS
 given to this script.

@@ -2,13 +2,13 @@
   ansible.builtin.package:
     name: stow
   become: true
-  tags: [become, package, linux]
+  tags: [become, package]
   when: ansible_facts.system == "Linux"
 
 - name: Install stow (mac)
   community.general.homebrew:
     name: stow
-  tags: [package, mac]
+  tags: package
   when: ansible_facts.system == "Darwin"
 
 - name: Link dotfiles
@@ -18,20 +18,24 @@
 - name: Link dotfiles (linux-specific)
   stow:
     package: linux
-  tags: [linux, gui]
+  tags: gui
   when: ansible_facts.system == "Linux"
 
 - name: Link dotfiles (mac-specific)
   stow:
     package: mac
-  tags: mac
   when: ansible_facts.system == "Darwin"
 
-# This installs dotfiles from the dotfiles/templates/ directory into $HOME. It
-# does NOT create any intermediate directories, but that's a bit of a pain
-# with ansible, and anything should have really been created by stow in the
-# previous step.
-- name: Create dotfile templates
+- name: Create templated directories
+  file:
+    path: "{{ ansible_facts.user_dir }}/{{ item.path }}"
+    state: directory
+  with_filetree: "dotfiles/templates/"
+  when: item.state == "directory"
+  loop_control:
+    label: "{{ item.path }}"
+
+- name: Create templated dotfiles
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ ansible_facts.user_dir }}/{{ item.path }}"
