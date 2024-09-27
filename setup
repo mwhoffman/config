@@ -86,13 +86,6 @@ if [[ -n "$VERBOSE" ]]; then
   FLAGS+=("-v");
 fi
 
-# Add skip tags based on the system name, i.e. we'll skip all other systems. We
-# don't really need to do this since ansible has been set up to check as well,
-# but this saves time and logging since ansible will not even try the task
-# (rather than trying and immediately skipping).
-if [[ "$UNAME" == "Linux"  ]]; then SKIP_TAGS+=("mac"); fi
-if [[ "$UNAME" == "Darwin" ]]; then SKIP_TAGS+=("linux"); fi
-
 # If the following options are NOT set then add their corresponding tags to the
 # SKIP_TAGS array.
 if [[ -z "$SUDO"     ]]; then SKIP_TAGS+=("become"); fi
