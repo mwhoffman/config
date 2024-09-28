@@ -14,7 +14,7 @@ script, which will additionally clone this repository into `~/config`. The
 `bootstrap` script can be run directly from github,
 
 ```
-HOMEBREW=https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap
+HOMEBREW="https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap"
 /bin/bash -c "$(curl -fsSL ${HOMEBREW})"
 ```
 
