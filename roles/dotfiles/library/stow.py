@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 """Simple implementation of a stow ansible module.
 
 This is a modified version of https://github.com/caian-org/ansible-stow.
