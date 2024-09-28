@@ -10,13 +10,21 @@ from typing import Union
 
 from ansible.module_utils.basic import AnsibleModule
 
+# Define how to find conflicts based on stow's error message. This is version
+# dependent, so we'll match the output of particular versions.
 STOW_CONFLICT_RE = {
   "2.3.1": (
     r"^\* existing target is neither a link nor a directory: "
     r"(?P<target>.+)$"
   ),
-  "2.4.0": r"^\* cannot stow (?.+) over existing target (?P<target>.+) .+$",
+  "2.4.0": (
+    r"^\* cannot stow (?P<src>.+) over existing target (?P<target>.+) "
+    r"since neither a link nor a directory and --adopt not specified$"
+  )
 }
+
+# Copy the message for matching versions.
+STOW_CONFLICT_RE["2.4.1"] = STOW_CONFLICT_RE["2.4.0"]
 
 
 def has_stow(module: AnsibleModule) -> bool:
