@@ -1,12 +1,26 @@
 - name: Install cli packages
   community.general.homebrew:
     name:
+      - coreutils
       - fd
       - fzf
       - lazygit
       - neovim
       - rg
       - tmux
+  tags: package
+
+# Homebrew installs GNU coreutils commands prefixed with "g" so they don't
+# collide with existing BSD commands. We'll link some of them into place so that
+# we can use them normally.
+- name: Link GNU coreutils commands
+  ansible.builtin.file:
+    src: /usr/local/bin/{{ 'g' + item }}
+    dest: /usr/local/bin/{{ item }}
+    state: link
+  loop:
+    - ls
+    - dircolors
   tags: package
 
 - name: Install nerdfonts
