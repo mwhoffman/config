@@ -23,6 +23,12 @@
     - dircolors
   tags: package
 
+- name: Install gui packages
+  community.general.homebrew:
+    name:
+      - kitty
+  tags: [package, gui]
+
 - name: Install nerdfonts
   ansible.builtin.shell: |
     mkdir -p {{ ansible_facts.user_dir }}/Library/Fonts/ && \
