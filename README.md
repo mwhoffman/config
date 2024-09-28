@@ -7,22 +7,17 @@ as well as the various packages I frequently use.
 
 ## Quickstart
 
-The `setup` script requires `git`, `ansible`, and `stow` to be installed. In
-addition, on macos it requires `brew` in order to install packages. These
-dependencies can either be installed manually or by using the `bootstrap`
-script, which will additionally clone this repository into `~/config`. The
-`bootstrap` script can be run directly from github,
+Running the following line(s):
 
 ```
 BOOTSTRAP="https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap"
-/bin/bash -c "$(curl -fsSL ${BOOTSTRAP})"
+/bin/bash -c "$(curl -fsSL ${BOOTSTRAP})" && ~/config/setup
 ```
 
-followed by the setup script,
-
-```
-~/config/setup
-```
+will bootstrap the configuration by installing the minimal requirements `git`,
+`ansible`, `stow`, and `brew` on macos; the bootstrap procedure will also clone
+this repository into `~/config`. Finally, the above command will run the `setup`
+script itself.
 
 By default `setup` will only install the dotfiles (as symlinks). It will also
 fail if any conflicts exist between the dotfiles and their targets (i.e. the
