@@ -9,22 +9,22 @@ given to this script.
 
 OPTIONS:
   -s: include tags requiring sudo permission.
-  -g: include tags for GUI setup.
   -p: include tags for package installation.
   -e: include tags for adding external packages.
-  -v: be verbose.
+  -g: include tags for GUI setup.
   -n: do nothing; run checks (-C) in ansible.
+  -v: be verbose.
   -h: display this help.
 "
 
 # Initialize our option variables. We'll test these with -n below but they have
 # to be set because of the use of -u to catch unset variables.
 SUDO=""
-GUI=""
 PACKAGE=""
 EXTERNAL=""
-VERBOSE=""
+GUI=""
 NOTHING=""
+VERBOSE=""
 
 # Get options any command line flags. Note that we can pass each of the options
 # multiple times, e.g. by passing flags -sssgggg, etc. Note that this doesn't
@@ -32,11 +32,11 @@ NOTHING=""
 while getopts ${OPTSTRING} OPT; do
   case ${OPT} in
     s) SUDO=true ;;
-    g) GUI=true ;;
     p) PACKAGE=true ;;
     e) EXTERNAL=true ;;
-    v) VERBOSE=true ;;
+    g) GUI=true ;;
     n) NOTHING=true ;;
+    v) VERBOSE=true ;;
     h)
       echo "$USAGE"
       exit 0
@@ -85,26 +85,27 @@ fi
 # If the following options are NOT set then add their corresponding tags to the
 # SKIP_TAGS array.
 if [[ -z "$SUDO"     ]]; then SKIP_TAGS+=("become"); fi
-if [[ -z "$GUI"      ]]; then SKIP_TAGS+=("gui"); fi
 if [[ -z "$PACKAGE"  ]]; then SKIP_TAGS+=("package"); fi
 if [[ -z "$EXTERNAL" ]]; then SKIP_TAGS+=("external"); fi
+if [[ -z "$GUI"      ]]; then SKIP_TAGS+=("gui"); fi
 
-# Join the SKIP_TAGS array as comma-separated list.
-SKIP_TAGS=$(IFS=,; echo "${SKIP_TAGS[*]}")
-
-# If we have any tags to skip then add a flag specifying this; i.e. we ignore
-# this step if we're not skipping any tags.
-if [[ -n "$SKIP_TAGS" ]]; then
+# Add a flag for skip-tags if any exist.
+if [ ${#SKIP_TAGS[@]} -ne 0 ]; then
+  SKIP_TAGS=$(IFS=,; echo "${SKIP_TAGS[*]}")  # Join as a comma-separated list.
   FLAGS+=("--skip-tags ${SKIP_TAGS}")
+fi
+
+# Join the flags together.
+if [ ${#FLAGS[@]} -ne 0 ]; then
+  FLAGS="${FLAGS[*]}"
+else
+  FLAGS=""
 fi
 
 # Find the directory we're running from.
 DIRNAME="$(dirname ${BASH_SOURCE[0]})"
 
-# Find the directory we're running from.
-
 # Call the playbook command and echo it to the terminal.
 set -x
 ANSIBLE_CONFIG="${DIRNAME}/ansible.cfg" \
-  ansible-playbook ${FLAGS[*]} ${DIRNAME}/setup.yml
-
+  ansible-playbook ${FLAGS} ${DIRNAME}/setup.yml
