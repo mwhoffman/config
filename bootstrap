@@ -17,6 +17,7 @@ bootstrap_mac() {
   local PACKAGES=()
   command -v git 2>&1 >/dev/null || PACKAGES+=("git")
   command -v ansible 2>&1 >/dev/null || PACKAGES+=("ansible")
+  command -v stow 2>&1 >/dev/null || PACKAGES+=("stow")
 
   # Run brew to install the missing packages.
   if [ ${#PACKAGES[@]} -ne 0 ]; then
@@ -29,6 +30,7 @@ bootstrap_apt() {
   local PACKAGES=()
   command -v git 2>&1 >/dev/null || PACKAGES+=("git")
   command -v ansible 2>&1 >/dev/null || PACKAGES+=("ansible")
+  command -v stow 2>&1 >/dev/null || PACKAGES+=("stow")
 
   # Run apt-get to install the missing packages.
   if [ ${#PACKAGES[@]} -ne 0 ]; then
@@ -82,4 +84,5 @@ else
 fi
 
 # We're done!
-echo "Config bootstrapped. Continue setup by running ${HOME}/config/setup."
+echo "Config bootstrapped!"
+echo "Continue setup by running ~/config/setup (see -h for options)."
