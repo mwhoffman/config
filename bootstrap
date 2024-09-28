@@ -5,10 +5,23 @@ set -eu
 TARGET="${HOME}/config"
 GITHUB="https://github.com/mwhoffman/config"
 GITHUB_SSH="git@github.com:mwhoffman/config.git"
+HOMEBREW_URL="https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
 
 bootstrap_mac() {
-  echo "Unsupported OS."
-  exit 1
+  # Install brew if it doesn't exist.
+  if ! command -v brew 2>&1 >/dev/null; then
+    (set -x; NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL ${HOMEBREW_URL})")
+  fi
+
+  # Find any missing packages.
+  local PACKAGES=()
+  command -v git 2>&1 >/dev/null || PACKAGES+=("git")
+  command -v ansible 2>&1 >/dev/null || PACKAGES+=("ansible")
+
+  # Run brew to install the missing packages.
+  if [ ${#PACKAGES[@]} -ne 0 ]; then
+    (set -x; brew install ${PACKAGES[*]})
+  fi
 }
 
 bootstrap_apt() {
