@@ -1,59 +1,61 @@
 # config
 
-This repo includes all of the configuration, i.e. dotfiles, I need whenever I
-start working with a new machine.
+This repo includes all of the configuration/dotfiles I need whenever I start
+working with a new machine, or just to keep this configuration in sync between
+different machines. It also includes a `setup` script to install these dotfiles
+as well as the various packages I frequently use.
 
-## Installation with GNU stow
+## Quickstart
 
-While these file can always be copied directly into your home directory, I
-generally use [GNU stow][stow] to symlink these into place. This can be
-accomplished by running
-
-[stow]: https://www.gnu.org/software/stow/
+The `setup` script requires `git`, `ansible`, and `stow` to be installed. In
+addition, on macos it requires `brew` in order to install packages. These
+dependencies can either be installed manually or by using the `bootstrap`
+script, which will additionally clone this repository into `~/config`. The
+`bootstrap` script can be run directly from github,
 
 ```
-stow -vv --no-folding -d dotfiles -t $HOME core
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap)"
 ```
 
-This will link the every individual file contained in `dotfiles/core` into
-`$HOME` and will do so verbosely (due to the `-t` and `-vv` options
-respectively). As a result of the `--no-folding` option it will also create the
-intermediate directory structure along the way rather than symlinking
-directories. `core` is what stow thinks of as a _package_ and can be
+followed by the setup script,
+
+```
+~/config/setup
+```
+
+By default `setup` will only install the dotfiles (as symlinks). It will also
+fail if any conflicts exist between the dotfiles and their targets (i.e. the
+files in your home directory). These conflicts must either be resolved manually
+or _adopted_ with stow (see the next section).
+
+The `setup` script also has additional options to install the full set of
+packages I generally use; see `setup -h` for more info.
+
+## Manually installing dotfiles using GNU stow
+
+While the dotfiles can always be copied directly into your home directory,
+internally the `setup` script uses [GNU stow][stow] to symlink these into place.
+This can also be done manually by running
+
+```
+stow -v --no-folding -d dotfiles -t $HOME -R core
+```
+
+This will link every individual file contained in `dotfiles/core` into your home
+directory. `core` is what stow thinks of as a _package_ and this list can be
 extended/replaced with other packages defined as any of the immediate
-subdirectories of `dotfiles/`. I use this to group platform-specific dotfiles
-into different packages so that, e.g. on linux, I can run `stow ... core linux`.
-
-If you _delete_ any files from a stow package that will leave dangling symlinks
-behind. In order to deal with this you can _restow_ packages, which will remove
-and then re-add a package, removing any obsolete symlinks. This can be
-accomplished with the `-R` flag, e.g. `stow ... -R core`.
+subdirectories of `dotfiles/`, i.e. in order to group platform-specific
+dotfiles. In addition, this command will remove and then re-add any packages
+(due to the `-R` option). This means that any dotfiles that are removed upstream
+will be removed locally as well.
 
 Finally, stow will not overwrite any files that already exist. Conflicting files
 must either be removed manually, _or_ the `--adopt` option can be used to
-replace the stowed file with the version existing in the target directory (see
-the documentation for more details). I often use this option to edit a raw
-dotfile in place and then create an empty file, e.g. `touch dotfiles/core/.foo`,
-before adopting the existing file with `stow ... core --adopt`. Obviously be
+replace a stowed file with its corresponding version from the target directory.
+I often use this option if I need to create a new dotfile, e.g. running `touch
+dotfiles/core/foo` and then `stow ... core --adopt`; this will move `~/foo` by
+replacing `dotfiles/core/foo` and will then link it in place. Obviously be
 careful with this option since it will replace _all_ conflicting files in the
 stow directory.
 
-## Full setup with ansible
-
-Alternatively, I've created a collection of ansible tasks to install these
-dotfiles, install any common software I use, and do any necessary setup. This
-can all be done by running
-
-```
-./setup
-```
-
-which is a small shell script wrapping the ansible run. By default this will
-just install the dotfiles, but it takes additional options, e.g. to install
-additional packages, do setup requiring sudo, etc. Use the `-h` option to see
-these flags.
-
-Using this script requires git and ansible to be installed already, and
-package-installation on macos requires brew. At some point I will likely get
-around to having this script bootstrap those components.
-
+[stow]: https://www.gnu.org/software/stow/
