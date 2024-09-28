@@ -1,3 +1,6 @@
+- name: Gather homebrew facts
+  homebrew_facts:
+
 - name: Install cli packages
   community.general.homebrew:
     name:
@@ -15,8 +18,8 @@
 # we can use them normally.
 - name: Link GNU coreutils commands
   ansible.builtin.file:
-    src: /usr/local/bin/{{ 'g' + item }}
-    dest: /usr/local/bin/{{ item }}
+    src: "{{ ansible_facts.homebrew.prefix }}/bin/{{ 'g' + item }}"
+    dest: "{{ ansible_facts.homebrew.prefix }}/bin/{{ item }}"
     state: link
   loop:
     - ls
