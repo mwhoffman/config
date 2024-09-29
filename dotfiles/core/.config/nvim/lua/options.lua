@@ -4,15 +4,19 @@ opt.background = "dark"
 opt.backup = false
 opt.fillchars = {vert="▕", eob=" "}
 opt.hlsearch = true
-opt.linebreak = true
 opt.mouse = "a"
-opt.number = true
-opt.showcmd = false
-opt.showmode = false
-opt.signcolumn = "yes"
 opt.scrolloff = 5
+
+-- Break lines at this width.
 opt.textwidth = 80
+
+-- Wrap lines visually that don't fit onscreen but wrap entire words.
 opt.wrap = true
+opt.linebreak = true
+
+-- Always show number/sign columns.
+opt.number = true
+opt.signcolumn = "yes"
 
 -- Indentation.
 opt.tabstop = 2
@@ -22,10 +26,30 @@ opt.expandtab = true
 opt.copyindent = true
 opt.smartindent = false
 
--- Search.
+-- Ignore case when searching unless uppercase is explicitly used.
 opt.ignorecase = true
 opt.smartcase = true
 
--- Split windows.
+-- Default to splitting below and to the right.
 opt.splitright = true
 opt.splitbelow = true
+
+-- The minimum height/width. The default is one but that really isn't any more
+-- visible than zero. This is only really important when maximizing splits.
+opt.winminheight = 0
+opt.winminwidth = 0
+
+-- Hide mode/cmd/ruler since we display them in the status line.
+opt.showcmd = false
+opt.showmode = false
+opt.ruler = false
+
+-- Autocommand which activates whenever is a buffer is read and will jump the
+-- cursor the location it was at when the buffer was last closed.
+vim.api.nvim_create_autocmd(
+  {"BufRead"},
+  {
+    pattern = "*",
+    command = 'silent! normal! g`"zv',
+  }
+)
