@@ -20,9 +20,15 @@ return {
       silent = true,
     },
     {
-      "<leader>fg",
+      "<leader>fs",
       "<cmd>Telescope live_grep<cr>",
-      desc = "Find word (grep)",
+      desc = "Find string",
+      silent = true,
+    },
+    {
+      "<leader>fc",
+      "<cmd>Telescope grep_string<cr>",
+      desc = "Find current string",
       silent = true,
     },
     {
@@ -41,7 +47,10 @@ return {
   opts = {
     defaults = {
       file_ignore_patterns = {
-        ".git/COMMIT_EDITMSG$",
+        -- Ignore git commit messages.
+        ".git/COMMIT_EDITMSG",
+
+        -- Ignore vimdocs.
         "/usr/share/nvim/runtime/doc/.+%.txt",
         vim.env.HOME .. "/%.local/share/nvim/lazy/.+/doc/.+%.txt",
       },
