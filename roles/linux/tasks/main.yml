@@ -6,7 +6,6 @@
       - neovim
       - ripgrep
       - tmux
-      - tree
       - zsh
   become: true
   tags: [become, package]
@@ -47,4 +46,3 @@
   ansible.builtin.shell: fc-cache
   when: nerdfonts is changed
   tags: gui
-
