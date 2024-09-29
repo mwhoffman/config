@@ -10,7 +10,7 @@ return {
     local cmp = require("cmp")
 
     return {
-      completion = {completeopt="menu,menuone,noinsert"},
+      completion = {completeopt="menu,menuone,noinsert,preview"},
 
       -- Mappings during completions.
       mapping = cmp.mapping.preset.insert {
@@ -18,7 +18,7 @@ return {
         ["<C-p>"] = cmp.mapping.select_prev_item(),
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-y>"] = cmp.mapping.confirm { select = true },
+        ["<C-y>"] = cmp.mapping.confirm {select=true},
       },
       sources = {
         {name="nvim_lsp"},
