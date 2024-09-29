@@ -1,10 +1,10 @@
 return {
   "nvim-telescope/telescope.nvim",
-  name="telescope",
   cmd = "Telescope",
   dependencies = {
-    {"nvim-lua/plenary.nvim", name="plenary"},
-    "BurntSushi/ripgrep",
+    "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons",
+    "folke/todo-comments.nvim",
   },
   keys = {
     {

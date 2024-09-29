@@ -1,6 +1,5 @@
 return {
   "mhinz/vim-signify",
-  name = "signify",
   enabled = false,
   config = function()
     vim.g.signify_vcs_list = {"hg"}

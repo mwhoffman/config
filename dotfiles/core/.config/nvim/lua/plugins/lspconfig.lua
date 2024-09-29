@@ -1,9 +1,8 @@
 return {
   "neovim/nvim-lspconfig",
-  name = "lspconfig",
   dependencies = {
-    {"williamboman/mason.nvim", name="mason"},
-    {"williamboman/mason-lspconfig.nvim", name="mason-lspconfig"},
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
   },
   config = function()
     require("mason").setup()

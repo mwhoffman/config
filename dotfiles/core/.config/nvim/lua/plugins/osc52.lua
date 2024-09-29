@@ -1,6 +1,6 @@
 return {
   "ojroques/nvim-osc52",
-  name = "osc52",
+  event = {"BufReadPre", "BufNewFile"},
   keys = {
     {
       "<leader>c",

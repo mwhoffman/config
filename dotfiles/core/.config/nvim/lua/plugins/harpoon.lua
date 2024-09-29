@@ -1,8 +1,7 @@
 return {
   "ThePrimeagen/harpoon",
-  name="harpoon",
   dependencies = {
-    {"nvim-lua/plenary.nvim", name="plenary"},
+    "nvim-lua/plenary.nvim",
   },
   keys = {
     {

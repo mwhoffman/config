@@ -4,7 +4,6 @@ end
 
 return {
   "ellisonleao/gruvbox.nvim",
-  name = "gruvbox",
   -- Load this plugin first since its our primary colorscheme.
   lazy = false,
   priority = 1000,
