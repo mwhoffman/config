@@ -49,6 +49,7 @@ return {
       hijack_netrw_behavior = "open_current",
     },
     default_component_configs = {
+      indent = {indent_marker="┆"},
       file_size = {enabled=false},
       type = {enabled=false},
       last_modified = {enabled=false},
