@@ -74,6 +74,17 @@ src "$HOME/.zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh"
 # Include my prompt configuration.
 src "$HOME/.zshrc.prompt"
 
+# fzf has zsh bindings that can be sourced directly from the command as of
+# versions >0.48. So check this and use it if possible.
+if [[ ${${(@s:.:)${=$(fzf --version)}[1]}[2]} -ge 48 ]]; then
+  source <(fzf --zsh)
+else
+  # Otherwise we'll assume we're on ubuntu/mint/etc. and use the default
+  # location for those bindings.
+  src "/usr/share/doc/fzf/examples/completion.zsh"
+  src "/usr/share/doc/fzf/examples/key-bindings.zsh"
+fi
+
 # Include any local overrides.
 src "$HOME/.zshrc.overrides"
 
