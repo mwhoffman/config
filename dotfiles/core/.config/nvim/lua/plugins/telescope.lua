@@ -66,7 +66,7 @@ return {
     },
     pickers = {
       find_files = {
-        find_command = {"rg", "--ignore", "--hidden", "-L", "--files"}
+        find_command = {"fd", "--ignore", "--hidden"}
       }
     },
   },
