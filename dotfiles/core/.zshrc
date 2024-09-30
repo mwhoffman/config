@@ -6,6 +6,10 @@ function src { [ -f $1 ] && source $1; }
 # Include any local information (e.g. local paths).
 src "$HOME/.zshrc.includes"
 
+# We could set environment variables in .zshenv, but different OSes (e.g. mac)
+# treat this differently, so putting them in .zshrc is the "safest" thing to do.
+
+export PATH="$HOME/bin:$PATH"  # Extend our path to include a home bin dir.
 export MOSH_TITLE_NOPREFIX=1   # Don't let mosh mess with window titles.
 export LC_COLLATE="POSIX"      # Use alphabetic ordering of files.
 export VISUAL="nvim"           # The visual editor to use.
