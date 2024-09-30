@@ -1,7 +1,12 @@
 - name: Gather homebrew facts
   homebrew_facts:
 
-- name: Find missing packages
+# This is a hack around the fact that homebrew is so slow. See the missing
+# module for more details, but this takes a list of the form [package, binary] 
+# and checks that the given binary exists; if not it appends to a list
+# missing_packages. We'll then register and use that list to call homebrew in
+# the next step.
+- name: Find missing cli packages
   missing:
     packages:
       - [coreutils, gls]
@@ -18,11 +23,12 @@
   community.general.homebrew:
     name: "{{ missing.missing_packages }}"
   tags: package
+  when: missing.missing_packages
 
-# Homebrew installs GNU coreutils commands prefixed with "g" so they don't
-# collide with existing BSD commands. We'll link some of them into place so that
-# we can use them normally.
-- name: Link GNU coreutils commands
+# Homebrew installs coreutils commands prefixed with "g" so they don't collide
+# with existing BSD commands. We'll link some of them into place so that we can
+# use them normally.
+- name: Link coreutils commands
   ansible.builtin.file:
     src: "{{ ansible_facts.homebrew.prefix }}/bin/{{ 'g' + item }}"
     dest: "{{ ansible_facts.homebrew.prefix }}/bin/{{ item }}"
@@ -32,7 +38,8 @@
     - dircolors
   tags: package
 
-- name: Find missing packages
+# See the earlier missing package check for more info.
+- name: Find missing gui packages
   missing:
     packages:
       - [kitty, kitty]
@@ -43,6 +50,7 @@
   community.general.homebrew:
     name: "{{ missing.missing_packages }}"
   tags: [package, gui]
+  when: missing.missing_packages
 
 - name: Install nerdfonts
   ansible.builtin.shell: |
