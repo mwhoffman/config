@@ -13,12 +13,15 @@ return {
       end
     }
 
-    require("lspconfig")["basedpyright"].setup({
-      settings = {
-        basedpyright = {
-          typeCheckingMode = "standard",
-        }
-      }
-    })
+    -- TODO: remove the setup below for now because I don't want basedpyright
+    -- installed everywhere.
+
+    -- require("lspconfig")["basedpyright"].setup({
+    --   settings = {
+    --     basedpyright = {
+    --       typeCheckingMode = "standard",
+    --     }
+    --   }
+    -- })
   end
 }
