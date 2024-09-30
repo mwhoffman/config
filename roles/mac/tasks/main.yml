@@ -1,16 +1,22 @@
 - name: Gather homebrew facts
   homebrew_facts:
 
+- name: Find missing packages
+  missing:
+    packages:
+      - [coreutils, gls]
+      - [fd, fd]
+      - [fzf, fzf]
+      - [lazygit, lazygit]
+      - [neovim, nvim]
+      - [rg, rg]
+      - [tmux, tmux]
+  register: missing
+  tags: package
+
 - name: Install cli packages
   community.general.homebrew:
-    name:
-      - coreutils
-      - fd
-      - fzf
-      - lazygit
-      - neovim
-      - rg
-      - tmux
+    name: "{{ missing.missing_packages }}"
   tags: package
 
 # Homebrew installs GNU coreutils commands prefixed with "g" so they don't
@@ -26,10 +32,16 @@
     - dircolors
   tags: package
 
+- name: Find missing packages
+  missing:
+    packages:
+      - [kitty, kitty]
+  register: missing
+  tags: [package, gui]
+
 - name: Install gui packages
   community.general.homebrew:
-    name:
-      - kitty
+    name: "{{ missing.missing_packages }}"
   tags: [package, gui]
 
 - name: Install nerdfonts
