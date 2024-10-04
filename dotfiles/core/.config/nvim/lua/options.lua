@@ -26,10 +26,6 @@ opt.expandtab = true
 opt.copyindent = true
 opt.smartindent = false
 
--- Ignore case when searching unless uppercase is explicitly used.
-opt.ignorecase = true
-opt.smartcase = true
-
 -- Default to splitting below and to the right.
 opt.splitright = true
 opt.splitbelow = true
