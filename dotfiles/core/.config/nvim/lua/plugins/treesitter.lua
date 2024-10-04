@@ -8,6 +8,9 @@ return {
       "bash", "diff", "html", "lua", "luadoc", "markdown", "markdown_inline",
       "python", "vim", "vimdoc"
     },
+    ignore_install = {
+      "org", "norg"
+    },
     -- Autoinstall languages that are not installed
     auto_install = true,
     highlight = {
