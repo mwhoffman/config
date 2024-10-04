@@ -25,9 +25,9 @@ return {
       silent = true,
     },
     {
-      "<leader>fc",
+      "<leader>fw",
       "<cmd>Telescope grep_string<cr>",
-      desc = "Find current string",
+      desc = "Find string under cursor",
       silent = true,
     },
     {
