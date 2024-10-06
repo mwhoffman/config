@@ -59,20 +59,26 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 alias ls="ls -N --color=auto"
 alias vi="nvim"
 
-# Styling for the vim-mode plugin.
-MODE_INDICATOR=""
-MODE_CURSOR_VIINS="bar"
-MODE_CURSOR_VICMD="block"
-MODE_CURSOR_VISUAL="block #98971a"
-MODE_CURSOR_REPLACE="underline #cc241d"
+# Initialize ZVM when the plugin is sourced rather than trying to be lazy.
+ZVM_INIT_MODE=sourcing
 
 # Source any plugins.
+src "$HOME/.local/share/zsh/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
 src "$HOME/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 src "$HOME/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
-src "$HOME/.local/share/zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh"
 
-# Include my prompt configuration.
+# Source fzf bindings. The fzf bindings can be sourced directly from the fzf
+# command for versions >=0.48. So check this and use it if possible.
+if [[ ${${(@s:.:)${=$(fzf --version)}[1]}[2]} -ge 48 ]]; then
+  source <(fzf --zsh)
+else
+  # Below is the default location location for those bindings on
+  # ubunut/mint/etc.
+  src "/usr/share/doc/fzf/examples/completion.zsh"
+  src "/usr/share/doc/fzf/examples/key-bindings.zsh"
+fi
+
+# Source any additional configuration.
 src "$HOME/.config/zsh/prompt.zsh"
-src "$HOME/.config/zsh/fzf.zsh"
 src "$HOME/.config/zsh/overrides.zsh"
 
