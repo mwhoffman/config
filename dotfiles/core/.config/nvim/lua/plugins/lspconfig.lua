@@ -3,6 +3,7 @@ return {
   dependencies = {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
+    "folke/neodev.nvim",
   },
   config = function()
     -- This defines local overrides that will be applied only if and when the
@@ -18,12 +19,13 @@ return {
       },
     }
 
+    require("neodev").setup({lspconfig=true})
+
     require("mason").setup()
     require("mason-lspconfig").setup()
     require("mason-lspconfig").setup_handlers {
       function(server_name)
-        settings = overrides[server_name] or {}
-        require("lspconfig")[server_name].setup(settings)
+        require("lspconfig")[server_name].setup(overrides[server_name] or {})
       end
     }
   end
