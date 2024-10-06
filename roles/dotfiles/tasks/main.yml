@@ -36,9 +36,9 @@
     repo: "https://github.com/{{ item.profile }}/{{ item.repo }}"
     dest: "{{ ansible_facts.user_dir }}/{{ item.dest }}/{{ item.repo }}"
   loop:
-    - { dest: ".zsh", profile: "zsh-users", repo: "zsh-syntax-highlighting" }
-    - { dest: ".zsh", profile: "zsh-users", repo: "zsh-autosuggestions" }
-    - { dest: ".zsh", profile: "softmoth", repo: "zsh-vim-mode" }
+    - { dest: ".local/share/zsh", profile: "zsh-users", repo: "zsh-syntax-highlighting" }
+    - { dest: ".local/share/zsh", profile: "zsh-users", repo: "zsh-autosuggestions" }
+    - { dest: ".local/share/zsh", profile: "softmoth", repo: "zsh-vim-mode" }
   loop_control:
     label: "{{ item.dest }}/{{ item.repo }}"
 

@@ -4,7 +4,7 @@
 function src { [ -f $1 ] && source $1; }
 
 # Include any local information (e.g. local paths).
-src "$HOME/.zshrc.includes"
+src "$HOME/.config/zsh/includes.zsh"
 
 # We could set environment variables in .zshenv, but different OSes (e.g. mac)
 # treat this differently, so putting them in .zshrc is the "safest" thing to do.
@@ -67,24 +67,12 @@ MODE_CURSOR_VISUAL="block #98971a"
 MODE_CURSOR_REPLACE="underline #cc241d"
 
 # Source any plugins.
-src "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-src "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
-src "$HOME/.zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh"
+src "$HOME/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+src "$HOME/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+src "$HOME/.local/share/zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh"
 
 # Include my prompt configuration.
-src "$HOME/.zshrc.prompt"
-
-# fzf has zsh bindings that can be sourced directly from the command as of
-# versions >0.48. So check this and use it if possible.
-if [[ ${${(@s:.:)${=$(fzf --version)}[1]}[2]} -ge 48 ]]; then
-  source <(fzf --zsh)
-else
-  # Otherwise we'll assume we're on ubuntu/mint/etc. and use the default
-  # location for those bindings.
-  src "/usr/share/doc/fzf/examples/completion.zsh"
-  src "/usr/share/doc/fzf/examples/key-bindings.zsh"
-fi
-
-# Include any local overrides.
-src "$HOME/.zshrc.overrides"
+src "$HOME/.config/zsh/prompt.zsh"
+src "$HOME/.config/zsh/fzf.zsh"
+src "$HOME/.config/zsh/overrides.zsh"
 
