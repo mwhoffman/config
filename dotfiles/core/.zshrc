@@ -15,7 +15,7 @@ export LC_COLLATE="POSIX"      # Use alphabetic ordering of files.
 export VISUAL="nvim"           # The visual editor to use.
 export EDITOR="nvim"           # "Plain" editor to use (mostly ignored).
 export PAGER="less"            # Replace more with less as the pager.
-export LESS="FRX"              # Default options for less.
+export LESS="FRX -x2"          # Default options for less.
 
 # Where and how much history to save.
 HISTFILE="$HOME/.zsh_history"
