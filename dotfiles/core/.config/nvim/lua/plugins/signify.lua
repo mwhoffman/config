@@ -1,5 +1,6 @@
 return {
   "mhinz/vim-signify",
+  event = {"BufReadPre", "BufNewFile"},
   config = function()
     vim.g.signify_skip = {vcs={deny={"git"}}}
     vim.g.signify_sign_add = "┃"
