@@ -2,7 +2,7 @@ local opt = vim.opt
 
 opt.background = "dark"
 opt.backup = false
-opt.fillchars = {vert="▕", eob=" "}
+opt.fillchars = {vert="│", eob=" "}
 opt.hlsearch = true
 opt.mouse = "a"
 opt.scrolloff = 5

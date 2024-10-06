@@ -46,12 +46,8 @@ return {
       vim.cmd "hi! link NeotreeNormalNC NeotreeNormal"
       vim.cmd "hi! link NeoTreeSignColumn NeoTreeNormal"
 
-      vim.cmd "hi! link NeoTreeFloatBorder Normal"
-      vim.cmd "hi! link NeoTreeFloatTitle Normal"
-
       -- Make the window separators and statusline match nvim-tree so that they
       -- "disappear".
-      vim.cmd("hi! WinSeparator guibg="..get_color("NeotreeNormal", "bg"))
       vim.cmd("hi! StatusLine guifg="..get_color("NeotreeNormal", "bg"))
 
       -- Match colors between signify/gitsigns.
