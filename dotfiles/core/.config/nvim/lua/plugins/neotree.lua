@@ -15,19 +15,13 @@ return {
     {
       "<leader>t",
       ":Neotree toggle reveal_force_cwd position=float<cr>",
-      desc = "Toggle file tree (floating)",
+      desc = "File tree (floating)",
       silent = true
     },
     {
       "<leader>T",
       ":Neotree toggle reveal_force_cwd position=left<cr>",
-      desc = "Toggle file tree (sidebar)",
-      silent = true
-    },
-    {
-      "<leader>b",
-      ":Neotree toggle position=float source=buffers<cr>",
-      desc = "Toggle buffer tree",
+      desc = "File tree (sidebar)",
       silent = true
     },
   },

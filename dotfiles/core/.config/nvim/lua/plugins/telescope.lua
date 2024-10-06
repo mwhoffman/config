@@ -3,6 +3,7 @@ return {
   cmd = "Telescope",
   dependencies = {
     "nvim-lua/plenary.nvim",
+    'nvim-telescope/telescope-ui-select.nvim',
     "nvim-tree/nvim-web-devicons",
   },
   keys = {
@@ -10,12 +11,6 @@ return {
       "<leader>ff",
       "<cmd>Telescope find_files<cr>",
       desc = "Find files",
-      silent = true,
-    },
-    {
-      "<leader>fb",
-      "<cmd>Telescope buffers<cr>",
-      desc = "Find buffers",
       silent = true,
     },
     {
