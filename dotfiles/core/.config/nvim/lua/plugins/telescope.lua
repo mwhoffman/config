@@ -50,8 +50,9 @@ return {
         ".git/COMMIT_EDITMSG",
 
         -- Ignore vimdocs.
-        "/usr/share/nvim/runtime/doc/.+%.txt",
-        vim.env.HOME .. "/%.local/share/nvim/lazy/.+/doc/.+%.txt",
+        "/usr/share/nvim/runtime/doc/.+",
+        vim.env.HOME .. "/%.local/share/nvim/lazy/.+/doc/.+",
+        vim.env.HOME .. "/%.local/state/nvim/lazy/readme/doc/.+",
       },
       vimgrep_arguments = {
         "rg",
