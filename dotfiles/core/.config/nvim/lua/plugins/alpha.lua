@@ -23,12 +23,12 @@ return {
   "goolord/alpha-nvim",
   event = "VimEnter",
   dependencies = {"nvim-tree/nvim-web-devicons"},
-  config = function() 
+  config = function()
     local alpha = require("alpha")
     local dashboard = require("alpha.themes.dashboard")
 
-    function button(key, txt, cmd, desc)
-      opts = {noremap=true, silent=true, nowait=true, desc=desc}
+    local function button(key, txt, cmd, desc)
+      local opts = {noremap=true, silent=true, nowait=true, desc=desc}
       return dashboard.button(key, txt, cmd, opts)
     end
 
@@ -56,9 +56,9 @@ return {
 
     -- Calculate the amount of whitespace.
     local whitespace = (
-      vim.api.nvim_win_get_height(0) 
-      - 2 * table.getn(dashboard.section.buttons.val)
-      - table.getn(dashboard.section.header.val)
+      vim.api.nvim_win_get_height(0)
+      - 2 * #(dashboard.section.buttons.val)
+      - #(dashboard.section.header.val)
       - 4)
 
     -- Add initial padding (capped to 20).
@@ -73,7 +73,7 @@ return {
       {type="padding", val=1},
       dashboard.section.footer,
     }
-    
+
     -- Add plugin stats. This needs to happen after Lazy has finished loading so
     -- we have to add it as an autocmd.
     vim.api.nvim_create_autocmd(
@@ -85,8 +85,8 @@ return {
           -- Figure out how long it took us to load.
           local stats = require("lazy").stats()
           dashboard.section.footer.val = (
-            "󱐋 Neovim loaded " 
-            .. stats.loaded 
+            "󱐋 Neovim loaded "
+            .. stats.loaded
             .. "/"
             .. stats.count
             .. " plugins in "
