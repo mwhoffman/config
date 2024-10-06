@@ -1,10 +1,10 @@
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
-    "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "folke/neodev.nvim",
   },
+  event = {"BufReadPre", "BufNewFile"},
   config = function()
     -- This defines local overrides that will be applied only if and when the
     -- LSP is set up by mason-lspconfig. Each item in overrides defines the
@@ -14,6 +14,9 @@ return {
         settings = {
           basedpyright = {
             typeCheckingMode = "standard",
+            analysis = {
+              autoImportCompletions = false,
+            },
           }
         }
       },
@@ -21,7 +24,6 @@ return {
 
     require("neodev").setup({lspconfig=true})
 
-    require("mason").setup()
     require("mason-lspconfig").setup()
     require("mason-lspconfig").setup_handlers {
       function(server_name)
