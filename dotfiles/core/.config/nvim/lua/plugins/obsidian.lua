@@ -20,6 +20,11 @@ return {
       desc = "Select note",
     },
     {
+      "<leader>ot",
+      "<cmd>ObsidianQuickSwitch todo<cr>",
+      desc = "Open todo notes",
+    },
+    {
       "<leader>of",
       "<cmd>ObsidianSearch<cr>",
       desc = "Find notes",
@@ -52,6 +57,14 @@ return {
         end
       end
       return id
+    end,
+    follow_url_func = function(url)
+      -- Open the URL in the default web browser.
+      if vim.fn.has('macunix') then
+        vim.fn.jobstart({"open", url})
+      else
+        vim.fn.jobstart({"xdg-open", url})
+      end
     end,
     mappings = {
       ["gf"] = {
