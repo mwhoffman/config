@@ -109,10 +109,10 @@ function _make_prompt {
       PROMPT+=" "
     fi
     if [[ $BRANCH_STAGED -gt 0 ]]; then
-      PROMPT+=""
+      PROMPT+="✓"
     fi
     if [[ $BRANCH_UNSTAGED -gt 0 ]]; then
-      PROMPT+=""
+      PROMPT+="*"
     fi
     if [[ $BRANCH_CONFLICT -gt 0 ]]; then
       PROMPT+="!"
@@ -121,10 +121,10 @@ function _make_prompt {
       PROMPT+="?"
     fi
     if [[ $BRANCH_AHEAD -gt 0 ]]; then
-      PROMPT+=""
+      PROMPT+="↑"
     fi
     if [[ $BRANCH_BEHIND -gt 0 ]]; then
-      PROMPT+=""
+      PROMPT+="↓"
     fi
     PROMPT+="%b%f"
   fi
