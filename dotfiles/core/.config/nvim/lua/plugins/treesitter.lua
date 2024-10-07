@@ -24,5 +24,14 @@ return {
       -- Ditto above.
       disable = {"ruby"}
     },
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "<c-space>",
+        scope_incremental = false,
+        node_incremental = "<c-space>",
+        node_decremental = "<c-space>",
+      },
+    },
   },
 }
