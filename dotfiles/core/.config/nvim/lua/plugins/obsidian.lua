@@ -12,17 +12,17 @@ return {
     {
       "<leader>on",
       "<cmd>ObsidianNew<cr>",
-      desc = "[N]ew note",
+      desc = "New note",
     },
     {
       "<leader>os",
       "<cmd>ObsidianQuickSwitch<cr>",
-      desc = "Quick[S]witch note",
+      desc = "Select note",
     },
     {
       "<leader>of",
       "<cmd>ObsidianSearch<cr>",
-      desc = "[F]ind notes",
+      desc = "Find notes",
     },
   },
   opts = {
@@ -30,6 +30,14 @@ return {
       {
         name = "vault",
         path = "~/vault",
+      },
+    },
+    ui = {
+      checkboxes = {
+        [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
+        ["x"] = { char = "", hl_group = "ObsidianDone" },
+        ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
+        ["!"] = { char = "", hl_group = "ObsidianImportant" },
       },
     },
     note_id_func = function(title)

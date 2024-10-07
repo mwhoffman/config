@@ -39,18 +39,18 @@ return {
     -- Add our own buttons.
     dashboard.leader = "󱁐"
     dashboard.section.buttons.val = {
-      button("e",   "  New file", "<cmd>ene<cr>", "New file"),
-      button("󱁐ff", "  Find files", "<leader>ff"),
-      button("󱁐fs", "  Find string", "<leader>fs"),
-      button("󱁐fr", "  Recent files (cwd)", "<leader>fr"),
-      button("󱁐fR", "  Recent files (all)", "<leader>fR"),
-      button("q",   "󰅚  Quit", "<cmd>qa<cr>", "Quit"),
+      button("e",   "  New file", "<cmd>ene<cr>", "New file"),
+      button("󱁐ff", "  Find files", "<leader>ff"),
+      button("󱁐fs", "  Find string", "<leader>fs"),
+      button("󱁐fr", "  Recent files (cwd)", "<leader>fr"),
+      button("󱁐fR", "  Recent files (all)", "<leader>fR"),
+      button("q",   "󰅚  Quit", "<cmd>qa<cr>", "Quit"),
     }
 
     -- Override the button options.
     dashboard.section.buttons.opts.inherit = {
       hl_shortcut = "GruvboxYellow",
-      cursor = 2,
+      cursor = 3,
       width = 30,
     }
 
