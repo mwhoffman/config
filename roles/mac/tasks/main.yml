@@ -64,5 +64,6 @@
   register: nerdfonts
   loop:
     - Hack
+    - JetBrainsMono
   tags: gui
 
