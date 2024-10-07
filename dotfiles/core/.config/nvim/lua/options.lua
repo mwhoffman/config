@@ -40,6 +40,8 @@ opt.showcmd = false
 opt.showmode = false
 opt.ruler = false
 
+opt.conceallevel = 2
+
 -- Autocommand which activates whenever is a buffer is read and will jump the
 -- cursor the location it was at when the buffer was last closed.
 vim.api.nvim_create_autocmd(
