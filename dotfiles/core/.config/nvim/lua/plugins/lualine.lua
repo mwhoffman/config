@@ -23,6 +23,9 @@ return {
     extensions = {"neo-tree"},
     options = {
       theme = "auto",
+      disabled_filetypes = {"alpha", "trouble"},
+      section_separators = {left='', right=''},
+      component_separators = {left='', right=''},
     },
   },
 }
