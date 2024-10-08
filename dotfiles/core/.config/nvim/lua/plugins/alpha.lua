@@ -34,7 +34,8 @@ return {
 
     -- Add a logo.
     dashboard.section.header.val = logos[2]
-    dashboard.section.header.opts.hl = "GruvboxBlue"
+    dashboard.section.header.opts.hl = "Identifier"
+    dashboard.section.footer.opts.hl = "Comment"
 
     -- Add our own buttons.
     dashboard.leader = "󱁐"
@@ -49,7 +50,7 @@ return {
 
     -- Override the button options.
     dashboard.section.buttons.opts.inherit = {
-      hl_shortcut = "GruvboxYellow",
+      hl_shortcut = "Tag",
       cursor = 3,
       width = 30,
     }
