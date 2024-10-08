@@ -34,6 +34,12 @@ return {
       silent = true
     },
     {
+      "<leader>b",
+      ":Neotree buffers toggle position=float<cr>",
+      desc = "File tree (floating)",
+      silent = true
+    },
+    {
       "<leader>T",
       ":Neotree toggle reveal_force_cwd position=left<cr>",
       desc = "File tree (sidebar)",

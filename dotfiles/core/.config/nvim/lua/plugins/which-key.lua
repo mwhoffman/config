@@ -24,7 +24,7 @@ return {
       {"<leader>f", group="Find…"},
       {"<leader>h", group="Harpoon…"},
       {"<leader>o", group="Obsidian…"},
-      {"<leader>s", group="Split…"},
+      {"<leader>w", group="Windows…"},
       {"<leader>x", group="Trouble…"},
       {"h", hidden=true, mode="n"},
       {"j", hidden=true, mode="n"},

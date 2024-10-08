@@ -17,6 +17,6 @@ vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>")
 vim.keymap.set("n", "<leader>n", "<cmd>bnext<cr>", {desc="Buffer next"})
 vim.keymap.set("n", "<leader>p", "<cmd>bprev<cr>", {desc="Buffer prev"})
 
--- Manage splits.
-vim.keymap.set("n", "<leader>se", "<c-w>=", {desc="Equalize windows"})
-vim.keymap.set("n", "<leader>sx", "<cmd>close<cr>", {desc="Close window"})
+-- Manage windows.
+vim.keymap.set("n", "<leader>we", "<c-w>=", {desc="Equalize windows"})
+vim.keymap.set("n", "<leader>wx", "<cmd>close<cr>", {desc="Close window"})
