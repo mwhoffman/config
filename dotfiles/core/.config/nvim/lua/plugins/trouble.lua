@@ -3,14 +3,9 @@ return {
   cmd = "Trouble",
   keys = {
     {
-      "<leader>xx",
+      "<leader>x",
       "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
       desc = "Show diagnostics",
-    },
-    {
-      "<leader>xs",
-      "<cmd>Trouble symbols toggle focus=false<cr>",
-      desc = "Show symbols",
     },
   },
   opts = {
