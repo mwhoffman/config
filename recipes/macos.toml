@@ -4,7 +4,7 @@ tags = ["macos"]
 [[actions]]
 name = "Install core packages"
 kind = "brew"
-kwargs.packages = ["fd", "fzf", "lazygit", "nvim", "rg", "tmux"]
+kwargs.packages = ["fd", "fzf", "lazygit", "neovim", "ripgrep", "tmux"]
 tags = ["install"]
 
 [[actions]]
