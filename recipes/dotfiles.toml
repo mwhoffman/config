@@ -1,0 +1,28 @@
+name = "dotfiles"
+
+[[actions]]
+name = "Stow core dotfiles"
+kind = "stow"
+kwargs.package = "core"
+
+[[actions]]
+name = "Stow macos GUI dotfiles"
+kind = "stow"
+kwargs.package = "mac"
+tags = ["macos", "gui"]
+
+[[actions]]
+name = "Stow linux GUI dotfiles"
+kind = "stow"
+kwargs.package = "linux"
+tags = ["linux", "gui"]
+
+[[actions]]
+name = "Install ZSH plugins"
+kind = "github"
+kwargs.sources = [
+  "zsh-users/zsh-syntax-highlighting",
+  "zsh-users/zsh-autosuggestions",
+  "jeffreytse/zsh-vi-mode",
+]
+kwargs.dest = "{home}/.local/share/zsh"

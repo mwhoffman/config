@@ -1,0 +1,20 @@
+name = "linux"
+tags = ["linux"]
+
+[[actions]]
+name = "Install core packages"
+kind = "apt"
+kwargs.packages = ["eza", "fd-find", "fzf", "neovim", "tmux", "zsh"]
+tags = ["sudo", "install"]
+
+[[actions]]
+name = "Install gui packages"
+kind = "apt"
+kwargs.packages = ["kitty", "i3-wm", "polybar", "rofi"]
+tags = ["sudo", "install", "gui"]
+
+[[actions]]
+name = "Install external packages"
+kind = "apt"
+kwargs.packages = ["1password", "spotify-client"]
+tags = ["sudo", "install", "gui", "external"]

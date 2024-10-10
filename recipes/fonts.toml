@@ -1,0 +1,19 @@
+name = "fonts"
+tags = ["gui"]
+
+[[actions]]
+name = "Install fonts"
+kind = "curl"
+kwargs.sources = [
+  "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.tar.xz",
+  "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz",
+]
+register = "fonts"
+kwargs.dest = "{fontdir}"
+
+[[actions]]
+name = "Run fc-cache"
+kind = "command"
+kwargs.command = "fc-cache"
+parents = ["fonts"]
+tags = ["linux"]

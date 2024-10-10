@@ -1,0 +1,21 @@
+name = "macos"
+tags = ["macos"]
+
+[[actions]]
+name = "Install core packages"
+kind = "brew"
+kwargs.packages = ["fd", "fzf", "lazygit", "nvim", "rg", "tmux"]
+tags = ["install"]
+
+[[actions]]
+name = "Install coreutils"
+kind = "brew"
+kwargs.packages = ["coreutils"]
+register = "coreutils"
+tags = ["install"]
+
+[[actions]]
+name = "Install gui packages"
+kind = "brew"
+kwargs.packages = ["kitty"]
+tags = ["install", "gui"]
