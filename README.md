@@ -9,12 +9,11 @@ as well as the various packages I frequently use.
 
 Bootstrap the configuration by running
 ```
-BOOTSTRAP="https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap"
-/bin/bash -c "$(curl -fsSL ${BOOTSTRAP})"  
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap)"
 ```
 which will install [homebrew] on macos systems, download this git repository,
-and install any prerequisites for running setup (i.e. none so far; see the note
-below). Setup can then be run with
+and install any prerequisites for running `setup` (none currently; see the note
+below). The `setup` script can then be run with
 ```
 cd ~/config && ./setup
 ```
