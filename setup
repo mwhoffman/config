@@ -1,0 +1,9 @@
+#!/bin/env python
+
+"""Front end for the setuppy script."""
+
+from setuppy.cli import main
+
+
+if __name__ == "__main__":
+  main()
