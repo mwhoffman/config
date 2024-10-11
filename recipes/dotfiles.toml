@@ -10,7 +10,7 @@ tags = ["install", "macos"]
 name = "Install stow (linux)"
 kind = "apt"
 kwargs.packages = ["stow"]
-tags = ["install", "linux"]
+tags = ["install", "linux", "sudo"]
 
 [[actions]]
 name = "Stow core dotfiles"
