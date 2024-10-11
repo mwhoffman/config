@@ -11,9 +11,12 @@ Bootstrap the configuration by running
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap)"
 ```
-which will install [homebrew] on macos systems, download this git repository,
-and install any prerequisites for running `setup` (none currently; see the note
-below). The `setup` script can then be run with
+which will install [homebrew] on macos systems, download this git repository to
+the `$TARGET` directory, and install any prerequisites for running `setup`.
+Currently this means it will create a python venv in `$TARGET/.venv` and install
+[setuppy].
+
+The `setup` script can then be run with
 ```
 cd ~/config && ./setup
 ```
@@ -24,12 +27,6 @@ or _adopted_ with stow (see the next section).
 
 The `setup` script also has additional options to install the full set of
 packages I generally use; see `setup --help` for more info.
-
-> [!NOTE]  
-> The setup script relies on [setuppy] a setup framework I wrote that is like
-> ansible, but worse (and faster). At some point I will get around to
-> bootstrapping this into a venv, but for the moment it requires it to be
-> installed and findable by python.
 
 ## Manually installing dotfiles using GNU stow
 

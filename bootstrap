@@ -3,16 +3,17 @@
 set -eu
 
 TARGET="${HOME}/config"
-GITHUB="https://github.com/mwhoffman/config"
-GITHUB_SSH="git@github.com:mwhoffman/config.git"
-HOMEBREW_URL="https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
+CONFIG="https://github.com/mwhoffman/config"
+CONFIG_SSH="git@github.com:mwhoffman/config.git"
+SETUPPY="https://github.com/mwhoffman/setuppy"
+HOMEBREW="https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
 
 case $(uname -s) in
   # Bootstrap mac setup by installing homebrew since macs otherwise don't have a
   # reasonable package manager.
   Darwin)
     if ! command -v brew 2>&1 >/dev/null; then
-      (set -x; NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL ${HOMEBREW_URL})")
+      (set -x; NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL ${HOMEBREW})")
     fi
     ;;
 esac
@@ -20,7 +21,7 @@ esac
 # Check the target config directory and try to clone from git. Otherwise fail if
 # the directory already exists and is not an existing clone.
 if [[ ! -d "${TARGET}" ]]; then
-  (set -x; git clone "${GITHUB}" "${TARGET}")
+  (set -x; git clone "${CONFIG}" "${TARGET}")
 
 elif [[ ! -d "${TARGET}/.git" ]]; then
   echo "Unknown directory \"${TARGET}\" (not a git directory)."
@@ -28,10 +29,24 @@ elif [[ ! -d "${TARGET}/.git" ]]; then
 
 else
   ORIGIN=$(cd ${TARGET} && git remote get-url origin)
-  if [[ "${ORIGIN}" != "${GITHUB}" && "${ORIGIN}" != "${GITHUB_SSH}" ]]; then
+  if [[ "${ORIGIN}" != "${CONFIG}" && "${ORIGIN}" != "${CONFIG_SSH}" ]]; then
     echo "Unknown directory \"${TARGET}\" (incorrect origin)."
   fi
 fi
 
+set -x
+python3 -m venv "${TARGET}/.venv"
+${TARGET}/.venv/bin/pip install "git+${SETUPPY}"
+
+cat > "${TARGET}/setup" << EOF
+#!${TARGET}/.venv/bin/python3
+from setuppy.cli import main
+if __name__ == "__main__":
+  main()
+EOF
+
+chmod +x "${TARGET}/setup"
+
 # We're done!
+set +x
 echo "Config bootstrapped!"
