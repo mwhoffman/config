@@ -40,9 +40,10 @@ ${TARGET}/.venv/bin/pip install "git+${SETUPPY}"
 
 cat > "${TARGET}/setup" << EOF
 #!${TARGET}/.venv/bin/python3
+import sys
 from setuppy.cli import main
 if __name__ == "__main__":
-  main()
+  sys.exit(main())
 EOF
 
 chmod +x "${TARGET}/setup"
