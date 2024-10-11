@@ -62,3 +62,4 @@ careful with this option since it will replace _all_ conflicting files in the
 stow directory.
 
 [stow]: https://www.gnu.org/software/stow/
+[setuppy]: https://github.com/mwhoffman/setuppy
