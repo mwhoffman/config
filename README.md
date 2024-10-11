@@ -11,7 +11,8 @@ Running the following line(s):
 
 ```
 BOOTSTRAP="https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap"
-/bin/bash -c "$(curl -fsSL ${BOOTSTRAP})" && ~/config/setup
+/bin/bash -c "$(curl -fsSL ${BOOTSTRAP})"  
+cd ~/config && ./setup
 ```
 
 will bootstrap the configuration by installing the minimal requirements `git`,
@@ -25,7 +26,13 @@ files in your home directory). These conflicts must either be resolved manually
 or _adopted_ with stow (see the next section).
 
 The `setup` script also has additional options to install the full set of
-packages I generally use; see `setup -h` for more info.
+packages I generally use; see `setup --help` for more info.
+
+> [!NOTE]  
+> The setup script relies on [setuppy] a setup framework I wrote that is like
+> ansible, but worse (and faster). At some point I will get around to
+> bootstrapping this into a venv, but for the moment it requires it to be
+> installed and findable by python.
 
 ## Manually installing dotfiles using GNU stow
 
