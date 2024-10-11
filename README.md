@@ -7,19 +7,17 @@ as well as the various packages I frequently use.
 
 ## Quickstart
 
-Running the following line(s):
-
+Bootstrap the configuration by running
 ```
 BOOTSTRAP="https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap"
 /bin/bash -c "$(curl -fsSL ${BOOTSTRAP})"  
+```
+which will install [homebrew] on macos systems, download this git repository,
+and install any prerequisites for running setup (i.e. none so far; see the note
+below). Setup can then be run with
+```
 cd ~/config && ./setup
 ```
-
-will bootstrap the configuration by installing the minimal requirements `git`,
-`ansible`, `stow`, and `brew` on macos; the bootstrap procedure will also clone
-this repository into `~/config`. Finally, the above command will run the `setup`
-script itself.
-
 By default `setup` will only install the dotfiles (as symlinks). It will also
 fail if any conflicts exist between the dotfiles and their targets (i.e. the
 files in your home directory). These conflicts must either be resolved manually
@@ -61,5 +59,6 @@ replacing `dotfiles/core/foo` and will then link it in place. Obviously be
 careful with this option since it will replace _all_ conflicting files in the
 stow directory.
 
+[homebrew]: https://brew.sh
 [stow]: https://www.gnu.org/software/stow/
 [setuppy]: https://github.com/mwhoffman/setuppy
