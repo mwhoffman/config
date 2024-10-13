@@ -49,7 +49,7 @@ function _parse_branch {
         if [[ $line =~ '.[MD].*' ]]; then BRANCH_UNSTAGED=1; fi
         if [[ $line =~ '\?\?.*' ]]; then BRANCH_UNTRACKED=1; fi
         if [[ $line == '## '*'[ahead '*']' ]]; then BRANCH_AHEAD=1; fi
-        if [[ $line == '## '*'[behind '*']' ]]; then BRANCH_BEHIND=1; fi
+        if [[ $line == '## '*'['*'behind '*']' ]]; then BRANCH_BEHIND=1; fi
       done
     fi
   fi
