@@ -4,13 +4,13 @@ name = "dotfiles"
 name = "Install stow (macos)"
 kind = "brew"
 kwargs.packages = ["stow"]
-tags = ["install", "macos"]
+tags = ["bootstrap", "macos"]
 
 [[actions]]
 name = "Install stow (linux)"
 kind = "apt"
 kwargs.packages = ["stow"]
-tags = ["install", "linux", "sudo"]
+tags = ["bootstrap", "linux"]
 
 [[actions]]
 name = "Stow core dotfiles"

@@ -12,32 +12,36 @@ Bootstrap the configuration by running
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap)"
 ```
 which will install [homebrew] on macos systems, download this git repository to
-the `$TARGET` directory, and install any prerequisites for running `setup`.
-Currently this means it will create a python venv in `$TARGET/.venv` and install
-[setuppy].
+the `$TARGET` directory, and install any prerequisites for running `setup` (it
+will create a python venv in `$TARGET/.venv` and install [setuppy]). Once this
+finishes you can run `~/config/setup`. 
 
-The `setup` script can then be run with
+By default `setup` will only install dotfiles (as symlinks). However, this will
+likely fail unless `stow` is installed (see the next section for more details).
+While installing `stow` can be done manually, you can also include the
+`bootstrap` tag, i.e.
 ```
-cd ~/config && ./setup
+~/config/setup -t bootstrap
 ```
-By default `setup` will only install the dotfiles (as symlinks). It will also
-fail if any conflicts exist between the dotfiles and their targets (i.e. the
-files in your home directory). These conflicts must either be resolved manually
-or _adopted_ with stow (see the next section).
+which will additionally install stow before linking any dotfiles. Running
+`setup` will fail if any conflicts exist between the dotfiles and their targets
+(i.e. the files in your home directory). These conflicts must either be resolved
+manually or _adopted_ with `stow` (see the next section).
 
-The `setup` script also has additional options to install the full set of
-packages I generally use; see `setup --help` for more info.
+The `setup` script can also be used to install additional packages, however
+these require the use of tags to include. The `bootstrap` tag used above is an
+example of this which installs any packages needed by `setup` itself (e.g.
+`stow`). See the recipes in `recipes/` to find out more tags; see also `setup
+--help` for more info on the command itself.
 
 ## Manually installing dotfiles using GNU stow
 
 While the dotfiles can always be copied directly into your home directory,
 internally the `setup` script uses [GNU stow][stow] to symlink these into place.
 This can also be done manually by running
-
 ```
 stow -v --no-folding -d dotfiles -t $HOME -R core
 ```
-
 This will link every individual file contained in `dotfiles/core` into your home
 directory. `core` is what stow thinks of as a _package_ and this list can be
 extended/replaced with other packages defined as any of the immediate
