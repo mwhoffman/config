@@ -17,5 +17,8 @@ tags = ["install"]
 [[actions]]
 name = "Install gui packages"
 kind = "brew"
-kwargs.packages = ["kitty"]
+kwargs.packages = [
+  "1password", "hammerspoon", "jordanbaird-ice", "karabiner-elements", "kitty",
+  "launchbar", "spotify"
+]
 tags = ["install", "gui"]

@@ -18,10 +18,10 @@ kind = "stow"
 kwargs.package = "core"
 
 [[actions]]
-name = "Stow macos GUI dotfiles"
+name = "Stow macos dotfiles"
 kind = "stow"
 kwargs.package = "mac"
-tags = ["macos", "gui"]
+tags = ["macos"]
 
 [[actions]]
 name = "Stow linux GUI dotfiles"
