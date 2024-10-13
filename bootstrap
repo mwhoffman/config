@@ -15,6 +15,10 @@ case $(uname -s) in
     if ! command -v brew 2>&1 >/dev/null; then
       (set -x; NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL ${HOMEBREW})")
     fi
+    set -x
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    brew install python
+    set +x
     ;;
 esac
 
@@ -36,7 +40,8 @@ fi
 
 set -x
 python3 -m venv "${TARGET}/.venv"
-${TARGET}/.venv/bin/pip install "git+${SETUPPY}"
+source "${TARGET}/.venv/bin/activate"
+pip install "git+${SETUPPY}"
 
 cat > "${TARGET}/setup" << EOF
 #!${TARGET}/.venv/bin/python3
@@ -45,9 +50,8 @@ from setuppy.cli import main
 if __name__ == "__main__":
   sys.exit(main())
 EOF
-
 chmod +x "${TARGET}/setup"
+set +x
 
 # We're done!
-set +x
 echo "Config bootstrapped!"
