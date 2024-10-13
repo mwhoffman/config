@@ -21,7 +21,7 @@ export PAGER="less"            # Replace more with less as the pager.
 export LESS="FRX -x2"          # Default options for less.
 
 # Where and how much history to save.
-HISTFILE="$HOME/.zsh_history"
+HISTFILE="$HOME/.local/share/zsh/history"
 HISTSIZE=50000
 SAVEHIST=10000
 
@@ -40,9 +40,11 @@ setopt HIST_FIND_NO_DUPS
 eval $(dircolors $HOME/.dircolors)
 
 # Initialize zsh completion.
-autoload -U compinit; compinit
+autoload -U compinit
+compinit -d "$HOME/.local/share/zsh/zcompdump"
 
 zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "$HOME/.local/share/zsh/cache"
 zstyle ':completion:*' menu select
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' completer _extensions _complete
