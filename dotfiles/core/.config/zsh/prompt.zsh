@@ -72,8 +72,8 @@ function _make_prompt {
   _parse_branch
 
   PROMPT=""
-  CARAT1=$'\uf105'
-  CARAT2=$'\uf101'
+  CARAT1=""
+  CARAT2=""
 
   # Add the hostname.
   PROMPT+="%F{yellow}%B%m%b%f"
@@ -100,9 +100,7 @@ function _make_prompt {
 
   # If we're in a VCS directory then add the name/status of the current branch.
   if [[ -n $BRANCH ]]; then
-    PROMPT+=" on %F{cyan}"
-    PROMPT+=$'\ue725'
-    PROMPT+=" %B$BRANCH"
+    PROMPT+=" on %F{cyan} %B$BRANCH"
     if [[ $BRANCH_STAGED -gt 0 || $BRANCH_UNSTAGED -gt 0 ||
           $BRANCH_UNTRACKED -gt 0 || $BRANCH_AHEAD -gt 0 ||
           $BRANCH_BEHIND -gt 0 ]]; then
