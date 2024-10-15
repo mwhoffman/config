@@ -63,6 +63,7 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # Aliases.
 alias ls="ls -N --color=auto"
 alias vi="nvim"
+alias venv="[[ -e .venv/bin/activate ]] && source .venv/bin/activate || python3 -m venv .venv && source .venv/bin/activate"
 
 # Initialize ZVM when the plugin is sourced rather than trying to be lazy.
 ZVM_INIT_MODE="sourcing"
