@@ -1,6 +1,7 @@
 [tool.ruff]
 indent-width = 2
 line-length = 80
+cache-dir = "~/.cache/ruff"
 
 [tool.ruff.lint]
 extend-select = ["I"]

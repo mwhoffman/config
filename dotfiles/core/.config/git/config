@@ -1,9 +1,5 @@
 [include]
-    path = ~/.gitconfig.include
-
-[core]
-    excludesfile = ~/.gitignore
-    pager = less -FXRS -x2
+    path = ~/.config/git/include
 
 [color]
     diff = auto

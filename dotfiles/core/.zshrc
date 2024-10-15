@@ -13,12 +13,12 @@ PATH="$HOME/bin:$PATH"
 # We could set environment variables in .zshenv, but different OSes (e.g. mac)
 # treat this differently, so putting them in .zshrc is the "safest" thing to do.
 
-export MOSH_TITLE_NOPREFIX=1   # Don't let mosh mess with window titles.
 export LC_COLLATE="POSIX"      # Use alphabetic ordering of files.
 export VISUAL="nvim"           # The visual editor to use.
 export EDITOR="nvim"           # "Plain" editor to use (mostly ignored).
 export PAGER="less"            # Replace more with less as the pager.
 export LESS="FRX -x2"          # Default options for less.
+export LESSHISTFILE="-"        # Don't save less history.
 
 # Where and how much history to save.
 HISTFILE="$HOME/.local/share/zsh/history"
