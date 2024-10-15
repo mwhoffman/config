@@ -4,7 +4,7 @@
 function src { [ -f $1 ] && source $1; }
 
 # Include any local information (e.g. local paths).
-src "$HOME/.config/zsh/includes.zsh"
+src "$HOME/.config/zsh/local_includes.zsh"
 src "$HOME/.config/zsh/homebrew.zsh"
 
 # Extend our path to include a home bin dir.
@@ -86,5 +86,5 @@ fi
 
 # Source any additional configuration.
 src "$HOME/.config/zsh/prompt.zsh"
-src "$HOME/.config/zsh/overrides.zsh"
+src "$HOME/.config/zsh/local_overrides.zsh"
 
