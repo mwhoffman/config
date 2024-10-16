@@ -1,4 +1,5 @@
 name = "dotfiles"
+priority = 100
 
 [[actions]]
 name = "Install stow (macos)"
