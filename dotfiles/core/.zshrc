@@ -89,3 +89,6 @@ fi
 src "$HOME/.config/zsh/prompt.zsh"
 src "$HOME/.config/zsh/local_overrides.zsh"
 
+# Display banner information.
+src "$HOME/.config/zsh/banner.zsh"
+
