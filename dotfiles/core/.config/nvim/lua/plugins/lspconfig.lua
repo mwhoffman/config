@@ -1,3 +1,12 @@
+local function ruff_attach()
+  -- If and when ruff is attached add a command to organize imports.
+  vim.api.nvim_buf_set_keymap(
+    0, "n", "<leader>li",
+    '<cmd>lua vim.lsp.buf.code_action({context={only={"source.organizeImports"}}, apply=true})<cr>',
+    {desc="Organize imports."}
+  )
+end
+
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
@@ -17,8 +26,11 @@ return {
             analysis = {
               autoImportCompletions = false,
             },
-          }
-        }
+          },
+        },
+      },
+      ruff = {
+        on_attach = ruff_attach,
       },
     }
 

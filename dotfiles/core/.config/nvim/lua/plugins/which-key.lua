@@ -23,6 +23,7 @@ return {
       {"<leader>c", group="Copy…"},
       {"<leader>f", group="Find…"},
       {"<leader>h", group="Harpoon…"},
+      {"<leader>l", group="LSP…"},
       {"<leader>o", group="Obsidian…"},
       {"<leader>w", group="Windows…"},
       {"<leader>x", group="Trouble…"},
