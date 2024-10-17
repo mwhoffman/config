@@ -19,6 +19,11 @@ kind = "stow"
 kwargs.package = "core"
 
 [[actions]]
+name = "Install templated dotfiles"
+kind = "template"
+kwargs.source = "dotfiles/templates"
+
+[[actions]]
 name = "Stow macos dotfiles"
 kind = "stow"
 kwargs.package = "mac"
