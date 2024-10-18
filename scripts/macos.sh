@@ -8,6 +8,8 @@ defaults write com.apple.controlcenter Sound -int 18
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock show-recents -bool false
 defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
 defaults write com.apple.dock persistent-apps -array
 
