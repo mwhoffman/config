@@ -35,6 +35,7 @@ else
   ORIGIN=$(cd ${TARGET} && git remote get-url origin)
   if [[ "${ORIGIN}" != "${CONFIG}" && "${ORIGIN}" != "${CONFIG_SSH}" ]]; then
     echo "Unknown directory \"${TARGET}\" (incorrect origin)."
+    exit 1
   fi
 fi
 
