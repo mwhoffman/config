@@ -1,7 +1,8 @@
 # config
 
 This repo includes all of the dotfiles and configuration I need to work
-comfortably on a new machine.
+comfortably on a new machine. I also use this as a central repository for my
+dotfiles in order to keep the configuration between multiple machines in sync.
 
 ## Quickstart
 
@@ -9,18 +10,19 @@ This configuration can be bootstrapped by running
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap)"
 ```
-The `bootstrap` command (run via `curl` or downloaded and run directly) will
-clone this repository into the `$TARGET` directory (`~/config` by default) and
-will create the `~/config/setup` frontend script. The `setup` script itself is a
-thin wrapper around [setuppy] (follow the link for more details) so to be as
-minimally invasive as possible `bootstrap` will install that package and
-its requirements into `$TARGET/.venv`. On macos systems `bootstrap` will also
-install [homebrew] along with an updated python3 package.
+The `bootstrap` command (run as above or downloaded and run directly) will clone
+this repository into the `$TARGET` directory (`~/config` by default) and will
+create a `~/config/setup` frontend script. The `setup` script itself is a thin
+wrapper around [setuppy] (a lightweight orchestration framework) so to be as
+minimally invasive as possible this bootstrap procedure will install that
+package and its requirements into `$TARGET/.venv`. On macos systems
+bootstrapping will also install [homebrew] along with an updated `python`
+package.
 
 Running `~/config/setup` will, by default, _only_ install dotfiles by symlinking
 them into your home directory. However, this will likely fail due to missing
 packages necessary to run `setup` itself (primarily [GNU stow][stow]). To
-install those packages and install dotfiles run:
+install those packages _and_ install dotfiles run:
 ```
 ~/config/setup -t bootstrap
 ```
@@ -28,6 +30,14 @@ The `-t bootstrap` option is only necessary to install the prerequisite packages
 and can be dropped from subsequent runs.
 
 > [!NOTE]
+> Why would you want to run `setup` more than once? As noted above I also use
+> this repository to keep dotfiles and configuration in sync between multiple
+> machines. However, using `git pull` to get upstream changes will only apply to
+> those files that have already been symlinked (and any removed files will now
+> be dead links). Running `setup` again will correct theses issues (as well as
+> install any additional packages as noted below).
+
+> [!IMPORTANT]
 > `setup` will also fail if any conflicts exist between the dotfiles and
 > pre-existing files in your home directory. These conflicts must either be
 > resolved manually, e.g. by deleting the pre-existing files or by _adopting_
