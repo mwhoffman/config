@@ -1,38 +1,61 @@
 # config
 
-This repo includes all of the configuration/dotfiles I need whenever I start
-working with a new machine, or just to keep this configuration in sync between
-different machines. It also includes a `setup` script to install these dotfiles
-as well as the various packages I frequently use.
+This repo includes all of the dotfiles and configuration I need to work
+comfortably on a new machine.
 
 ## Quickstart
 
-Bootstrap the configuration by running
+This configuration can be bootstrapped by running
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap)"
 ```
-which will install [homebrew] on macos systems, download this git repository to
-the `$TARGET` directory, and install any prerequisites for running `setup` (it
-will create a python venv in `$TARGET/.venv` and install [setuppy]). Once this
-finishes you can run `~/config/setup`. 
+The `bootstrap` command (run via `curl` or downloaded and run directly) will
+clone this repository into the `$TARGET` directory (`~/config` by default) and
+will create the `~/config/setup` frontend script. The `setup` script itself is a
+thin wrapper around [setuppy] (follow the link for more details) so to be as
+minimally invasive as possible `bootstrap` will install that package and
+its requirements into `$TARGET/.venv`. On macos systems `bootstrap` will also
+install [homebrew] along with an updated python3 package.
 
-By default `setup` will only install dotfiles (as symlinks). However, this will
-likely fail unless `stow` is installed (see the next section for more details).
-While installing `stow` can be done manually, you can also include the
-`bootstrap` tag, i.e.
+Running `~/config/setup` will, by default, _only_ install dotfiles by symlinking
+them into your home directory. However, this will likely fail due to missing
+packages necessary to run `setup` itself (primarily [GNU stow][stow]). To
+install those packages and install dotfiles run:
 ```
 ~/config/setup -t bootstrap
 ```
-which will additionally install stow before linking any dotfiles. Running
-`setup` will fail if any conflicts exist between the dotfiles and their targets
-(i.e. the files in your home directory). These conflicts must either be resolved
-manually or _adopted_ with `stow` (see the next section).
+The `-t bootstrap` option is only necessary to install the prerequisite packages
+and can be dropped from subsequent runs.
 
-The `setup` script can also be used to install additional packages, however
-these require the use of tags to include. The `bootstrap` tag used above is an
-example of this which installs any packages needed by `setup` itself (e.g.
-`stow`). See the recipes in `recipes/` to find out more tags; see also `setup
---help` for more info on the command itself.
+> [!NOTE]
+> `setup` will also fail if any conflicts exist between the dotfiles and
+> pre-existing files in your home directory. These conflicts must either be
+> resolved manually, e.g. by deleting the pre-existing files or by _adopting_
+> them into the repository (read further for a way to do this automatically with
+> [GNU stow][stow]).
+
+## Additional setup
+
+The `setup` script can also be used to perform additional setup and install
+additional packages using the `-t` option to specify tags (the use of `-t
+bootstrap` above is an example of this). While the tags themselves are arbitrary
+(see `recipes/` for more details) I've tried to use them relatively
+consistently. In addition to the `bootstrap` tag you can use the following:
+
+- `install`, used to mark actions which will install packages.
+- `external`, used to mark actions involving external sources.
+- `gui`, used to mark actions involving the gui.
+
+These tags can be used independently and a recipe or action will only run if all
+of its associated tags have been specified. E.g. `setup -t gui` will install
+gui-related dotfiles, but gui-related packages will only be installed with
+`setup -t gui -t install`. As a short-hand you can also use `setup -a` to
+automatically include all tags.
+
+Finally, `setup` has additional options which can be useful. The most useful of
+these are `-n` which will simulate actions (i.e. it will make no changes on
+disk) and `-v` which adjusts the verbosity of the output. See `--help` for more
+information.
 
 ## Manually installing dotfiles using GNU stow
 
