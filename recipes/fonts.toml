@@ -14,6 +14,6 @@ kwargs.dest = "{fontdir}"
 [[actions]]
 name = "Run fc-cache"
 kind = "command"
-kwargs.command = "fc-cache"
+kwargs.command = ["fc-cache"]
 parents = ["fonts"]
 tags = ["linux"]
