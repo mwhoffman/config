@@ -29,6 +29,8 @@ set completeopt-=preview    " don't let completions open up a preview window
 set nofoldenable            " disable code folding. re-enable with zi.
 set fillchars=vert:│        " Mark vertical splits with an unbroken line.
 
+set viminfo+=n~/.local/share/vim/viminfo
+
 " Make sure that all other indent parameters follow tabstop. Do this after
 " sourcing the include above so that it can override the tabstop value.
 let &softtabstop=&g:tabstop
