@@ -29,12 +29,12 @@ function _parse_pwd {
 function _parse_branch {
   # The VCS branch/status of the current directory (if applicable).
   BRANCH=""
-  BRANCH_STAGED=0
-  BRANCH_UNSTAGED=0
-  BRANCH_UNTRACKED=0
-  BRANCH_CONFLICT=0
-  BRANCH_AHEAD=0
-  BRANCH_BEHIND=0
+  BRANCH_STAGED=""
+  BRANCH_UNSTAGED=""
+  BRANCH_UNTRACKED=""
+  BRANCH_CONFLICT=""
+  BRANCH_AHEAD=""
+  BRANCH_BEHIND=""
 
   # Get the git branch/status; do this before mercurial because it's faster.
   if [[ -z "${BRANCH}" ]]; then
@@ -42,12 +42,10 @@ function _parse_branch {
     if [[ -n $BRANCH ]]; then
       STATUS=$(git status --porcelain --branch)
       for line in ${(f)STATUS}; do
-        if [[ $line == 'M'* ]]; then BRANCH_STAGED=1; fi
-        if [[ $line == 'A'* ]]; then BRANCH_STAGED=1; fi
-        if [[ $line == 'D'* ]]; then BRANCH_STAGED=1; fi
-        if [[ $line == 'U'* ]]; then BRANCH_CONFLICT=1; fi
-        if [[ $line =~ '.[MD].*' ]]; then BRANCH_UNSTAGED=1; fi
-        if [[ $line =~ '\?\?.*' ]]; then BRANCH_UNTRACKED=1; fi
+        if [[ $line =~ '^[MAD].*' ]]; then BRANCH_STAGED=1; fi
+        if [[ $line =~ '^.[MD].*' ]]; then BRANCH_UNSTAGED=1; fi
+        if [[ $line =~ '^\?\?.*'  ]]; then BRANCH_UNTRACKED=1; fi
+        if [[ $line =~ '^U.*'     ]]; then BRANCH_CONFLICT=1; fi
         if [[ $line == '## '*'[ahead '*']' ]]; then BRANCH_AHEAD=1; fi
         if [[ $line == '## '*'['*'behind '*']' ]]; then BRANCH_BEHIND=1; fi
       done
@@ -77,16 +75,16 @@ function _make_prompt {
 
   # Add the hostname.
   PROMPT+="%F{yellow}%B%m%b%f"
-  PROMPT+=" $CARAT1 "
+  PROMPT+=" ${CARAT1} "
 
   # Add the current virtual environment's name.
-  if [[ -n $VIRTUAL_ENV ]]; then
-    if [[ $VIRTUAL_ENV:t == ".venv" ]]; then
+  if [[ -n ${VIRTUAL_ENV} ]]; then
+    if [[ ${VIRTUAL_ENV:t} == ".venv" ]]; then
       PROMPT+="%B${VIRTUAL_ENV:h:t}%b"
-    elif [[ -n $VIRTUAL_ENV ]]; then
+    elif [[ -n ${VIRTUAL_ENV} ]]; then
       PROMPT+="%B${VIRTUAL_ENV:t}%b"
     fi
-    PROMPT+="  "
+    PROMPT+=" ${CARAT1} "
   fi
 
   # If we're in a named directory then add the name.
@@ -101,29 +99,17 @@ function _make_prompt {
   # If we're in a VCS directory then add the name/status of the current branch.
   if [[ -n $BRANCH ]]; then
     PROMPT+=" on %F{cyan} %B$BRANCH"
-    if [[ $BRANCH_STAGED -gt 0 || $BRANCH_UNSTAGED -gt 0 ||
-          $BRANCH_UNTRACKED -gt 0 || $BRANCH_AHEAD -gt 0 ||
-          $BRANCH_BEHIND -gt 0 ]]; then
+    if [[ -n $BRANCH_STAGED || -n $BRANCH_UNSTAGED ||
+          -n $BRANCH_UNTRACKED || -n $BRANCH_AHEAD ||
+          -n $BRANCH_BEHIND ]]; then
       PROMPT+=" "
     fi
-    if [[ $BRANCH_STAGED -gt 0 ]]; then
-      PROMPT+="✓"
-    fi
-    if [[ $BRANCH_UNSTAGED -gt 0 ]]; then
-      PROMPT+="*"
-    fi
-    if [[ $BRANCH_CONFLICT -gt 0 ]]; then
-      PROMPT+="!"
-    fi
-    if [[ $BRANCH_UNTRACKED -gt 0 ]]; then
-      PROMPT+="?"
-    fi
-    if [[ $BRANCH_AHEAD -gt 0 ]]; then
-      PROMPT+="↑"
-    fi
-    if [[ $BRANCH_BEHIND -gt 0 ]]; then
-      PROMPT+="↓"
-    fi
+    if [[ -n $BRANCH_STAGED    ]]; then PROMPT+="✓" fi
+    if [[ -n $BRANCH_UNSTAGED  ]]; then PROMPT+="*" fi
+    if [[ -n $BRANCH_CONFLICT  ]]; then PROMPT+="!" fi
+    if [[ -n $BRANCH_UNTRACKED ]]; then PROMPT+="?" fi
+    if [[ -n $BRANCH_AHEAD     ]]; then PROMPT+="↑" fi
+    if [[ -n $BRANCH_BEHIND    ]]; then PROMPT+="↓" fi
     PROMPT+="%b%f"
   fi
 
