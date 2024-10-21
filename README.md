@@ -11,11 +11,11 @@ This configuration can be bootstrapped by running
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap)"
 ```
 The `bootstrap` command (run as above or downloaded and run directly) will clone
-this repository into the `$TARGET` directory (`~/config` by default) and will
-create a `~/config/setup` frontend script. The `setup` script itself is a thin
-wrapper around [setuppy] (a lightweight orchestration framework) so to be as
-minimally invasive as possible this bootstrap procedure will install that
-package and its requirements into `$TARGET/.venv`. On macos systems
+this repository into `~/config` (this can be changed by setting `$TARGET`) and
+will create a `~/config/setup` frontend script. The `setup` script itself is a
+thin wrapper around [setuppy] (a lightweight orchestration framework) so to be
+as minimally invasive as possible this bootstrap procedure will install that
+package and its requirements into `~/config/.venv`. On macos systems
 bootstrapping will also install [homebrew] along with an updated `python`
 package.
 
