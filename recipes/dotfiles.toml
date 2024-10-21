@@ -26,7 +26,7 @@ kwargs.source = "dotfiles/templates"
 [[actions]]
 name = "Stow macos dotfiles"
 kind = "stow"
-kwargs.package = "mac"
+kwargs.package = "macos"
 tags = ["macos"]
 
 [[actions]]
