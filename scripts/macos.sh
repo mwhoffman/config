@@ -11,6 +11,8 @@ defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool fa
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
+defaults write org.hammerspoon.Hammerspoon MJConfigFile "~/.config/hammerspoon/init.lua"
+
 defaults write com.apple.dock persistent-apps -array
 
 declare -a DOCK_APPS=(
