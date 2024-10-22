@@ -17,12 +17,12 @@ return {
       enable = true,
       -- Remove any languages that rely on vim's regex highlighting system (e.g.
       -- ruby) for indentation.
-      additional_vim_regex_highlighting = {"ruby"},
+      additional_vim_regex_highlighting = {"python", "ruby"},
     },
     indent = {
       enable = true,
       -- Ditto above.
-      disable = {"ruby"}
+      disable = {"python", "ruby"}
     },
     incremental_selection = {
       enable = true,
