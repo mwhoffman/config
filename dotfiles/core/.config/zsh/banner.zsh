@@ -1,10 +1,10 @@
 #!/usr/bin/zsh
 
 # Update the config dir if it's older than a day.
-CONFIG=${HOME}/config/
-NOW=$(date +%s)
-LAST_FETCH=$(stat -c '%Y' ${CONFIG}/.git/FETCH_HEAD)
-if ((${NOW} - ${LAST_FETCH} >= 86400)); then
+CONFIG="${HOME}/config/"
+FETCH_HEAD="${CONFIG}/.git/FETCH_HEAD"
+if [ ! -f ${FETCH_HEAD} ] ||
+   (($(date +%s) -  $(stat -c '%Y' ${FETCH_HEAD}) >= 86400)); then
   git -C ${CONFIG} fetch
 fi
 
