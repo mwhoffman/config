@@ -50,8 +50,8 @@ return {
     close_if_last_window = true,
     popup_border_style = "rounded",
     window = {
-      width = 30,
-      auto_expand_width = true,
+      width = 40,
+      auto_expand_width = false,
     },
     filesystem = {
       filtered_items = {
