@@ -10,3 +10,4 @@ homebrew_path "/usr/local/brew/bin/brew"
 
 # Inlcude paths for gnu coreutils.
 PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
+PATH="$HOMEBREW_PREFIX/opt/ruby/bin:$PATH"
