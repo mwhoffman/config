@@ -34,6 +34,7 @@ setopt HIST_SAVE_NO_DUPS
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_SPACE
 
 # Define the $LS_COLORS variable used to color the output of ls, but we'll also
 # use it for completions.
