@@ -56,7 +56,7 @@ return {
     filesystem = {
       filtered_items = {
         hide_dotfiles = false,
-        never_show = {
+        hide_by_name = {
           ".git",
         },
       },
