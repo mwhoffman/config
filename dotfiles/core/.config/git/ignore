@@ -11,4 +11,5 @@
 .ruff_cache
 .venv
 __pycache__
+coverage.xml
 htmlcov
