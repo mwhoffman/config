@@ -5,8 +5,8 @@ return {
     "nvim-lua/plenary.nvim",
   },
   event = {
-    "BufReadPre " .. vim.fn.expand "~" .. "/vault/*.md",
-    "BufNewFile " .. vim.fn.expand "~" .. "/vault/*.md",
+    "BufReadPre " .. vim.fn.expand "~" .. "/Documents/notes/*.md",
+    "BufNewFile " .. vim.fn.expand "~" .. "/Documents/notes/*.md",
   },
   keys = {
     {
@@ -33,8 +33,8 @@ return {
   opts = {
     workspaces = {
       {
-        name = "vault",
-        path = "~/vault",
+        name = "notes",
+        path = "~/Documents/notes",
       },
     },
     ui = {
