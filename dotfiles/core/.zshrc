@@ -41,11 +41,18 @@ setopt HIST_IGNORE_SPACE
 
 # Define the $LS_COLORS variable used to color the output of ls, but we'll also
 # use it for completions.
-eval $(dircolors $HOME/.dircolors)
+[ -f "$HOME/.dircolors" ] && eval $(dircolors $HOME/.dircolors)
 
-# Initialize zsh completion.
+# Initialize zsh completion. The security check compinit performs on every
+# function file in $fpath is one of the slowest parts of shell startup, so
+# only do a full check once a day (via the zcompdump's mtime) and skip it
+# (-C) the rest of the time.
 autoload -U compinit
-compinit -d "$HOME/.local/share/zsh/zcompdump"
+if [[ -n "$HOME/.local/share/zsh/zcompdump"(#qN.mh+24) ]]; then
+  compinit -d "$HOME/.local/share/zsh/zcompdump"
+else
+  compinit -C -d "$HOME/.local/share/zsh/zcompdump"
+fi
 
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$HOME/.local/share/zsh/cache"
@@ -67,7 +74,12 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # Aliases.
 alias ls="ls -N --color=auto"
 alias vi="nvim"
-alias venv="[[ -e .venv/bin/activate ]] && source .venv/bin/activate || python3 -m venv .venv && source .venv/bin/activate"
+
+# Functions.
+function venv {
+  [[ -e .venv/bin/activate ]] || python3 -m venv .venv
+  source .venv/bin/activate
+}
 
 # Initialize ZVM when the plugin is sourced rather than trying to be lazy.
 ZVM_INIT_MODE="sourcing"
@@ -78,15 +90,18 @@ src "$HOME/.local/share/zsh/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
 src "$HOME/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 src "$HOME/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
-# Source fzf bindings. The fzf bindings can be sourced directly from the fzf
-# command for versions >=0.48. So check this and use it if possible.
-if [[ ${${(@s:.:)${=$(fzf --version)}[1]}[2]} -ge 48 ]]; then
-  source <(fzf --zsh)
-else
-  # Below is the default location location for those bindings on
-  # ubunut/mint/etc.
-  src "/usr/share/doc/fzf/examples/completion.zsh"
-  src "/usr/share/doc/fzf/examples/key-bindings.zsh"
+# Source fzf bindings, but only if fzf is actually installed. The fzf
+# bindings can be sourced directly from the fzf command for versions >=0.48.
+# So check this and use it if possible.
+if command -v fzf >/dev/null; then
+  if [[ ${${(@s:.:)${=$(fzf --version)}[1]}[2]} -ge 48 ]]; then
+    source <(fzf --zsh)
+  else
+    # Below is the default location location for those bindings on
+    # ubunut/mint/etc.
+    src "/usr/share/doc/fzf/examples/completion.zsh"
+    src "/usr/share/doc/fzf/examples/key-bindings.zsh"
+  fi
 fi
 
 # Source any additional configuration.
