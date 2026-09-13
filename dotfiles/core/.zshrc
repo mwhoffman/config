@@ -1,14 +1,17 @@
 # .zshrc
 
-# Define a dirty function to source a given file only if it exists.
+# Quick and dirty functions to source a given file or add a directory to PATH,
+# but only if they already exist.
 function src { [ -f $1 ] && source $1; }
+function pathdir { [ -d $1 ] && export PATH="$1:$PATH"; }
 
 # Include any local information (e.g. local paths).
 src "$HOME/.config/zsh/local_includes.zsh"
 src "$HOME/.config/zsh/homebrew.zsh"
 
 # Extend our path to include a home bin dir.
-PATH="$HOME/bin:$PATH"
+pathdir "$HOME/bin"
+pathdir "$HOME/.local/bin"
 
 # We could set environment variables in .zshenv, but different OSes (e.g. mac)
 # treat this differently, so putting them in .zshrc is the "safest" thing to do.
