@@ -6,7 +6,7 @@ function src { [ -f $1 ] && source $1; }
 function pathdir { [ -d $1 ] && export PATH="$1:$PATH"; }
 
 # Include any local information (e.g. local paths).
-src "$HOME/.config/zsh/local_includes.zsh"
+src "$HOME/.config/zsh/local.zsh"
 src "$HOME/.config/zsh/homebrew.zsh"
 
 # Extend our path to include a home bin dir.
@@ -106,7 +106,7 @@ fi
 
 # Source any additional configuration.
 src "$HOME/.config/zsh/prompt.zsh"
-src "$HOME/.config/zsh/local_overrides.zsh"
+src "$HOME/.config/zsh/overrides.zsh"
 
 # Display banner information.
 src "$HOME/.config/zsh/banner.zsh"

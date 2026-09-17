@@ -8,6 +8,8 @@ homebrew_path "/opt/homebrew/bin/brew" || \
 homebrew_path "/usr/local/bin/brew"  || \
 homebrew_path "/usr/local/brew/bin/brew"
 
-# Inlcude paths for gnu coreutils.
-PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
+# Include homebrew paths.
+if "${HOMEBREW_USE_COREUTILS:-true}"; then
+  PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
+fi
 PATH="$HOMEBREW_PREFIX/opt/ruby/bin:$PATH"
