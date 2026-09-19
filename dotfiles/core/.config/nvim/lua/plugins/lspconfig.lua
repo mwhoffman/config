@@ -17,16 +17,6 @@ return {
   config = function()
     require("neodev").setup({lspconfig=true})
 
-    vim.lsp.config("basedpyright", {
-      settings = {
-        basedpyright = {
-          typeCheckingMode = "standard",
-          analysis = {
-            autoImportCompletions = false,
-          },
-        },
-      },
-    })
     vim.lsp.config("ruff", {
       on_attach = ruff_attach,
     })

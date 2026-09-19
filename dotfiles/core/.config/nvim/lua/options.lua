@@ -26,6 +26,9 @@ opt.expandtab = true
 opt.copyindent = true
 opt.smartindent = false
 
+-- Don't apply nvim's built-in 4-space style to python.
+vim.g.python_recommended_style = 0
+
 -- Default to splitting below and to the right.
 opt.splitright = true
 opt.splitbelow = true
