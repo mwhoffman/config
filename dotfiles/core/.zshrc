@@ -1,9 +1,14 @@
 # .zshrc
 
+# Keep the entries in the `path` array (which zsh ties to $PATH) unique so that
+# repeatedly prepending a directory, or inheriting it from .profile, never
+# creates duplicates. Re-adding an existing entry just moves it to the front.
+typeset -U path
+
 # Quick and dirty functions to source a given file or add a directory to PATH,
 # but only if they already exist.
 function src { [ -f $1 ] && source $1; }
-function pathdir { [ -d $1 ] && export PATH="$1:$PATH"; }
+function pathdir { [ -d $1 ] && path=($1 $path); }
 
 # Include any local information (e.g. local paths).
 src "$HOME/.config/zsh/local.zsh"
