@@ -35,6 +35,7 @@ tiling_drag modifier titlebar
 font pango:Hack Nerd Font Mono 9
 title_align center
 
+exec --no-startup-id xsettingsd
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 exec --no-startup-id feh --bg-fill $HOME/Wallpaper/arch.jpg
 exec --no-startup-id polybar
