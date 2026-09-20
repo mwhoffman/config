@@ -1,6 +1,17 @@
 local parsers = {
-  "bash", "diff", "html", "lua", "luadoc", "markdown", "markdown_inline",
-  "python", "vim", "vimdoc",
+  "bash",
+  "diff",
+  "html",
+  "just",
+  "lua",
+  "luadoc",
+  "markdown",
+  "markdown_inline",
+  "python",
+  "toml",
+  "vim",
+  "vimdoc",
+  "yaml",
 }
 
 -- Filetypes which rely on vim's regex highlighting system for indentation and
