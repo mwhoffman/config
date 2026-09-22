@@ -1,5 +1,8 @@
 [include]
-    path = ~/.config/git/include
+    path = ~/.config/git/local
+
+[user]
+    useConfigOnly = true
 
 [color]
     diff = auto

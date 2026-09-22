@@ -5,27 +5,114 @@ set -eu
 TARGET="${HOME}/config"
 CONFIG="https://github.com/mwhoffman/config"
 CONFIG_SSH="git@github.com:mwhoffman/config.git"
-SETUPPY="https://github.com/mwhoffman/setuppy"
 HOMEBREW="https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
 
-case $(uname -s) in
-  # Bootstrap mac setup by installing homebrew since macs otherwise don't have a
-  # reasonable package manager.
-  Darwin)
-    if ! command -v brew 2>&1 >/dev/null; then
-      (set -x; NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL ${HOMEBREW})")
+# Echo a command (shell-quoted, bold when stdout is a terminal, matching how
+# `just` echoes recipe lines) and then run it.
+run() {
+  if [ -t 1 ]; then
+    printf '\033[1m'
+  fi
+  printf '%q' "$1"
+  if [ "$#" -gt 1 ]; then
+    printf ' %q' "${@:2}"
+  fi
+  if [ -t 1 ]; then
+    printf '\033[0m'
+  fi
+  printf '\n'
+  "$@"
+}
+
+# Check if brew is on our PATH; if not, search for it in the usual places and
+# run shellenv to add it. Return unsuccessfully if we can't find it at all.
+find_brew() {
+  command -v brew >/dev/null 2>&1 && return 0
+  local brew
+  for brew in \
+    /opt/homebrew/bin/brew \
+    /usr/local/bin/brew \
+    /home/linuxbrew/.linuxbrew/bin/brew
+  do
+    if [[ -x "${brew}" ]]; then
+      eval "$("${brew}" shellenv)"
+      return 0
     fi
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-    if [[ ! -x $HOMEBREW_PREFIX/bin/python3 ]]; then
-      (set -x; brew install python)
+  done
+  return 1
+}
+
+# Print those of the given apt packages that are not installed.
+missing_apt() {
+  local pkg
+  for pkg in "$@"; do
+    dpkg-query -W -f='${Status}' "${pkg}" 2>/dev/null | grep -q "ok installed" \
+      || echo "${pkg}"
+  done
+}
+
+# Print those of the given brew formulae that are not installed.
+missing_brew() {
+  local formula
+  for formula in "$@"; do
+    brew list --formula "${formula}" >/dev/null 2>&1 || echo "${formula}"
+  done
+}
+
+case $(uname -s) in
+  # Macs have git via the command line tools (which the homebrew installer will
+  # take care of), so there is nothing else needed here.
+  Darwin)
+    ;;
+
+  # On linux we need the essentials for homebrew itself as well as git in order
+  # to clone this repository. The remaining packages come from homebrew so that
+  # we don't depend on the (often outdated) distro versions.
+  #
+  # Only touch apt if something is actually missing. Note that `apt-get install`
+  # will also upgrade packages that are already installed.
+  Linux)
+    missing=$(missing_apt build-essential procps curl file git)
+    if [[ -n "${missing}" ]]; then
+      run sudo apt-get update
+      run sudo apt-get install -y ${missing}
     fi
     ;;
+
+  *)
+    echo "Unsupported OS \"$(uname -s)\"."
+    exit 1
+    ;;
 esac
+
+if ! find_brew; then
+  # The installer needs sudo, and with NONINTERACTIVE it can't prompt for a
+  # password itself, so authenticate (and cache credentials) first.
+  run sudo -v
+
+  # Download the installer to a file rather than passing it to `bash -c`, so
+  # that a failed download stops the script instead of running an empty command.
+  installer=$(mktemp)
+  trap 'rm -f "${installer}"' EXIT
+  run curl -fsSL -o "${installer}" "${HOMEBREW}"
+  run env NONINTERACTIVE=1 /bin/bash "${installer}"
+
+  # Drop the cached credentials now that we no longer need them.
+  run sudo -k
+  find_brew || { echo "Could not find brew after installing it."; exit 1; }
+fi
+
+# We need just to run the setup and stow to link the dotfiles. Only install what
+# is missing since brew would otherwise auto-update and upgrade what's installed.
+missing=$(missing_brew just stow)
+if [[ -n "${missing}" ]]; then
+  run brew install ${missing}
+fi
 
 # Check the target config directory and try to clone from git. Otherwise fail if
 # the directory already exists and is not an existing clone.
 if [[ ! -d "${TARGET}" ]]; then
-  (set -x; git clone "${CONFIG}" "${TARGET}")
+  run git clone "${CONFIG}" "${TARGET}"
 
 elif [[ ! -d "${TARGET}/.git" ]]; then
   echo "Unknown directory \"${TARGET}\" (not a git directory)."
@@ -39,18 +126,9 @@ else
   fi
 fi
 
-(set -x; python3 -m venv "${TARGET}/.venv")
-source "${TARGET}/.venv/bin/activate"
-(set -x; pip install "git+${SETUPPY}")
-
-cat > "${TARGET}/setup" << EOF
-#!${TARGET}/.venv/bin/python3
-import sys
-from setuppy.cli import main
-if __name__ == "__main__":
-  sys.exit(main())
-EOF
-chmod +x "${TARGET}/setup"
+# Run the default setup in this same process so that homebrew is in the PATH.
+(cd "${TARGET}" && run just _bootstrap)
 
 # We're done!
-echo "Config bootstrapped!"
+echo
+echo "Config bootstrapped! Start a new login shell to pick up the dotfiles."
