@@ -4,6 +4,10 @@ home := home_directory()
 os := os()
 font_dir := if os == "macos" { home / "Library/Fonts" } else { home / ".local/share/fonts" }
 
+git := require("git")
+brew := require("brew")
+stow := require("stow")
+
 # List the available recipes.
 _default:
   @just --list
@@ -16,12 +20,12 @@ dotfiles: (_link "core") (_link os)
 
 # Link a single stow package, also removing links for files deleted upstream.
 _link package:
-  stow --no-folding -d dotfiles -t {{home}} -R {{package}}
+  {{stow}} --no-folding -d dotfiles -t {{home}} -R {{package}}
 
 # Install core packages [macos].
 [macos]
-install: 
-  brew bundle --file=Brewfile -q --no-upgrade
+install:
+  {{brew}} bundle --file=Brewfile -q --no-upgrade
   just _install-zsh-plugins
   just _install-fonts
 
@@ -30,7 +34,7 @@ install:
 install:
   just _apt-install zsh
   just _install-zsh-plugins
-  brew bundle --file=Brewfile -q --no-upgrade
+  {{brew}} bundle --file=Brewfile -q --no-upgrade
 
 # Install gui packages [linux].
 [linux]
@@ -64,8 +68,8 @@ _gitconfig:
   [ -n "$name" ] || read -rp "Git name: " name
   [ -n "$email" ] || read -rp "Git email: " email
   mkdir -p "$(dirname "$file")"
-  git config --file "$file" user.name "$name"
-  git config --file "$file" user.email "$email"
+  {{git}} config --file "$file" user.name "$name"
+  {{git}} config --file "$file" user.email "$email"
 
 
 # Install zsh plugins.
@@ -81,7 +85,7 @@ _install-zsh-plugins:
   do
     target="$dest/${repo#*/}"
     if [ ! -d "$target" ]; then
-      git clone "https://github.com/$repo" "$target"
+      {{git}} clone "https://github.com/$repo" "$target"
     fi
   done
 
