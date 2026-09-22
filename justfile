@@ -88,24 +88,6 @@ _install-apt *packages:
     sudo apt-get install -y "${missing[@]}"
   fi
 
-# Populate local git config with name/email.
-_gitconfig:
-  #!/usr/bin/env bash
-  set -euo pipefail
-  target={{home}}/.config/git/local
-  if [ -f "$target" ]; then
-    exit 0
-  fi
-  name=${GIT_NAME:-}
-  email=${GIT_EMAIL:-}
-  [ -n "$name" ] || read -rp "Git name: " name
-  [ -n "$email" ] || read -rp "Git email: " email
-  mkdir -p "$(dirname "$target")"
-  echo "# Installing: $target"
-  git config --file "$target" user.name "$name"
-  git config --file "$target" user.email "$email"
-
-
 # Install zsh plugins.
 _install-zsh-plugins:
   #!/usr/bin/env bash
@@ -139,3 +121,20 @@ _install-fonts:
     fi
   done
   if command -v fc-cache >/dev/null; then fc-cache; fi
+
+# Populate local git config with name/email.
+_gitconfig:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  target={{home}}/.config/git/local
+  if [ -f "$target" ]; then
+    exit 0
+  fi
+  name=${GIT_NAME:-}
+  email=${GIT_EMAIL:-}
+  [ -n "$name" ] || read -rp "Git name: " name
+  [ -n "$email" ] || read -rp "Git email: " email
+  mkdir -p "$(dirname "$target")"
+  echo "# Installing: $target"
+  git config --file "$target" user.name "$name"
+  git config --file "$target" user.email "$email"
