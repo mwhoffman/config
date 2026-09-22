@@ -9,6 +9,7 @@ brew "neovim"
 brew "ripgrep"
 brew "stow"
 brew "tmux"
+brew "uv"
 
 if OS.mac?
   brew "coreutils"
