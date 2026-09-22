@@ -127,7 +127,7 @@ else
 fi
 
 # Run the default setup in this same process so that homebrew is in the PATH.
-(cd "${TARGET}" && run just _bootstrap)
+(cd "${TARGET}" && just _bootstrap)
 
 # We're done!
 echo
