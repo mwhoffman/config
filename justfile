@@ -34,17 +34,48 @@ install:
 [linux]
 install:
   brew bundle --file=Brewfile -q --no-upgrade
-  @just _apt-install zsh
+  @just _install-apt zsh
   @just _install-zsh-plugins
 
 # Install gui packages [linux].
 [linux]
 install-gui:
-  @just _apt-install i3-wm polybar rofi
+  @just _install-apt-sources
+  @just _install-apt i3-wm polybar rofi
   @just _install-fonts
 
+# Install apt sources for third-party packages. Note: spotify's key doesn't live
+# in a consistent place. So this will likely need to be updated every once in a
+# while.
+[linux]
+_install-apt-sources:
+  @just _install-apt-source 1password \
+    https://downloads.1password.com/linux/keys/1password.asc \
+    https://downloads.1password.com/linux/debian/amd64 stable main
+  @just _install-apt-source spotify \
+    https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.asc \
+    https://repository.spotify.com stable non-free
+
+# Install a source list and scoped apt key for a third-party repo.
+[linux]
+_install-apt-source name key source suite component:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  keyring=/usr/share/keyrings/{{name}}-archive-keyring.gpg
+  list=/etc/apt/sources.list.d/{{name}}.list
+  if [ ! -e "$keyring" ]; then
+    echo "# Installing: $keyring"
+    curl -fsSL {{key}} | sudo gpg --dearmor -o "$keyring"
+    sudo chmod 644 "$keyring"
+  fi
+  if [ ! -e "$list" ]; then
+    echo "# Installing: $list"
+    echo "deb [arch=amd64 signed-by=$keyring] {{source}} {{suite}} {{component}}" \
+      | sudo tee "$list" >/dev/null
+  fi
+
 # Install any of the given apt packages that aren't already installed.
-_apt-install *packages:
+_install-apt *packages:
   #!/usr/bin/env bash
   set -euo pipefail
   missing=()
