@@ -20,9 +20,14 @@ replacement for `make`.
 After that this repository will be cloned into `~/config` and `just _bootstrap`
 is run. This is (mostly) just a wrapper around `just install` which installs the
 core set of apps I use and `just dotfiles` which symlinks my dotfiles into
-place. The dotfiles themselves live under `dotfiles/core` as well as
-`dotfiles/macos` and `dotfiles/linux` for os-specific configuration. Finally on
-linux `just install-gui` will install graphical packages.
+place. The dotfiles themselves live under
+[dotfiles/core](https://github.com/mwhoffman/config/tree/main/dotfiles/core) as
+well as
+[dotfiles/macos](https://github.com/mwhoffman/config/tree/main/dotfiles/macos)
+and
+[dotfiles/linux](https://github.com/mwhoffman/config/tree/main/dotfiles/linux)
+for os-specific configuration. Finally on linux `just install-gui` will install
+graphical packages that aren't otherwise installed by default.
 
 All of these commands can be run again and if nothing has changed they should do
 nothing. Typically I will just run `git pull` and `just dotfiles` to get any
