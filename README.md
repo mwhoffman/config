@@ -1,8 +1,8 @@
 # config
 
 This repo includes all of the dotfiles and configuration I need to work
-comfortably on a new machine. I also use this as a central repository for my
-dotfiles in order to keep the configuration between multiple machines in sync.
+comfortably on a new machine as well as to keep said configuration in sync
+between multiple machines.
 
 ## Quickstart
 
@@ -10,10 +10,21 @@ This configuration can be bootstrapped by running
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap)"
 ```
-The `bootstrap` script will install homebrew along with `stow` and `just` which
-are needed for the rest of the setup; it will then run `just _bootstrap` to
-complete the installation.
+The `bootstrap` script will install [homebrew][https://brew.sh/] and use that to
+install [stow][https://www.gnu.org/software/stow/] and
+[just][https://github.com/casey/just] which are needed for the rest of the
+setup. `stow` is used to symlink collections of dotfiles into the home directory
+and `just` is a command/recipe runner&mdash;think of it like a modern
+replacement for `make`.
 
-The justfile contains additional targets `dotfiles`, `install`, and
-`install-gui` (on linux) to install any new dotfiles or install additional
-packages after syncing later.
+After that this repository will be cloned into `~/config` and `just _bootstrap`
+is run. This is (mostly) just a wrapper around `just install` which installs the
+core set of apps I use and `just dotfiles` which symlinks my dotfiles into
+place. The dotfiles themselves live under `dotfiles/core` as well as
+`dotfiles/macos` and `dotfiles/linux` for os-specific configuration. Finally on
+linux `just install-gui` will install graphical packages.
+
+All of these commands can be run again and if nothing has changed they should do
+nothing. Typically I will just run `git pull` and `just dotfiles` to get any
+upstream configuration changes (if files have only been changed but nothing has
+been explicitly added the `just` call is unnecessary).
