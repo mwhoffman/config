@@ -33,11 +33,19 @@ return {
         ["<C-p>"] = cmp.mapping.select_prev_item(),
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-y>"] = cmp.mapping.confirm {select=true},
+        ["<C-y>"] = cmp.mapping.confirm { select = true },
       },
       sources = {
+        -- Completion source for nvim lua require statements and module
+        -- annotations.
         {
-          name="nvim_lsp",
+          name = "lazydev",
+          group_index = 0,
+        },
+
+        -- Completion source from language servers.
+        {
+          name = "nvim_lsp",
           entry_filter = function(entry)
             local types = require("cmp.types")
             local kind = types.lsp.CompletionItemKind[entry:get_kind()]
@@ -47,7 +55,11 @@ return {
             return true
           end,
         },
-        {name="path"},
+
+        -- Completion source for filepaths.
+        {
+          name = "path",
+        },
       }
     }
   end,
