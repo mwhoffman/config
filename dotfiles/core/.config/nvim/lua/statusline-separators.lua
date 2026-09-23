@@ -61,7 +61,7 @@ local function get_cells(tabpage)
 end
 
 -- Update separator windows in the current tabpage.
-local function update()
+local function update_tabpage()
   local tabpage = vim.api.nvim_get_current_tabpage()
   local cells = get_cells(tabpage)
 
@@ -107,6 +107,17 @@ local function update()
   all_windows[tabpage] = windows
 end
 
+-- Forget the windows of closed tabpages. Their windows are closed along with
+-- the tabpage, so only the entries in all_windows are left. TabClosed only
+-- gives the closed tab's position, not its handle, so check every entry.
+local function prune_tabpage()
+  for tabpage in pairs(all_windows) do
+    if not vim.api.nvim_tabpage_is_valid(tabpage) then
+      all_windows[tabpage] = nil
+    end
+  end
+end
+
 local group = vim.api.nvim_create_augroup(
   "StatuslineSeparators",
   { clear = true }
@@ -120,7 +131,7 @@ vim.api.nvim_create_autocmd(
   { "VimEnter", "WinResized", "VimResized", "TabEnter" },
   {
     group = group,
-    callback = update,
+    callback = update_tabpage,
   })
 
 -- Also update when statuslines are turned on/off.
@@ -129,5 +140,13 @@ vim.api.nvim_create_autocmd(
   {
     group = group,
     pattern = "laststatus",
-    callback = update,
+    callback = update_tabpage,
+  })
+
+-- Also forget about closed tabpages.
+vim.api.nvim_create_autocmd(
+  "TabClosed",
+  {
+    group = group,
+    callback = prune_tabpage,
   })
