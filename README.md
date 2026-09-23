@@ -10,9 +10,9 @@ This configuration can be bootstrapped by running
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap)"
 ```
-The `bootstrap` script will install [homebrew][https://brew.sh/] and use that to
-install [stow][https://www.gnu.org/software/stow/] and
-[just][https://github.com/casey/just] which are needed for the rest of the
+The `bootstrap` script will install [homebrew](https://brew.sh/) and use that to
+install [stow](https://www.gnu.org/software/stow/) and
+[just](https://github.com/casey/just) which are needed for the rest of the
 setup. `stow` is used to symlink collections of dotfiles into the home directory
 and `just` is a command/recipe runner&mdash;think of it like a modern
 replacement for `make`.
