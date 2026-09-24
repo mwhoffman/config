@@ -103,15 +103,19 @@ if ! find_brew; then
 fi
 
 # We need just to run the setup and stow to link the dotfiles. Only install what
-# is missing since brew would otherwise auto-update and upgrade what's installed.
+# is missing since brew would otherwise auto-update and upgrade what's
+# installed.
 missing=$(missing_brew just stow)
 if [[ -n "${missing}" ]]; then
   run brew install ${missing}
 fi
 
 # Check the target config directory and try to clone from git. Otherwise fail if
-# the directory already exists and is not an existing clone.
-if [[ ! -d "${TARGET}" ]]; then
+# anything already exists there (including a file or a broken symlink) that
+# isn't an existing clone. A clone without an origin remote gets an empty ORIGIN
+# rather than git's own error, so it fails with the same message as any other
+# origin.
+if [[ ! -e "${TARGET}" && ! -L "${TARGET}" ]]; then
   run git clone "${CONFIG}" "${TARGET}"
 
 elif [[ ! -d "${TARGET}/.git" ]]; then
@@ -119,11 +123,25 @@ elif [[ ! -d "${TARGET}/.git" ]]; then
   exit 1
 
 else
-  ORIGIN=$(cd ${TARGET} && git remote get-url origin)
+  ORIGIN=$(git -C "${TARGET}" remote get-url origin 2>/dev/null || true)
   if [[ "${ORIGIN}" != "${CONFIG}" && "${ORIGIN}" != "${CONFIG_SSH}" ]]; then
     echo "Unknown directory \"${TARGET}\" (incorrect origin)."
     exit 1
   fi
+fi
+
+# Fetch over https, which needs no authentication, but push over ssh. This also
+# converts existing clones, and only changes a url if it's wrong so rerunning
+# this makes no changes.
+FETCH_URL=$(git -C "${TARGET}" remote get-url origin)
+if [[ "${FETCH_URL}" != "${CONFIG}" ]]; then
+  run git -C "${TARGET}" remote set-url origin "${CONFIG}"
+fi
+
+# The push url defaults to the fetch url, so only check it after that's fixed.
+PUSH_URL=$(git -C "${TARGET}" remote get-url --push origin)
+if [[ "${PUSH_URL}" != "${CONFIG_SSH}" ]]; then
+  run git -C "${TARGET}" remote set-url --push origin "${CONFIG_SSH}"
 fi
 
 # Run the default setup in this same process so that homebrew is in the PATH.
