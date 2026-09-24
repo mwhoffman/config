@@ -22,11 +22,22 @@ pathdir "$HOME/.local/bin"
 # treat this differently, so putting them in .zshrc is the "safest" thing to do.
 
 export LC_COLLATE="POSIX"      # Use alphabetic ordering of files.
-export VISUAL="nvim"           # The visual editor to use.
-export EDITOR="nvim"           # "Plain" editor to use (mostly ignored).
 export PAGER="less"            # Replace more with less as the pager.
 export LESS="FRX -x2"          # Default options for less.
 export LESSHISTFILE="-"        # Don't save less history.
+
+# Use the first editor of [nvim, vim, vi] that exists.
+for editor in nvim vim vi; do
+  if (( $+commands[$editor] )); then
+    export VISUAL=$editor EDITOR=$editor
+    break
+  fi
+done
+unset editor
+
+# The history file, completion dump, and completion cache below all live here,
+# and zsh won't create the directory itself.
+[[ -d "$HOME/.local/share/zsh" ]] || mkdir -p "$HOME/.local/share/zsh"
 
 # Where and how much history to save.
 HISTFILE="$HOME/.local/share/zsh/history"
@@ -45,8 +56,11 @@ setopt HIST_FIND_NO_DUPS
 setopt HIST_IGNORE_SPACE
 
 # Define the $LS_COLORS variable used to color the output of ls, but we'll also
-# use it for completions.
-[ -f "$HOME/.dircolors" ] && eval $(dircolors $HOME/.dircolors)
+# use it for completions. dircolors is a GNU tool, so on macOS it only exists if
+# homebrew's coreutils are in PATH.
+if [ -f "$HOME/.dircolors" ] && (( $+commands[dircolors] )); then
+  eval $(dircolors $HOME/.dircolors)
+fi
 
 # Initialize zsh completion. The security check compinit performs on every
 # function file in $fpath is one of the slowest parts of shell startup, so
@@ -76,15 +90,16 @@ zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
 # Use $LS_COLORS to color completed files and directories.
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
-# Aliases.
-alias ls="ls -N --color=auto"
-alias vi="nvim"
+# The ls options depend on which ls is in PATH: GNU ls (Linux, or
+# homebrew's coreutils on macOS) or BSD ls (macOS).
+if ls --version >/dev/null 2>&1; then
+  alias ls="ls -N --color=auto"
+else
+  alias ls="ls -G"
+fi
 
-# Functions.
-function venv {
-  [[ -e .venv/bin/activate ]] || python3 -m venv .venv
-  source .venv/bin/activate
-}
+# Point vi at the editor chosen above (nvim, or vim if nvim is missing).
+[[ -n $EDITOR && $EDITOR != vi ]] && alias vi="$EDITOR"
 
 # Initialize ZVM when the plugin is sourced rather than trying to be lazy.
 ZVM_INIT_MODE="sourcing"
@@ -97,16 +112,19 @@ src "$HOME/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 # Source fzf bindings, but only if fzf is actually installed. The fzf
 # bindings can be sourced directly from the fzf command for versions >=0.48.
-# So check this and use it if possible.
-if command -v fzf >/dev/null; then
-  if [[ ${${(@s:.:)${=$(fzf --version)}[1]}[2]} -ge 48 ]]; then
-    source <(fzf --zsh)
+# So check whether it supports this (rather than parsing the version) and use
+# it if possible. The output is saved so fzf only runs once: the assignment
+# takes the exit status of `fzf --zsh`, which fails on older versions.
+if (( $+commands[fzf] )); then
+  if fzf_zsh=$(fzf --zsh 2>/dev/null); then
+    eval "$fzf_zsh"
   else
     # Below is the default location location for those bindings on
-    # ubunut/mint/etc.
+    # ubuntu/mint/etc.
     src "/usr/share/doc/fzf/examples/completion.zsh"
     src "/usr/share/doc/fzf/examples/key-bindings.zsh"
   fi
+  unset fzf_zsh
 fi
 
 # Source any additional configuration.
@@ -115,4 +133,3 @@ src "$HOME/.config/zsh/overrides.zsh"
 
 # Display banner information.
 src "$HOME/.config/zsh/banner.zsh"
-

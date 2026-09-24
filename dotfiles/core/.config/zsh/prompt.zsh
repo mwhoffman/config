@@ -1,18 +1,17 @@
 # zsh prompt function.
 
 function _parse_pwd {
-  # The variable $PWD_PATHS can be set to a space-separated list of global
-  # paths with a single capture group () each. Any of these paths which match
-  # the base path of $PWD will be abbreviated as "//foo/bar" where the base
-  # component has been removed and replaced with "//". The string in the
-  # capture-group will be assigned to $PWD_NAME which can then be used in $PS1
-  # below.
+  # The variable $PWD_PATH can be set to a regex for a base path with a single
+  # capture group (). If it matches the start of $PWD then $PWD will be
+  # abbreviated as "//foo/bar" where the base path has been removed and
+  # replaced with "//". The string in the capture group will be assigned to
+  # $PWD_NAME which is then used in the prompt below.
 
   PWD_=$PWD
   PWD_NAME=""
 
-  # Rewrite $PWD using any of the paths in $PWD_ARRAY. See above for an
-  # explanation of how this is used.
+  # Rewrite $PWD using $PWD_PATH. See above for an explanation of how this is
+  # used.
   if [[ -n $PWD_PATH ]]; then
     if [[ $PWD_ =~ "^$PWD_PATH/?" ]]; then
       PWD_="//${PWD_#$MATCH}"
@@ -36,32 +35,19 @@ function _parse_branch {
   BRANCH_AHEAD=""
   BRANCH_BEHIND=""
 
-  # Get the git branch/status; do this before mercurial because it's faster.
-  if [[ -z "${BRANCH}" ]]; then
-    BRANCH=$(git symbolic-ref --short HEAD 2> /dev/null)
-    if [[ -n $BRANCH ]]; then
-      STATUS=$(git status --porcelain --branch)
-      for line in ${(f)STATUS}; do
-        if [[ $line =~ '^[MAD].*' ]]; then BRANCH_STAGED=1; fi
-        if [[ $line =~ '^.[MD].*' ]]; then BRANCH_UNSTAGED=1; fi
-        if [[ $line =~ '^\?\?.*'  ]]; then BRANCH_UNTRACKED=1; fi
-        if [[ $line =~ '^U.*'     ]]; then BRANCH_CONFLICT=1; fi
-        if [[ $line == '## '*'[ahead '*']' ]]; then BRANCH_AHEAD=1; fi
-        if [[ $line == '## '*'['*'behind '*']' ]]; then BRANCH_BEHIND=1; fi
-      done
-    fi
-  fi
-
-  # Get the mercurial branch/status.
-  if [[ -z "${BRANCH}" ]]; then
-    BRANCH=$(chg branch 2>/dev/null)
-    if [[ -n $BRANCH ]]; then
-      STATUS=$(chg status)
-      for line in ${(f)STATUS}; do
-        if [[ $line =~ '[MA!] .*' ]]; then BRANCH_UNSTAGED=1; fi
-        if [[ $line == '? '* ]]; then BRANCH_UNTRACKED=1; fi
-      done
-    fi
+  # Get the git branch/status, if git is installed.
+  (( $+commands[git] )) || return
+  BRANCH=$(git symbolic-ref --short HEAD 2> /dev/null)
+  if [[ -n $BRANCH ]]; then
+    STATUS=$(git status --porcelain --branch)
+    for line in ${(f)STATUS}; do
+      if [[ $line =~ '^[MAD].*' ]]; then BRANCH_STAGED=1; fi
+      if [[ $line =~ '^.[MD].*' ]]; then BRANCH_UNSTAGED=1; fi
+      if [[ $line =~ '^\?\?.*'  ]]; then BRANCH_UNTRACKED=1; fi
+      if [[ $line =~ '^U.*'     ]]; then BRANCH_CONFLICT=1; fi
+      if [[ $line == '## '*'[ahead '*']' ]]; then BRANCH_AHEAD=1; fi
+      if [[ $line == '## '*'['*'behind '*']' ]]; then BRANCH_BEHIND=1; fi
+    done
   fi
 }
 
