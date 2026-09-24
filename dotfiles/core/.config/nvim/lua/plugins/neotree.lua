@@ -1,51 +1,15 @@
-return {
+-- Neo-tree is a plugin for browsing the file system and other tree-like
+-- structures.
+local spec = {
   "nvim-neo-tree/neo-tree.nvim",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons",
     "MunifTanjim/nui.nvim",
   },
-  cmd = "Neotree",
-  init = function ()
-    vim.api.nvim_create_autocmd("BufEnter", {
-      group = vim.api.nvim_create_augroup(
-        "Neotree_start_directory",
-        {clear=true}
-      ),
-      desc = "Start Neo-tree with directory",
-      once = true,
-      callback = function()
-        if package.loaded["neo-tree"] then
-          return
-        else
-          local stats = vim.uv.fs_stat(vim.fn.argv(0))
-          if stats and stats.type == "directory" then
-            require("neo-tree")
-          end
-        end
-      end,
-    })
-  end,
-  keys = {
-    {
-      "<leader>t",
-      ":Neotree toggle reveal_force_cwd position=float<cr>",
-      desc = "File tree (floating)",
-      silent = true
-    },
-    {
-      "<leader>b",
-      ":Neotree buffers toggle position=float<cr>",
-      desc = "File tree (floating)",
-      silent = true
-    },
-    {
-      "<leader>T",
-      ":Neotree toggle reveal_force_cwd position=left<cr>",
-      desc = "File tree (sidebar)",
-      silent = true
-    },
-  },
+  -- Neo-tree itself is lazy loaded, so we don't need to rely on the plugin
+  -- manager for this.
+  lazy = false,
   opts = {
     close_if_last_window = true,
     popup_border_style = "rounded",
@@ -60,15 +24,42 @@ return {
           ".git",
         },
       },
-      hijack_netrw_behavior = "open_current",
+      hijack_netrw_behavior = "open_default",
     },
     default_component_configs = {
-      indent = {indent_marker="┆"},
-      file_size = {enabled=false},
-      type = {enabled=false},
-      last_modified = {enabled=false},
-      created = {enabled=false},
-      symlink_target = {enabled=false}
+      indent = {indent_marker = "┆"},
+      file_size = {enabled = false},
+      type = {enabled = false},
+      last_modified = {enabled = false},
+      created = {enabled = false},
+      symlink_target = {enabled = false}
     }
   },
 }
+
+-- This doesn't affect the lazy-loading behavior because we set lazy=False, but
+-- the descriptions are also used by which-key to display command information.
+spec.keys = {
+  {
+    "<leader>t",
+    "<cmd>Neotree toggle reveal_force_cwd position=float<cr>",
+    desc = "File tree (floating)",
+  },
+  {
+    "<leader>b",
+    "<cmd>Neotree buffers toggle position=float<cr>",
+    desc = "Buffer tree (floating)",
+  },
+  {
+    "<leader>T",
+    "<cmd>Neotree toggle reveal_force_cwd position=left<cr>",
+    desc = "File tree (sidebar)",
+  },
+}
+
+-- Disable netrw so it doesn't flash underneath when we open directories.
+spec.init = function()
+  vim.g.loaded_netrwPlugin = 1
+end
+
+return spec
