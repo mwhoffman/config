@@ -67,11 +67,18 @@ fi
 # only do a full check once a day (via the zcompdump's mtime) and skip it
 # (-C) the rest of the time.
 autoload -U compinit
-if [[ -n "$HOME/.local/share/zsh/zcompdump"(#qN.mh+24) ]]; then
-  compinit -d "$HOME/.local/share/zsh/zcompdump"
-else
-  compinit -C -d "$HOME/.local/share/zsh/zcompdump"
-fi
+() {
+  # The glob qualifier (#qN.mh+24) only matches a file last modified more than
+  # 24 hours ago, and needs extendedglob; localoptions keeps that option set
+  # only within this function.
+  setopt localoptions extendedglob
+  local dump="$HOME/.local/share/zsh/zcompdump"
+  if [[ -n $dump(#qN.mh+24) ]]; then
+    compinit -d "$dump"
+  else
+    compinit -C -d "$dump"
+  fi
+}
 
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$HOME/.local/share/zsh/cache"
