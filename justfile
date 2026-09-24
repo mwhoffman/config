@@ -24,12 +24,21 @@ _ := require("git")
 _ := require("stow")
 
 # Stow dotfiles.
-dotfiles: (_link "core") (_link os) _gitconfig
+dotfiles: (_link "core") (_link os) _gitconfig _prune-links
 
 # Link a single stow package, also removing links for files deleted upstream.
 _link package:
   @echo "📦 Installing dotfiles: {{package}}"
   @stow --no-folding -d dotfiles -t {{home}} -R {{package}}
+
+# Remove dead links into dotfiles, e.g. left over from deleted directories.
+# Stow's links are relative, so they start with config/dotfiles/ or ../.
+_prune-links:
+  @echo "🗑️ Pruning dead dotfiles"
+  @find {{home}} -maxdepth 6 \
+    \( -path {{home}}/.cache -o -path {{home}}/.local/share/Trash \) -prune \
+    -o -type l \( -lname 'config/dotfiles/*' -o -lname '*../config/dotfiles/*' \) \
+    ! -exec test -e {} \; -exec rm {} +
 
 # Install packages.
 [macos]
