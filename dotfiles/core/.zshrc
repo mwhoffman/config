@@ -44,16 +44,14 @@ HISTFILE="$HOME/.local/share/zsh/history"
 HISTSIZE=50000
 SAVEHIST=10000
 
-# The following lines deal with history, first we store extended history
-# information, share history between sessions, and then (a) don't save duplicate
-# history lines, and ignore any duplicates if they exist.
-setopt EXTENDED_HISTORY
-setopt SHARE_HISTORY
-setopt HIST_SAVE_NO_DUPS
-setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_FIND_NO_DUPS
-setopt HIST_IGNORE_SPACE
+# History options.
+setopt EXTENDED_HISTORY       # Save timestamps and durations.
+setopt SHARE_HISTORY          # Share history between running shells.
+setopt HIST_REDUCE_BLANKS     # Compact/trim whitespace (quoted text is kept).
+setopt HIST_IGNORE_ALL_DUPS   # Drop older copies of a repeated command.
+setopt HIST_SAVE_NO_DUPS      # Don't write duplicates to the history file.
+setopt HIST_FIND_NO_DUPS      # Don't show duplicates when searching.
+setopt HIST_IGNORE_SPACE      # Don't save commands starting with a space.
 
 # Define the $LS_COLORS variable used to color the output of ls, but we'll also
 # use it for completions. dircolors is a GNU tool, so on macOS it only exists if
