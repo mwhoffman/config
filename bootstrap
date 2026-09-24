@@ -2,27 +2,23 @@
 
 set -eu
 
+# When the script exits, including if a step fails, drop any cached sudo
+# credentials. Doing this once here, rather than after each use of sudo, also
+# means only asking for a password once. If a step failed, also say so, since
+# its error may be buried in the output above (e.g. from the brew installer).
+cleanup() {
+  local status=$?
+  sudo -k
+  if [[ ${status} -ne 0 ]]; then
+    echo "❌ Bootstrap failed (exit ${status}); fix the error above and rerun."
+  fi
+}
+trap cleanup EXIT
+
 TARGET="${HOME}/config"
 CONFIG="https://github.com/mwhoffman/config"
 CONFIG_SSH="git@github.com:mwhoffman/config.git"
 HOMEBREW="https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
-
-# Echo a command (shell-quoted, bold when stdout is a terminal, matching how
-# `just` echoes recipe lines) and then run it.
-run() {
-  if [ -t 1 ]; then
-    printf '\033[1m'
-  fi
-  printf '%q' "$1"
-  if [ "$#" -gt 1 ]; then
-    printf ' %q' "${@:2}"
-  fi
-  if [ -t 1 ]; then
-    printf '\033[0m'
-  fi
-  printf '\n'
-  "$@"
-}
 
 # Check if brew is on our PATH; if not, search for it in the usual places and
 # run shellenv to add it. Return unsuccessfully if we can't find it at all.
@@ -74,13 +70,14 @@ case $(uname -s) in
   Linux)
     missing=$(missing_apt build-essential procps curl file git)
     if [[ -n "${missing}" ]]; then
-      run sudo apt-get update
-      run sudo apt-get install -y ${missing}
+      echo "📦 Installing apt packages:" ${missing}
+      sudo apt-get update
+      sudo apt-get install -y ${missing}
     fi
     ;;
 
   *)
-    echo "Unsupported OS \"$(uname -s)\"."
+    echo "❌ Unsupported OS: $(uname -s)"
     exit 1
     ;;
 esac
@@ -88,18 +85,17 @@ esac
 if ! find_brew; then
   # The installer needs sudo, and with NONINTERACTIVE it can't prompt for a
   # password itself, so authenticate (and cache credentials) first.
-  run sudo -v
+  echo "📦 Installing homebrew"
+  sudo -v
 
-  # Download the installer to a file rather than passing it to `bash -c`, so
-  # that a failed download stops the script instead of running an empty command.
-  installer=$(mktemp)
-  trap 'rm -f "${installer}"' EXIT
-  run curl -fsSL -o "${installer}" "${HOMEBREW}"
-  run env NONINTERACTIVE=1 /bin/bash "${installer}"
+  # This is homebrew's recommended install command, except the installer is
+  # downloaded first: the assignment takes curl's exit status, so set -e stops
+  # the script if the download fails (or is cut short) rather than running an
+  # empty or partial script.
+  installer=$(curl -fsSL "${HOMEBREW}")
+  NONINTERACTIVE=1 /bin/bash -c "${installer}"
 
-  # Drop the cached credentials now that we no longer need them.
-  run sudo -k
-  find_brew || { echo "Could not find brew after installing it."; exit 1; }
+  find_brew || { echo "❌ Could not find brew after installing it."; exit 1; }
 fi
 
 # We need just to run the setup and stow to link the dotfiles. Only install what
@@ -107,7 +103,8 @@ fi
 # installed.
 missing=$(missing_brew just stow)
 if [[ -n "${missing}" ]]; then
-  run brew install ${missing}
+  echo "📦 Installing brew packages:" ${missing}
+  brew install ${missing}
 fi
 
 # Check the target config directory and try to clone from git. Otherwise fail if
@@ -116,16 +113,17 @@ fi
 # rather than git's own error, so it fails with the same message as any other
 # origin.
 if [[ ! -e "${TARGET}" && ! -L "${TARGET}" ]]; then
-  run git clone "${CONFIG}" "${TARGET}"
+  echo "📦 Installing config: ${TARGET}"
+  git clone "${CONFIG}" "${TARGET}"
 
 elif [[ ! -d "${TARGET}/.git" ]]; then
-  echo "Unknown directory \"${TARGET}\" (not a git directory)."
+  echo "❌ Unknown directory \"${TARGET}\" (not a git directory)."
   exit 1
 
 else
   ORIGIN=$(git -C "${TARGET}" remote get-url origin 2>/dev/null || true)
   if [[ "${ORIGIN}" != "${CONFIG}" && "${ORIGIN}" != "${CONFIG_SSH}" ]]; then
-    echo "Unknown directory \"${TARGET}\" (incorrect origin)."
+    echo "❌ Unknown directory \"${TARGET}\" (incorrect origin)."
     exit 1
   fi
 fi
@@ -135,18 +133,19 @@ fi
 # this makes no changes.
 FETCH_URL=$(git -C "${TARGET}" remote get-url origin)
 if [[ "${FETCH_URL}" != "${CONFIG}" ]]; then
-  run git -C "${TARGET}" remote set-url origin "${CONFIG}"
+  echo "🔧 Setting config fetch url: ${CONFIG}"
+  git -C "${TARGET}" remote set-url origin "${CONFIG}"
 fi
 
 # The push url defaults to the fetch url, so only check it after that's fixed.
 PUSH_URL=$(git -C "${TARGET}" remote get-url --push origin)
 if [[ "${PUSH_URL}" != "${CONFIG_SSH}" ]]; then
-  run git -C "${TARGET}" remote set-url --push origin "${CONFIG_SSH}"
+  echo "🔧 Setting config push url: ${CONFIG_SSH}"
+  git -C "${TARGET}" remote set-url --push origin "${CONFIG_SSH}"
 fi
 
 # Run the default setup in this same process so that homebrew is in the PATH.
 (cd "${TARGET}" && just _bootstrap)
 
 # We're done!
-echo
-echo "Config bootstrapped! Start a new login shell to pick up the dotfiles."
+echo "🎉 Config bootstrapped! Start a new login shell to pick up the dotfiles."
