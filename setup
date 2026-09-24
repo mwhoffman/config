@@ -10,7 +10,7 @@ cleanup() {
   local status=$?
   sudo -k
   if [[ ${status} -ne 0 ]]; then
-    echo "❌ Bootstrap failed (exit ${status}); fix the error above and rerun."
+    echo "❌ Setup failed (exit ${status}); fix the error above and rerun."
   fi
 }
 trap cleanup EXIT
@@ -144,8 +144,10 @@ if [[ "${PUSH_URL}" != "${CONFIG_SSH}" ]]; then
   git -C "${TARGET}" remote set-url --push origin "${CONFIG_SSH}"
 fi
 
-# Run the default setup in this same process so that homebrew is in the PATH.
-(cd "${TARGET}" && just _bootstrap)
+# Run the setup in this same process so that homebrew is in the PATH. Options
+# are given with MWCONFIG_* environment variables (see the justfile), which pass
+# through to just.
+(cd "${TARGET}" && just install && just dotfiles)
 
 # We're done!
-echo "🎉 Config bootstrapped! Start a new login shell to pick up the dotfiles."
+echo "🎉 Setup complete! Start a new login shell to pick up any changes."

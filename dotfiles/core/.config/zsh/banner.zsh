@@ -12,7 +12,7 @@
 
   # Fetch in the background (and disowned, with &!) so a slow or missing network
   # doesn't hold up the shell; its results show up in the next shell. The repo
-  # fetches over https (see bootstrap), which needs no authentication, so this
+  # fetches over https (see setup), which needs no authentication, so this
   # never triggers an ssh agent prompt. GIT_TERMINAL_PROMPT=0 makes git fail
   # rather than ask for credentials if that ever changes.
   GIT_TERMINAL_PROMPT=0 git -C "$config" fetch --quiet >/dev/null 2>&1 &!

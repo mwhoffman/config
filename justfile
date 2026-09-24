@@ -4,34 +4,34 @@ set allow-duplicate-variables
 home := home_directory()
 os := os()
 
+# Environment variables can be set which affect the setup process.
+# MWCONFIG_GUI set to any true value will install GUI packages as if `just
+# install --gui` was run; an empty value, 0, false, no, off or nil means off.
+# MWCONFIG_GIT_NAME and MWCONFIG_GIT_EMAIL specify name and email for git.
+
+gui_env := lowercase(env("MWCONFIG_GUI", ""))
+gui_default := if gui_env =~ '^(|false|no|off|nil|0)$' {
+  "false"
+} else {
+  "true"
+}
+git_name := env("MWCONFIG_GIT_NAME", "")
+git_email := env("MWCONFIG_GIT_EMAIL", "")
+
 # Require these tools so we fail early if they don't exist.
 _ := require("brew")
 _ := require("git")
 _ := require("stow")
 
-# List the available recipes.
-_default:
-  @just --list
-
-# Finish the bootstrap process.
-_bootstrap: install dotfiles _gitconfig
+# Stow dotfiles.
+dotfiles: (_link "core") (_link os) _gitconfig
 
 # Link a single stow package, also removing links for files deleted upstream.
 _link package:
   @echo "📦 Installing dotfiles: {{package}}"
   @stow --no-folding -d dotfiles -t {{home}} -R {{package}}
 
-# Install the given brewfile. Brew's auto-update is skipped: existing packages
-# aren't upgraded anyway, and this avoids re-downloading the package index (the
-# "Downloading API data" step) on every run.
-_brew brewfile:
-  @echo "📦 Installing brew bundle: {{brewfile}}"
-  @HOMEBREW_NO_AUTO_UPDATE=1 brew bundle --file={{brewfile}} -q --no-upgrade
-
-# Stow dotfiles from "core" and os-specific packages.
-dotfiles: (_link "core") (_link os)
-
-# Install core packages [macos].
+# Install packages.
 [macos]
 install:
   #!/usr/bin/env bash
@@ -43,9 +43,10 @@ install:
   just _install-zsh-plugins
   just _install-fonts
 
-# Install core packages [linux].
+# Install packages. (use --gui or MWCONFIG_GUI for graphical packages)
 [linux]
-install:
+[arg("gui", long="gui", value="true")]
+install gui=gui_default:
   #!/usr/bin/env bash
   set -euo pipefail
   # Ask for sudo at most once for the steps below, and drop the cached
@@ -54,26 +55,26 @@ install:
   just _brew Brewfile
   just _install-apt zsh
   just _install-zsh-plugins
+  if [ "{{gui}}" = true ]; then
+    # Install apt sources for third-party packages. Note: spotify's key doesn't
+    # live in a consistent place. So this will likely need to be updated every
+    # once in a while.
+    just _install-apt-source 1password \
+      https://downloads.1password.com/linux/keys/1password.asc \
+      https://downloads.1password.com/linux/debian/amd64 stable main
+    just _install-apt-source spotify \
+      https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.asc \
+      https://repository.spotify.com stable non-free
+    just _install-apt i3-wm polybar rofi
+    just _install-fonts
+  fi
 
-# Install gui packages [linux].
-[linux]
-install-gui:
-  #!/usr/bin/env bash
-  set -euo pipefail
-  # Ask for sudo at most once for the steps below, and drop the cached
-  # credentials when done, including if a step fails.
-  trap 'sudo -k' EXIT
-  # Install apt sources for third-party packages. Note: spotify's key doesn't
-  # live in a consistent place. So this will likely need to be updated every
-  # once in a while.
-  just _install-apt-source 1password \
-    https://downloads.1password.com/linux/keys/1password.asc \
-    https://downloads.1password.com/linux/debian/amd64 stable main
-  just _install-apt-source spotify \
-    https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.asc \
-    https://repository.spotify.com stable non-free
-  just _install-apt i3-wm polybar rofi
-  just _install-fonts
+# Install the given brewfile. Brew's auto-update is skipped: existing packages
+# aren't upgraded anyway, and this avoids re-downloading the package index (the
+# "Downloading API data" step) on every run.
+_brew brewfile:
+  @echo "📦 Installing brew bundle: {{brewfile}}"
+  @HOMEBREW_NO_AUTO_UPDATE=1 brew bundle --file={{brewfile}} -q --no-upgrade
 
 # Install a source list and scoped apt key for a third-party repo.
 [linux]
@@ -172,8 +173,8 @@ _gitconfig:
   if [ -f "$target" ]; then
     exit 0
   fi
-  name=${GIT_NAME:-}
-  email=${GIT_EMAIL:-}
+  name={{quote(git_name)}}
+  email={{quote(git_email)}}
   [ -n "$name" ] || read -rp "Git name: " name
   [ -n "$email" ] || read -rp "Git email: " email
   mkdir -p "$(dirname "$target")"

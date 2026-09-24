@@ -8,28 +8,26 @@ between multiple machines.
 
 This configuration can be bootstrapped by running
 ```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mwhoffman/config/HEAD/bootstrap)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mwhoffman/config/HEAD/setup)"
 ```
-The `bootstrap` script will install [homebrew](https://brew.sh/) and use that to
-install [stow](https://www.gnu.org/software/stow/) and
-[just](https://github.com/casey/just) which are needed for the rest of the
-setup. `stow` is used to symlink collections of dotfiles into the home directory
-and `just` is a command/recipe runner&mdash;think of it like a modern
-replacement for `make`.
+which will clone the repository into `~/config`, install my common collection of
+apps and install my dotfiles. After pulling in recent changes from github this
+process can be repeated by running `~/config/setup` which will install any
+missing apps and missing dotfiles&mdash;importantly it should be a no op if
+nothing has changed.
 
-After that this repository will be cloned into `~/config` and `just _bootstrap`
-is run. This is (mostly) just a wrapper around `just install` which installs the
-core set of apps I use and `just dotfiles` which symlinks my dotfiles into
-place. The dotfiles themselves live under
-[dotfiles/core](https://github.com/mwhoffman/config/tree/main/dotfiles/core) as
-well as
-[dotfiles/macos](https://github.com/mwhoffman/config/tree/main/dotfiles/macos)
-and
-[dotfiles/linux](https://github.com/mwhoffman/config/tree/main/dotfiles/linux)
-for os-specific configuration. Finally on linux `just install-gui` will install
-graphical packages that aren't otherwise installed by default.
+[core]: https://github.com/mwhoffman/config/tree/main/dotfiles/core
+[macos]: https://github.com/mwhoffman/config/tree/main/dotfiles/macos
+[linux]: https://github.com/mwhoffman/config/tree/main/dotfiles/linux
 
-All of these commands can be run again and if nothing has changed they should do
-nothing. Typically I will just run `git pull` and `just dotfiles` to get any
-upstream configuration changes (if files have only been changed but nothing has
-been explicitly added the `just` call is unnecessary).
+The dotfiles themselves live under [dotfiles/core][core] as well as
+[dotfiles/macos][macos] and [dotfiles/linux][linux] for os-specific
+configuration. They are symlinked into place so any local edits should be
+reflected automatically in the git repository, and pulling down changes
+automatically "updates" the dotfiles. Re-running `setup` is only strictly
+necessary if there are new files.
+
+By setting the environment variable `MWCONFIG_GUI=1` the setup process will also
+install gui tools on linux. Finally, the `MWCONFIG_GIT_NAME` and
+`MWCONFIG_GIT_EMAIL` can be used to initialize the git name and email settings.
+If these are not set the setup script will ask for them.
