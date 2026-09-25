@@ -81,19 +81,6 @@ install gui=gui_default:
       https://repository.spotify.com stable non-free
     just _install-apt i3-wm polybar rofi
     just _install-fonts
-    # Edit local.zsh to append/edit a MWCONFIG_GUI setting to update gui
-    # packages by default.
-    local_zsh={{home}}/.config/zsh/local.zsh
-    setting='^[[:space:]]*(export[[:space:]]+)?MWCONFIG_GUI='
-    if ! grep -qsx "export MWCONFIG_GUI=1" "$local_zsh"; then
-      echo "🔧 Configuring local zsh options ($local_zsh): MWCONFIG_GUI=1"
-      if grep -qsE "$setting" "$local_zsh"; then
-        sed -i -E "s/$setting.*/export MWCONFIG_GUI=1/" "$local_zsh"
-      else
-        mkdir -p "$(dirname "$local_zsh")"
-        echo "export MWCONFIG_GUI=1" >> "$local_zsh"
-      fi
-    fi
   fi
 
 # Install the given brewfile. Brew's auto-update is skipped: existing packages

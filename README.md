@@ -28,7 +28,6 @@ automatically "updates" the dotfiles. Re-running `setup` is only strictly
 necessary if there are new files.
 
 By setting the environment variable `MWCONFIG_GUI=1` the setup process will also
-install gui tools on linux. This is recorded in `~/.config/zsh/local.zsh` so
-that later runs include gui tools as well. Finally, the `MWCONFIG_GIT_NAME` and
+install gui tools on linux. Finally, the `MWCONFIG_GIT_NAME` and
 `MWCONFIG_GIT_EMAIL` can be used to initialize the git name and email settings.
 If these are not set the setup script will ask for them.
