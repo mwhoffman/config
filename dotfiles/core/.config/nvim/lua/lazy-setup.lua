@@ -1,3 +1,8 @@
+-- lazy reads .git/HEAD and refs directly, which doesn't work with git's reftable
+-- format (the default on some machines), so make sure the git commands nvim
+-- runs create repos with the older files format.
+vim.env.GIT_DEFAULT_REF_FORMAT = "files"
+
 -- Define where to find the lazy plugin manager.
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
