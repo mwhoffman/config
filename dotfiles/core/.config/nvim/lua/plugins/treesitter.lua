@@ -9,6 +9,12 @@ local spec = {
   build = ":TSUpdate",
 }
 
+-- The main branch dropped support for nvim 0.11 after this commit, so pin to it
+-- on older versions of nvim.
+if vim.fn.has("nvim-0.12") == 0 then
+  spec.commit = "90cd6580e720caedacb91fdd587b747a6e77d61f"
+end
+
 -- Parsers to install.
 local parsers = {
   "bash",
