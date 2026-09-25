@@ -31,7 +31,20 @@ local spec = {
     pickers = {
       find_files = {
         find_command = {"fd", "--ignore", "--hidden"}
-      }
+      },
+      -- Show the same status letters as `git status --short` (the first column
+      -- is the staged status and the second is the unstaged status).
+      git_status = {
+        git_icons = {
+          added = "A",
+          changed = "M",
+          copied = "C",
+          deleted = "D",
+          renamed = "R",
+          unmerged = "U",
+          untracked = "?",
+        },
+      },
     },
   },
 }
@@ -57,6 +70,12 @@ spec.keys = {
     "<leader>fw",
     "<cmd>Telescope grep_string<cr>",
     desc = "Find string under cursor",
+    silent = true,
+  },
+  {
+    "<leader>fg",
+    "<cmd>Telescope git_status<cr>",
+    desc = "Find git changes",
     silent = true,
   },
   {

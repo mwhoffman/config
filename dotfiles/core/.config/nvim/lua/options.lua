@@ -45,6 +45,12 @@ opt.ruler = false
 
 opt.conceallevel = 2
 
+-- Draw rounded borders around floating windows (e.g. LSP hover).
+opt.winborder = "rounded"
+
+-- Open files with all folds open.
+opt.foldlevelstart = 99
+
 -- Autocommand which activates whenever is a buffer is read and will jump the
 -- cursor the location it was at when the buffer was last closed.
 vim.api.nvim_create_autocmd(

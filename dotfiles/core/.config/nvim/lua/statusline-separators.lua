@@ -85,6 +85,8 @@ local function update_tabpage()
       zindex = 1,
       -- No number column, sign column, etc.
       style = "minimal",
+      -- No border, even if 'winborder' sets one for floats by default.
+      border = "none",
     }
     if windows[i] then
       -- Set the config if we have enough windows.

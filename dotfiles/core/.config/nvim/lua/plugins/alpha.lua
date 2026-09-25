@@ -30,14 +30,13 @@ spec.config = function()
   }
 
   -- Add our own buttons.
-  dashboard.leader = "󱁐"
   dashboard.section.buttons.val = {
     button("  e", "  New file", "<cmd>ene<cr>", "New file"),
-    button("󱁐ff", "  Find files", "<leader>ff"),
-    button("󱁐fs", "  Find string", "<leader>fs"),
-    button("󱁐fr", "  Recent files (cwd)", "<leader>fr"),
-    button("󱁐fR", "  Recent files (all)", "<leader>fR"),
-    button("  q", "󰅚  Quit", "<cmd>qa<cr>", "Quit"),
+    button("␣fs", "  Find string", "<leader>fs"),
+    button("␣ff", "  Find files", "<leader>ff"),
+    button("␣fr", "  Find recent files", "<leader>fr"),
+    button("␣fg", "  Find git changes", "<leader>fg"),
+    button("  q", "  Quit", "<cmd>qa<cr>", "Quit"),
   }
 
   -- Override the button options.

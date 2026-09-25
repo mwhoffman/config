@@ -32,11 +32,8 @@ local parsers = {
 local legacy = {python = true, ruby = true}
 
 spec.config = function()
-  local ts = require("nvim-treesitter")
-  ts.setup()
-
   -- Install any missing parsers (asynchronous, no-op if already installed).
-  ts.install(parsers)
+  require("nvim-treesitter").install(parsers)
 
   vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("treesitter_start", {clear = true}),
@@ -45,6 +42,10 @@ spec.config = function()
       if not pcall(vim.treesitter.start, args.buf) then
         return
       end
+
+      -- Fold using treesitter (for all filetypes, including legacy ones).
+      vim.wo[0][0].foldmethod = "expr"
+      vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
       local ft = vim.bo[args.buf].filetype
       if legacy[ft] then
