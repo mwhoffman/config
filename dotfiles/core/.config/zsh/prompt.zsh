@@ -1,9 +1,12 @@
 # zsh prompt function.
 #
-# The prompt is rebuilt before each command by _prompt_make. Helpers are also
+# The prompt is rebuilt before each command by _prompt_set. Helpers are also
 # defined which uniformly return their results by setting the $reply array.
-# _prompt_make unpacks these values to create the prompt. All variables are
+# _prompt_set unpacks these values to create the prompt. All variables are
 # declared local so nothing should leak into the shell.
+#
+# There are also functions which set the title and additionally set OSC 1337
+# user variables for the host and cmd which can be used by supporting terminals.
 
 function _prompt_parse_pwd {
   # Parse $PWD, returning reply=(dir name). If $PWD_PATH is set to a regex with
@@ -107,7 +110,7 @@ function _prompt_parse_branch {
   reply=("$branch" "$flags")
 }
 
-function _prompt_make {
+function _prompt_set {
   # Declared here so the helpers' results don't leak into the shell.
   local -a reply
 
@@ -149,16 +152,97 @@ function _prompt_make {
   PROMPT+=" ${caret2} "
 }
 
-function _prompt_make_title {
-  # Set the terminal's window/tab title to the short hostname (%m). \e]0;...\a
-  # is the escape sequence terminals read as "set the title", and print -P
-  # expands prompt escapes like %m (-n skips the newline). Since this runs
-  # before every prompt, it also resets the title after programs that change it
-  # (e.g. ssh or nvim).
-  print -Pn "\e]0;%m\a"
+# Values already base64 encoded by _prompt_set_user_var, since running base64
+# is the slowest part of setting the title. E.g. the host is sent before every
+# prompt and command but only needs encoding once. Unlike the variables in the
+# functions this is global, so that it persists between calls.
+typeset -gA _prompt_base64_cache
+
+function _prompt_set_user_var {
+  # Set the terminal user var name to value, or unset it if value is empty. This
+  # uses the \e]1337;SetUserVar=name=value\a escape sequence (OSC 1337,
+  # originally from iTerm2, but also supported by e.g. kitty and WezTerm). The
+  # value is base64 encoded and leaving out "=value" unsets the var.
+  local name=$1 value=$2
+  local encoded=""
+  if [[ -n $value ]]; then
+    encoded=${_prompt_base64_cache[$value]}
+    if [[ -z $encoded ]]; then
+      # GNU base64 wraps long output, so remove any newlines.
+      encoded=$(print -rn -- $value | base64)
+      encoded=${encoded//$'\n'/}
+      _prompt_base64_cache[$value]=$encoded
+    fi
+    encoded="=$encoded"
+  fi
+  print -rn -- $'\e]1337;SetUserVar='"$name$encoded"$'\a'
+}
+
+function _prompt_set_title {
+  # Set the title to the host and the running command or just the host if the
+  # passed command is empty. This also sets the shell_host and shell_cmd user
+  # vars which can be used by terminal emulators that support OSC 1337 (see
+  # kitty/tab_bar.py for an example). The user vars are sent first since kitty
+  # redraws the tab bar when the title changes. Inside tmux the user vars are
+  # skipped because tmux doesn't pass them through, so the terminal keeps
+  # whatever was set when tmux was started (e.g. "host: tmux").
+  local cmd=$1
+  local host=${(%):-%m}
+  if [[ -z $TMUX ]]; then
+    _prompt_set_user_var shell_host $host
+    _prompt_set_user_var shell_cmd $cmd
+  fi
+  print -rn -- $'\e]0;'"$host${cmd:+: $cmd}"$'\a'
+}
+
+function _prompt_set_title_preexec {
+  # Before each command set the title to the host and command, where the
+  # command is just its name: the first word of the command line as typed
+  # ($1), without its path and with any control characters removed. Variable
+  # assignments (e.g. "FOO=1 make") are skipped, as is env and its options so
+  # the command it runs is shown. Similarly sudo and its options are skipped,
+  # but the command is shown as "sudo cmd".
+  local -a words=(${(z)1})
+  local prefix=""
+
+  # Options taking an argument (which also has to be skipped) for env or sudo,
+  # including when last in a group of options (e.g. "sudo -Eu root").
+  local arg_opts=""
+
+  # Stop at the last word, so e.g. "sudo -i" shows as "sudo -i".
+  while (( $#words > 1 )); do
+    case $words[1] in
+      ([[:alpha:]_]*=*)
+        shift words
+        ;;
+      (env|*/env)
+        arg_opts="(-|-[!-]*)[uCSP]"
+        shift words
+        ;;
+      (sudo|*/sudo)
+        prefix="sudo "
+        arg_opts="(-|-[!-]*)[ugpCDrtTU]"
+        shift words
+        ;;
+      (-*)
+        # Only skip options after env or sudo.
+        [[ -n $arg_opts ]] || break
+        [[ $words[1] == ${~arg_opts} ]] && shift words
+        shift words
+        ;;
+      (*)
+        break
+        ;;
+    esac
+  done
+
+  local cmd=$prefix${words[1]:t}
+  cmd=${cmd//[[:cntrl:]]/}
+  _prompt_set_title $cmd
 }
 
 # add-zsh-hook doesn't add a function twice if this file is sourced again.
 autoload -Uz add-zsh-hook
-add-zsh-hook precmd _prompt_make
-add-zsh-hook precmd _prompt_make_title
+add-zsh-hook precmd _prompt_set
+add-zsh-hook precmd _prompt_set_title
+add-zsh-hook preexec _prompt_set_title_preexec
