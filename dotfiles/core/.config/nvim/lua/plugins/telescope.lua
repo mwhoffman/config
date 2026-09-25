@@ -1,41 +1,10 @@
-return {
+-- telescope is a fuzzy finder with a preview window. We use it to find files,
+-- recent files and strings (searched with ripgrep).
+local spec = {
   "nvim-telescope/telescope.nvim",
-  cmd = "Telescope",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons",
-  },
-  keys = {
-    {
-      "<leader>ff",
-      "<cmd>Telescope find_files<cr>",
-      desc = "Find files",
-      silent = true,
-    },
-    {
-      "<leader>fs",
-      "<cmd>Telescope live_grep<cr>",
-      desc = "Find string",
-      silent = true,
-    },
-    {
-      "<leader>fw",
-      "<cmd>Telescope grep_string<cr>",
-      desc = "Find string under cursor",
-      silent = true,
-    },
-    {
-      "<leader>fr",
-      "<cmd>Telescope oldfiles only_cwd=true<cr>",
-      desc = "Find recent files (cwd)",
-      silent = true,
-    },
-    {
-      "<leader>fR",
-      "<cmd>Telescope oldfiles<cr>",
-      desc = "Find recent files (all)",
-      silent = true,
-    },
   },
   opts = {
     defaults = {
@@ -66,3 +35,42 @@ return {
     },
   },
 }
+
+-- Lazy-load on the :Telescope command.
+spec.cmd = "Telescope"
+
+-- Lazy-load when these keys are used.
+spec.keys = {
+  {
+    "<leader>ff",
+    "<cmd>Telescope find_files<cr>",
+    desc = "Find files",
+    silent = true,
+  },
+  {
+    "<leader>fs",
+    "<cmd>Telescope live_grep<cr>",
+    desc = "Find string",
+    silent = true,
+  },
+  {
+    "<leader>fw",
+    "<cmd>Telescope grep_string<cr>",
+    desc = "Find string under cursor",
+    silent = true,
+  },
+  {
+    "<leader>fr",
+    "<cmd>Telescope oldfiles only_cwd=true<cr>",
+    desc = "Find recent files (cwd)",
+    silent = true,
+  },
+  {
+    "<leader>fR",
+    "<cmd>Telescope oldfiles<cr>",
+    desc = "Find recent files (all)",
+    silent = true,
+  },
+}
+
+return spec

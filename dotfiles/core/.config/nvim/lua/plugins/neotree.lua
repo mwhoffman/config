@@ -1,5 +1,6 @@
 -- Neo-tree is a plugin for browsing the file system and other tree-like
--- structures.
+-- structures. We use it as a floating or sidebar file tree, and in place of
+-- netrw when editing a directory.
 local spec = {
   "nvim-neo-tree/neo-tree.nvim",
   dependencies = {

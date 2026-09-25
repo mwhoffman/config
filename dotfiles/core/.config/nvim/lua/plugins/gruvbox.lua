@@ -1,7 +1,5 @@
-local function get_color(group, attr)
-  return vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID(group)), attr)
-end
-
+-- gruvbox is our color theme. We keep its palette, but reassign some of the
+-- colors to different highlight groups.
 return {
   "ellisonleao/gruvbox.nvim",
   -- Load this plugin first since its our primary colorscheme.
@@ -30,13 +28,18 @@ return {
       gruvbox.setup({
         terminal_colors = true,
         overrides = {
-          NeotreeNormal = {bg=bg1},
-          NeotreeCursorLine = {bg=bg3},
+          NeotreeNormal = {bg = bg1},
+          NeotreeCursorLine = {bg = bg3},
         },
       })
 
       -- Run the original load.
       local result = gruvbox_load()
+
+      -- Helper function to load the color by group and attr name.
+      local function get_color(group, attr)
+        return vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID(group)), attr)
+      end
 
       -- Override the color of directories.
       vim.cmd "hi! link Directory GruvboxBlueBold"
@@ -48,7 +51,7 @@ return {
 
       -- Make the window separators and statusline match nvim-tree so that they
       -- "disappear".
-      vim.cmd("hi! StatusLine guifg="..get_color("NeotreeNormal", "bg"))
+      vim.cmd("hi! StatusLine guifg=" .. get_color("NeotreeNormal", "bg"))
 
       -- Match colors between signify/gitsigns.
       vim.cmd "hi! link SignifySignAdd GitSignsAdd"

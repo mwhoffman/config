@@ -1,10 +1,11 @@
+-- lualine replaces the default statusline with a prettier, configurable one.
 return {
   "nvim-lualine/lualine.nvim",
-  dependencies={
+  dependencies = {
     "nvim-tree/nvim-web-devicons"
   },
   opts = {
-    sections={
+    sections = {
       lualine_a = {"mode"},
       lualine_b = {"branch", "diagnostics"},
       lualine_c = {"filename"},
@@ -12,7 +13,7 @@ return {
       lualine_y = {},
       lualine_z = {"progress"},
     },
-    inactive_sections={
+    inactive_sections = {
       lualine_a = {},
       lualine_b = {},
       lualine_c = {"filename"},
@@ -24,8 +25,8 @@ return {
     options = {
       theme = "auto",
       disabled_filetypes = {"alpha", "trouble"},
-      section_separators = {left='', right=''},
-      component_separators = {left='', right=''},
+      section_separators = {left = '', right = ''},
+      component_separators = {left = '', right = ''},
     },
   },
 }

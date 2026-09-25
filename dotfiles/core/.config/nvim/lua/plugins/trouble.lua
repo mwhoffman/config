@@ -1,3 +1,5 @@
+-- trouble shows diagnostics (errors, warnings, etc.) in a list that we can
+-- browse and jump to.
 return {
   "folke/trouble.nvim",
   cmd = "Trouble",

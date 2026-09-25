@@ -1,3 +1,5 @@
+-- which-key pops up the available keymaps after we start a key sequence (e.g.
+-- pressing <leader>), and names the groups of keymaps defined below.
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",

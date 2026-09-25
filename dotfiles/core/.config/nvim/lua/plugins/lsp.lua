@@ -1,11 +1,14 @@
+-- Language server (LSP) support: mason installs the servers and tools,
+-- nvim-lspconfig configures them and enables the ones that are installed, and
+-- lazydev adds neovim's lua types when editing this config.
 return {
-  -- Mason is a package manager for LSP servers, linters, etc.
+  -- We can run :Mason to directly install and update LSPs; mason-tool-installer
+  -- should ensure that the given tools are installed by default (when it first
+  -- starts up).
   {
     "mason-org/mason.nvim",
     opts = {}
   },
-
-  -- Ensure that certain mason tools are installed by default.
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     dependencies = {

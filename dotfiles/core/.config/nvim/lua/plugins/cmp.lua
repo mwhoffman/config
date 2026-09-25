@@ -1,3 +1,5 @@
+-- cmp is a completion plugin. It gives us popup completions from different
+-- sources, the most important of which are the various lsps (see lsp.lua).
 return {
   "hrsh7th/nvim-cmp",
   event = "InsertEnter",
@@ -33,7 +35,7 @@ return {
         ["<C-p>"] = cmp.mapping.select_prev_item(),
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-y>"] = cmp.mapping.confirm { select = true },
+        ["<C-y>"] = cmp.mapping.confirm {select = true},
       },
       sources = {
         -- Completion source for nvim lua require statements and module
@@ -42,7 +44,6 @@ return {
           name = "lazydev",
           group_index = 0,
         },
-
         -- Completion source from language servers.
         {
           name = "nvim_lsp",
@@ -55,7 +56,6 @@ return {
             return true
           end,
         },
-
         -- Completion source for filepaths.
         {
           name = "path",

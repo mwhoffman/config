@@ -1,3 +1,5 @@
+-- osc52 copies text to the system clipboard using the OSC 52 terminal escape
+-- sequence, so copying works even over ssh or inside tmux.
 return {
   "ojroques/nvim-osc52",
   event = {"BufReadPre", "BufNewFile"},
