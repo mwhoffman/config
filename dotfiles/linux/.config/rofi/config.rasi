@@ -128,3 +128,6 @@ configuration {
   me-accept-custom: "";
 }
 
+/* Theme shared by all menus (found relative to this file). */
+@theme "theme"
+
