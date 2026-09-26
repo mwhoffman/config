@@ -32,7 +32,7 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 
 # Font and title setup.
-font pango:Hack Nerd Font Mono 9
+font pango:Hack Nerd Font Mono 12
 title_align center
 
 # Window-specific modifications based on the WM_CLASS.
