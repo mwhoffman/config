@@ -26,6 +26,7 @@ local parsers = {
   "markdown",
   "markdown_inline",
   "python",
+  "rasi",
   "ruby",
   "toml",
   "vim",
