@@ -7,11 +7,11 @@ between multiple machines.
 ## Quickstart
 
 This configuration can be bootstrapped by running
-```
+```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mwhoffman/config/HEAD/setup)"
 ```
 which will clone the repository into `~/config`, install my common collection of
-apps and install my dotfiles. After pulling in recent changes from github this
+apps, and install my dotfiles. After pulling in recent changes from github this
 process can be repeated by running `~/config/setup` which will install any
 missing apps and missing dotfiles&mdash;importantly it should be a no op if
 nothing has changed.
