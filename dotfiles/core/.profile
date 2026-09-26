@@ -31,6 +31,17 @@ for brew in \
 done
 unset brew
 
+# Let launchers (e.g. rofi's drun) find the .desktop files of homebrew apps. If
+# XDG_DATA_DIRS is unset, keep its default (/usr/local/share:/usr/share) after.
+if [ -n "$HOMEBREW_PREFIX" ]; then
+  XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+  case ":$XDG_DATA_DIRS:" in
+    *":$HOMEBREW_PREFIX/share:"*) ;;
+    *) XDG_DATA_DIRS="$HOMEBREW_PREFIX/share:$XDG_DATA_DIRS" ;;
+  esac
+  export XDG_DATA_DIRS
+fi
+
 pathdir "$HOME/bin"
 pathdir "$HOME/.local/bin"
 export PATH
