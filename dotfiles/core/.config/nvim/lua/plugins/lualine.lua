@@ -10,7 +10,7 @@ return {
       lualine_b = {"branch", "diagnostics"},
       lualine_c = {"filename"},
       lualine_x = {"filetype"},
-      lualine_y = {},
+      lualine_y = {"searchcount"},
       lualine_z = {"progress"},
     },
     inactive_sections = {
@@ -21,7 +21,14 @@ return {
       lualine_y = {},
       lualine_z = {},
     },
-    extensions = {"neo-tree"},
+    -- Label neo-tree windows rather than showing the working directory (which
+    -- is what lualine's own neo-tree extension does).
+    extensions = {
+      {
+        filetypes = {"neo-tree"},
+        sections = {lualine_a = {function() return "NeoTree" end}},
+      },
+    },
     options = {
       theme = "auto",
       disabled_filetypes = {"alpha", "trouble"},
