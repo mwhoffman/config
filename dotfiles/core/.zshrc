@@ -99,6 +99,9 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # ls is in PATH: GNU ls (Linux, or homebrew's coreutils on macOS) or BSD ls
 # (macOS).
 if (( $+commands[eza] )); then
+  # eza's config dir defaults to ~/Library/Application Support/eza on macOS, so
+  # point it at ~/.config/eza as on Linux.
+  export EZA_CONFIG_DIR="$HOME/.config/eza"
   alias ls="eza --icons=auto --sort=type"
 elif ls --version >/dev/null 2>&1; then
   alias ls="ls -N --color=auto"
