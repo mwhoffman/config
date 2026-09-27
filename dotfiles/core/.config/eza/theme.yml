@@ -38,9 +38,12 @@ git:
   typechange: {foreground: "#fe8019"}
   deleted: {foreground: LightRed}
 
-# Gruvbox's gray, e.g. for the dashes in permissions, and for dates.
+# Gruvbox's gray, e.g. for the dashes in permissions, and for dates and the @
+# marking files with extended attributes (which are common on macOS).
 punctuation: {foreground: "#928374"}
 date: {foreground: "#928374"}
+perms:
+  attribute: {foreground: "#928374"}
 
 # Files that eza categorizes by name or extension. Media and archives match
 # .dircolors, which only covers some of the extensions eza knows about.
