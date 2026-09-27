@@ -141,6 +141,3 @@ fi
 # Source any additional configuration.
 src "$HOME/.config/zsh/prompt.zsh"
 src "$HOME/.config/zsh/overrides.zsh"
-
-# Display banner information.
-src "$HOME/.config/zsh/banner.zsh"

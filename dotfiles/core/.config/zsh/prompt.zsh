@@ -39,17 +39,25 @@ function _prompt_parse_pwd {
 }
 
 function _prompt_parse_branch {
-  # Return the git branch of the current directory and its status flags:
-  # reply=(branch flags), or reply=() if this isn't a git directory. This uses a
-  # single call to git; see "Porcelain Format Version 2" in git-status(1).
+  # Return the git branch of the given directory (or the current one) and its
+  # status flags: reply=(branch flags), or reply=() if it isn't a git directory.
+  # This uses a single call to git; see "Porcelain Format Version 2" in
+  # git-status(1).
   reply=()
 
   # Check for git or return nothing.
   (( $+commands[git] )) || return
 
-  # Run git status or return nothing.
+  # Run git on the given directory, if any.
+  local -a git_dir
+  [[ -n $1 ]] && git_dir=(-C "$1")
+
+  # Run git status or return nothing. GIT_OPTIONAL_LOCKS=0 stops status from
+  # taking the index lock to refresh it, which could otherwise make a git
+  # command run at the same time (e.g. in another shell) fail.
   local git_status
-  git_status=$(git status --porcelain=v2 --branch 2> /dev/null) || return
+  git_status=$(GIT_OPTIONAL_LOCKS=0 git $git_dir status --porcelain=v2 \
+    --branch 2> /dev/null) || return
 
   # We'll fill these in with output from git status.
   local oid xy branch
@@ -120,9 +128,24 @@ function _prompt_set {
   _prompt_parse_branch
   local branch=$reply[1] flags=$reply[2]
 
+  # Color the config icon by the config directory's status, from most to least
+  # pressing: local changes (staged, unstaged, conflicted or untracked), behind
+  # its upstream, or ahead of it. It's left out if there's nothing to report.
+  # Whether it's behind depends on the last fetch; see _prompt_fetch_config.
+  _prompt_parse_branch $_prompt_config
+  local config_flags=$reply[2] config_color=""
+  if [[ $config_flags == *[✓*!?]* ]]; then
+    config_color=red
+  elif [[ $config_flags == *↓* ]]; then
+    config_color=magenta
+  elif [[ $config_flags == *↑* ]]; then
+    config_color=green
+  fi
+
   local caret1=$'\uf105'       # single caret to separate prompt sections.
   local caret2=$'\uf101'       # double caret to end the prompt.
   local branch_icon=$'\ue725'  # git branch icon.
+  local config_icon=$'\uf013'  # gear icon for the config directory.
 
   # Below, text like directory and branch names is added with every "%" doubled
   # (${var//\%/%%}) so it's shown literally rather than read as a prompt escape
@@ -132,6 +155,12 @@ function _prompt_set {
   # Add the hostname.
   PROMPT+="%F{11}%B%m%b%f"
   PROMPT+=" ${caret1} "
+
+  # If the config directory needs attention then add its icon.
+  if [[ -n $config_color ]]; then
+    PROMPT+="%F{$config_color}${config_icon}%f"
+    PROMPT+=" ${caret1} "
+  fi
 
   # If we're in a named directory then add the name.
   if [[ -n $dir_name ]]; then
@@ -150,6 +179,34 @@ function _prompt_set {
 
   # Add the trailing part of the prompt.
   PROMPT+=" ${caret2} "
+}
+
+# The config directory whose status is shown in the prompt, and the file whose
+# mtime records when _prompt_fetch_config last started a fetch. Like the cache
+# below, these are global.
+typeset -g _prompt_config="$HOME/config"
+typeset -g _prompt_config_stamp="$HOME/.local/share/zsh/config-fetch"
+
+function _prompt_fetch_config {
+  # Fetch the config directory's upstream in the background, so the prompt can
+  # show when it's behind, unless it was fetched (by us or by hand) in the last
+  # hour. The fetch is disowned (with &!) so a slow or missing network doesn't
+  # hold up the prompt, and its result shows up in a later prompt. The repo
+  # fetches over https (see setup), which needs no authentication, so this never
+  # triggers an ssh agent prompt; GIT_TERMINAL_PROMPT=0 makes git fail rather
+  # than ask for credentials if that ever changes.
+  [[ -d $_prompt_config/.git ]] && (( $+commands[git] )) || return 0
+
+  # Git updates FETCH_HEAD after a successful fetch. The stamp is touched when
+  # a fetch starts, so one that fails or hangs isn't retried at every prompt.
+  local -a recent=(
+    $_prompt_config/.git/FETCH_HEAD(N.mm-60)
+    $_prompt_config_stamp(N.mm-60)
+  )
+  (( $#recent )) && return 0
+
+  mkdir -p ${_prompt_config_stamp:h} && touch $_prompt_config_stamp
+  GIT_TERMINAL_PROMPT=0 git -C $_prompt_config fetch --quiet >/dev/null 2>&1 &!
 }
 
 # Values already base64 encoded by _prompt_set_user_var, since running base64
@@ -243,6 +300,7 @@ function _prompt_set_title_preexec {
 
 # add-zsh-hook doesn't add a function twice if this file is sourced again.
 autoload -Uz add-zsh-hook
+add-zsh-hook precmd _prompt_fetch_config
 add-zsh-hook precmd _prompt_set
 add-zsh-hook precmd _prompt_set_title
 add-zsh-hook preexec _prompt_set_title_preexec
