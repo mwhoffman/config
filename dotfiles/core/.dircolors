@@ -3,9 +3,11 @@
 
 # The following TERM entries are used to match against the TERM environment
 # variable to determine if it is colorizable.
+COLORTERM ?*
 TERM Eterm
 TERM ansi
 TERM *color*
+TERM *direct*
 TERM con[0-9]*x[0-9]*
 TERM cons25
 TERM console
@@ -28,155 +30,144 @@ TERM tmux*
 TERM vt100
 TERM xterm*
 
-# Below are the color init strings for the basic file types.
-# One can use codes for 256 or more colors supported by modern terminals.
-# The default color codes use the capabilities of an 8 color terminal
-# with some additional attributes as per the following codes:
-# Attribute codes:
-# 00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed
-# Text color codes:
-# 30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
-# Background color codes:
-# 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
+# We mostly use the bright variants (90-97 for text, 100-107 for backgrounds)
+# Directories are the exception: they use the darker blue (#458588).
 
-NORMAL                 00;38     # global default
-RESET                  00;38     # reset to normal color
-FILE                   00;38     # normal file
-MULTIHARDLINK          00;38     # regular file with more than one link
-DIR                    00;34     # directory
-LINK                   00;36     # symlink. "target" uses the linked color.
-FIFO                   00;04;31  # pipe
-SOCK                   00;04;31  # socket
-DOOR                   00;04;31  # door
-BLK                    00;04;31  # block device driver
-CHR                    00;04;31  # character device driver
-ORPHAN                 00;09;36  # orphaned symlink
-MISSING                00;09;31  # ... and the files they point to
-SETUID                 00;30;41  # file that is setuid (u+s)
-SETGID                 00;30;42  # file that is setgid (g+s)
-CAPABILITY             00;30;42  # file with capability
-EXEC                   00;32     # file with execute permission
-STICKY_OTHER_WRITABLE  00;30;44  # dir that is sticky and other-writable
-STICKY                 00;30;44  # dir that is sticky and not other-writable
-OTHER_WRITABLE         00;30;44  # dir that is other-writable and not sticky
+RESET                  0         # reset to normal color
+DIR                    01;34     # directory
+LINK                   96        # symlink. "target" uses the linked color.
+FIFO                   04;91     # pipe
+SOCK                   04;91     # socket
+DOOR                   04;91     # door
+BLK                    04;91     # block device driver
+CHR                    04;91     # character device driver
+ORPHAN                 09;96     # orphaned symlink
+MISSING                09;91     # ... and the files they point to
+SETUID                 30;101    # file that is setuid (u+s)
+SETGID                 30;103    # file that is setgid (g+s)
+CAPABILITY             00        # file with capability (off: slow to check)
+EXEC                   01;92     # file with execute permission
+STICKY_OTHER_WRITABLE  30;102    # dir that is sticky and other-writable
+OTHER_WRITABLE         30;103    # dir that is other-writable and not sticky
+STICKY                 30;104    # dir that is sticky and not other-writable
 
 # What follows are color specifications for individual file extensions. This
 # mainly includes groupings for compressed archives and image/audio/video
 # files.
 
 # archives or compressed
-.tar   00;31
-.tgz   00;31
-.arc   00;31
-.arj   00;31
-.taz   00;31
-.lha   00;31
-.lz4   00;31
-.lzh   00;31
-.lzma  00;31
-.tlz   00;31
-.txz   00;31
-.tzo   00;31
-.t7z   00;31
-.zip   00;31
-.z     00;31
-.dz    00;31
-.gz    00;31
-.lrz   00;31
-.lz    00;31
-.lzo   00;31
-.xz    00;31
-.zst   00;31
-.tzst  00;31
-.bz2   00;31
-.bz    00;31
-.tbz   00;31
-.tbz2  00;31
-.tz    00;31
-.deb   00;31
-.rpm   00;31
-.jar   00;31
-.war   00;31
-.ear   00;31
-.sar   00;31
-.rar   00;31
-.alz   00;31
-.ace   00;31
-.zoo   00;31
-.cpio  00;31
-.7z    00;31
-.rz    00;31
-.cab   00;31
-.wim   00;31
-.swm   00;31
-.dwm   00;31
-.esd   00;31
+.tar   91
+.tgz   91
+.arc   91
+.arj   91
+.taz   91
+.lha   91
+.lz4   91
+.lzh   91
+.lzma  91
+.tlz   91
+.txz   91
+.tzo   91
+.t7z   91
+.zip   91
+.z     91
+.dz    91
+.gz    91
+.lrz   91
+.lz    91
+.lzo   91
+.xz    91
+.zst   91
+.tzst  91
+.bz2   91
+.bz    91
+.tbz   91
+.tbz2  91
+.tz    91
+.deb   91
+.rpm   91
+.jar   91
+.war   91
+.ear   91
+.sar   91
+.rar   91
+.alz   91
+.ace   91
+.zoo   91
+.cpio  91
+.7z    91
+.rz    91
+.cab   91
+.wim   91
+.swm   91
+.dwm   91
+.esd   91
 
 # image/audio/video
-.jpg   00;35
-.jpeg  00;35
-.mjpg  00;35
-.mjpeg 00;35
-.gif   00;35
-.bmp   00;35
-.pbm   00;35
-.pgm   00;35
-.ppm   00;35
-.tga   00;35
-.xbm   00;35
-.xpm   00;35
-.tif   00;35
-.tiff  00;35
-.png   00;35
-.svg   00;35
-.svgz  00;35
-.mng   00;35
-.pcx   00;35
-.mov   00;35
-.mpg   00;35
-.mpeg  00;35
-.m2v   00;35
-.mkv   00;35
-.webm  00;35
-.webp  00;35
-.ogm   00;35
-.mp4   00;35
-.m4v   00;35
-.mp4v  00;35
-.vob   00;35
-.qt    00;35
-.nuv   00;35
-.wmv   00;35
-.asf   00;35
-.rm    00;35
-.rmvb  00;35
-.flc   00;35
-.avi   00;35
-.fli   00;35
-.flv   00;35
-.gl    00;35
-.dl    00;35
-.xcf   00;35
-.xwd   00;35
-.yuv   00;35
-.cgm   00;35
-.emf   00;35
-.ogv   00;35
-.ogx   00;35
-.aac   00;35
-.au    00;35
-.flac  00;35
-.m4a   00;35
-.mid   00;35
-.midi  00;35
-.mka   00;35
-.mp3   00;35
-.mpc   00;35
-.ogg   00;35
-.ra    00;35
-.wav   00;35
-.oga   00;35
-.opus  00;35
-.spx   00;35
-.xspf  00;35
+.jpg   95
+.jpeg  95
+.mjpg  95
+.mjpeg 95
+.gif   95
+.bmp   95
+.pbm   95
+.pgm   95
+.ppm   95
+.tga   95
+.xbm   95
+.xpm   95
+.tif   95
+.tiff  95
+.png   95
+.svg   95
+.svgz  95
+.mng   95
+.pcx   95
+.mov   95
+.mpg   95
+.mpeg  95
+.m2v   95
+.mkv   95
+.webm  95
+.webp  95
+.ogm   95
+.mp4   95
+.m4v   95
+.mp4v  95
+.vob   95
+.qt    95
+.nuv   95
+.wmv   95
+.asf   95
+.rm    95
+.rmvb  95
+.flc   95
+.avi   95
+.fli   95
+.flv   95
+.gl    95
+.dl    95
+.xcf   95
+.xwd   95
+.yuv   95
+.cgm   95
+.emf   95
+.ogv   95
+.ogx   95
+.aac   95
+.au    95
+.flac  95
+.m4a   95
+.mid   95
+.midi  95
+.mka   95
+.mp3   95
+.mpc   95
+.ogg   95
+.ra    95
+.wav   95
+.oga   95
+.opus  95
+.spx   95
+.xspf  95
 

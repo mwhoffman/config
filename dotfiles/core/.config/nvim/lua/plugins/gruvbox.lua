@@ -41,8 +41,14 @@ return {
         return vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID(group)), attr)
       end
 
-      -- Override the color of directories.
-      vim.cmd "hi! link Directory GruvboxBlueBold"
+      -- Override the color of directories, including in neo-tree (which gruvbox
+      -- otherwise colors green). This uses the darker neutral blue, which
+      -- gruvbox has no highlight group for, to match the ANSI blue used by DIR
+      -- in .dircolors and by the prompt.
+      local blue = gruvbox.palette.neutral_blue
+      vim.api.nvim_set_hl(0, "Directory", {fg = blue, bold = true})
+      vim.api.nvim_set_hl(0, "NeoTreeDirectoryName", {link = "Directory"})
+      vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", {fg = blue})
 
       -- Make the sign column the same as normal text.
       vim.cmd "hi! link SignColumn Normal"

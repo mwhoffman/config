@@ -8,10 +8,11 @@
     diff = auto
     status = auto
 
+# Roughly match gruvbox colors for git status.
 [color "status"]
-    added = magenta
-    changed = green
-    untracked = cyan
+    added = brightgreen
+    changed = "#fe8019"
+    untracked = "#fe8019" italic
 
 [alias]
     undo = reset --soft HEAD^

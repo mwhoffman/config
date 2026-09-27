@@ -130,7 +130,7 @@ function _prompt_set {
   PROMPT=""
 
   # Add the hostname.
-  PROMPT+="%F{yellow}%B%m%b%f"
+  PROMPT+="%F{11}%B%m%b%f"
   PROMPT+=" ${caret1} "
 
   # If we're in a named directory then add the name.
@@ -145,7 +145,7 @@ function _prompt_set {
   # If we're in a git directory then add the name of the current branch, and its
   # status flags (after a space) if there are any.
   if [[ -n $branch ]]; then
-    PROMPT+=" on %F{cyan}${branch_icon} %B${branch//\%/%%}${flags:+ $flags}%b%f"
+    PROMPT+=" on %F{14}${branch_icon} %B${branch//\%/%%}${flags:+ $flags}%b%f"
   fi
 
   # Add the trailing part of the prompt.
