@@ -4,13 +4,13 @@ set allow-duplicate-variables
 home := home_directory()
 os := os()
 
-# Environment variables can be set which affect the setup process.
-# MWCONFIG_GUI set to any true value will install GUI packages as if `just
-# install --gui` was run; an empty value, 0, false, no, off or nil means off.
-# MWCONFIG_GIT_NAME and MWCONFIG_GIT_EMAIL specify name and email for git.
+# Environment variables can be set which affect the setup process. MWCONFIG_GUI
+# set to any true value will install GUI packages on linux; an empty value, 0,
+# false, no, off or nil means off. MWCONFIG_GIT_NAME and MWCONFIG_GIT_EMAIL
+# specify name and email for git.
 
 gui_env := lowercase(env("MWCONFIG_GUI", ""))
-gui_default := if gui_env =~ '^(|false|no|off|nil|0)$' {
+gui := if gui_env =~ '^(|false|no|off|nil|0)$' {
   "false"
 } else {
   "true"
@@ -59,8 +59,7 @@ install:
 
 # Install packages.
 [linux]
-[arg("gui", long="gui", value="true", help="Enable gui packages")]
-install gui=gui_default:
+install:
   #!/usr/bin/env bash
   set -euo pipefail
   # Ask for sudo at most once for the steps below, and drop the cached
