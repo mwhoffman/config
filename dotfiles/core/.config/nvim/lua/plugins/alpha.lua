@@ -12,8 +12,14 @@ spec.config = function()
   local alpha = require("alpha")
   local dashboard = require("alpha.themes.dashboard")
 
-  local function button(key, txt, cmd, desc)
-    local opts = {noremap = true, silent = true, nowait = true, desc = desc}
+  local function button(key, icon, desc, cmd)
+    local txt = icon .. "  " .. desc
+    local opts = {
+      noremap = true,
+      silent = true,
+      nowait = true,
+      desc = desc,
+    }
     return dashboard.button(key, txt, cmd, opts)
   end
 
@@ -31,19 +37,19 @@ spec.config = function()
 
   -- Add our own buttons.
   dashboard.section.buttons.val = {
-    button("  e", "  New file", "<cmd>ene<cr>", "New file"),
-    button("␣fs", "  Find string", "<leader>fs"),
-    button("␣ff", "  Find files", "<leader>ff"),
-    button("␣fr", "  Find recent files", "<leader>fr"),
-    button("␣fg", "  Find git changes", "<leader>fg"),
-    button("  q", "  Quit", "<cmd>qa<cr>", "Quit"),
+    button("n", "", "New file", "<cmd>ene<cr>"),
+    button("f", "", "Find files", "<cmd>Telescope find_files<cr>"),
+    button("r", "", "Find recent", "<cmd>Telescope oldfiles<cr>"),
+    button("l", "󰒲", "Lazy", "<cmd>Lazy<cr>"),
+    button("m", "󰏗", "Mason", "<cmd>Mason<cr>"),
+    button("q", "", "Quit", "<cmd>qa<cr>"),
   }
 
   -- Override the button options.
   dashboard.section.buttons.opts.inherit = {
     hl_shortcut = "Tag",
     cursor = 3,
-    width = 30,
+    width = 20,
   }
 
   -- Calculate the amount of whitespace.
