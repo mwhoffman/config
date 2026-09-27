@@ -1,6 +1,7 @@
 # Installed with `brew bundle` on both macos and linux. Gui apps are macos-only
 # (they're always wanted there); on linux those come from apt (see the justfile).
 
+brew "eza"
 brew "fd"
 brew "fzf"
 brew "just"

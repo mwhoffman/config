@@ -95,9 +95,12 @@ zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
 # Use $LS_COLORS to color completed files and directories.
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
-# The ls options depend on which ls is in PATH: GNU ls (Linux, or
-# homebrew's coreutils on macOS) or BSD ls (macOS).
-if ls --version >/dev/null 2>&1; then
+# Use eza for ls if it's installed. Otherwise the ls options depend on which
+# ls is in PATH: GNU ls (Linux, or homebrew's coreutils on macOS) or BSD ls
+# (macOS).
+if (( $+commands[eza] )); then
+  alias ls="eza --icons=auto --sort=type"
+elif ls --version >/dev/null 2>&1; then
   alias ls="ls -N --color=auto"
 else
   alias ls="ls -G"
