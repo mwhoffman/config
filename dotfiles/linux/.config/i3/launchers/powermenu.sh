@@ -53,29 +53,38 @@ quit_apps() {
   return 1
 }
 
-# Print a row of the menu: its label, and the name of its icon (passed with
-# rofi's "\0icon\x1f" row option).
-entry() {
-  printf '%s\0icon\x1f%s\n' "$1" "$2"
-}
+# The menu's actions.
+lock_screen() { i3lock -i "$HOME/Wallpaper/haz-mat.png"; }
+log_out() { quit_apps && i3-msg exit; }
+reboot_system() { quit_apps && reboot; }
+shut_down() { quit_apps && poweroff; }
 
-# Print the rows of the menu.
+# The menu's rows, each with three fields separated by "|": a label, the name
+# of its icon, and the action to run when it's chosen.
+ROWS=(
+  "Lock Screen|xfsm-lock|lock_screen"
+  "Log Out|xfsm-logout|log_out"
+  "Reboot|xfsm-reboot|reboot_system"
+  "Shutdown|xfsm-shutdown|shut_down"
+)
+
+# Print the rows' labels, each with its icon (passed with rofi's "\0icon\x1f"
+# row option).
 menu() {
-  entry "Log Out" xfsm-logout
-  entry "Reboot" xfsm-reboot
-  entry "Shutdown" xfsm-shutdown
+  local row label icon
+  for row in "${ROWS[@]}"; do
+    IFS='|' read -r label icon _ <<<"$row"
+    printf '%s\0icon\x1f%s\n' "$label" "$icon"
+  done
 }
 
-# Show the menu using the shared theme, but narrower, without the search bar,
-# and with exactly as many lines as there are rows.
-ACTION=$(
-  menu | rofi -i -dmenu -l "$(menu | wc -l)" \
+# Show the menu. When an action is selected it's index will be put in INDEX.
+INDEX=$(
+  menu | rofi -i -dmenu -format i -l "${#ROWS[@]}" \
     -theme-str 'window { width: 300px; } inputbar { enabled: false; }'
 )
 
-case "$ACTION" in
-  "Log Out") quit_apps && i3-msg exit ;;
-  "Reboot") quit_apps && reboot ;;
-  "Shutdown") quit_apps && poweroff ;;
-  *) exit 1 ;;
-esac
+# Run the chosen command.
+[[ "$INDEX" =~ ^[0-9]+$ ]] && ((INDEX < ${#ROWS[@]})) || exit 1
+IFS='|' read -r _ _ ACTION <<<"${ROWS[INDEX]}"
+"$ACTION"
