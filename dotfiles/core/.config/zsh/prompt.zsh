@@ -128,24 +128,32 @@ function _prompt_set {
   _prompt_parse_branch
   local branch=$reply[1] flags=$reply[2]
 
-  # Color the config icon by the config directory's status, from most to least
-  # pressing: local changes (staged, unstaged, conflicted or untracked), behind
-  # its upstream, or ahead of it. It's left out if there's nothing to report.
-  # Whether it's behind depends on the last fetch; see _prompt_fetch_config.
-  _prompt_parse_branch $_prompt_config
-  local config_flags=$reply[2] config_color=""
-  if [[ $config_flags == *[✓*!?]* ]]; then
-    config_color=red
-  elif [[ $config_flags == *↓* ]]; then
-    config_color=magenta
-  elif [[ $config_flags == *↑* ]]; then
-    config_color=green
-  fi
+  # Add the icon of each repo in $PROMPT_REPOS that needs attention, separated
+  # by spaces and colored by its status, from most to least pressing: local
+  # changes (staged, unstaged, conflicted or untracked), behind its upstream,
+  # or ahead of it. Local changes use gruvbox's orange, to match git status and
+  # nvim; it has no ANSI equivalent, so it's a hex (24-bit) color. Repos with
+  # nothing to report are left out. Whether a repo is behind depends on its
+  # last fetch; see _prompt_fetch_repos.
+  local entry repo icon repo_flags repo_color repo_icons=""
+  for entry in $PROMPT_REPOS; do
+    icon=${entry%%|*} repo=${entry#*|}
+    [[ -d $repo/.git ]] || continue
+    _prompt_parse_branch $repo
+    repo_flags=$reply[2] repo_color=""
+    if [[ $repo_flags == *[✓*!?]* ]]; then
+      repo_color="#fe8019"
+    elif [[ $repo_flags == *↓* ]]; then
+      repo_color=magenta
+    elif [[ $repo_flags == *↑* ]]; then
+      repo_color=green
+    fi
+    [[ -n $repo_color ]] && repo_icons+="${repo_icons:+ }%F{$repo_color}$icon%f"
+  done
 
   local caret1=$'\uf105'       # single caret to separate prompt sections.
   local caret2=$'\uf101'       # double caret to end the prompt.
   local branch_icon=$'\ue725'  # git branch icon.
-  local config_icon=$'\uf013'  # gear icon for the config directory.
 
   # Below, text like directory and branch names is added with every "%" doubled
   # (${var//\%/%%}) so it's shown literally rather than read as a prompt escape
@@ -156,9 +164,9 @@ function _prompt_set {
   PROMPT+="%F{11}%B%m%b%f"
   PROMPT+=" ${caret1} "
 
-  # If the config directory needs attention then add its icon.
-  if [[ -n $config_color ]]; then
-    PROMPT+="%F{$config_color}${config_icon}%f"
+  # If any repos need attention then add their icons.
+  if [[ -n $repo_icons ]]; then
+    PROMPT+=$repo_icons
     PROMPT+=" ${caret1} "
   fi
 
@@ -181,32 +189,46 @@ function _prompt_set {
   PROMPT+=" ${caret2} "
 }
 
-# The config directory whose status is shown in the prompt, and the file whose
-# mtime records when _prompt_fetch_config last started a fetch. Like the cache
-# below, these are global.
-typeset -g _prompt_config="$HOME/config"
-typeset -g _prompt_config_stamp="$HOME/.local/share/zsh/config-fetch"
+# The git repos whose status is shown in the prompt, as "ICON|DIR" entries in
+# the order the icons are shown. Repos that don't exist (or aren't git repos)
+# are skipped. This is only set if it isn't already, so local.zsh (which is
+# sourced before this file) can set it differently for a machine.
+(( ${+PROMPT_REPOS} )) || typeset -ga PROMPT_REPOS=(
+  $'\uf013|'"$HOME/config"  # config repo with gear icon.
+  $'\uf02d|'"$HOME/notes"   # notes repo with book icon.
+)
 
-function _prompt_fetch_config {
-  # Fetch the config directory's upstream in the background, so the prompt can
-  # show when it's behind, unless it was fetched (by us or by hand) in the last
-  # hour. The fetch is disowned (with &!) so a slow or missing network doesn't
-  # hold up the prompt, and its result shows up in a later prompt. The repo
-  # fetches over https (see setup), which needs no authentication, so this never
-  # triggers an ssh agent prompt; GIT_TERMINAL_PROMPT=0 makes git fail rather
-  # than ask for credentials if that ever changes.
-  [[ -d $_prompt_config/.git ]] && (( $+commands[git] )) || return 0
+# The directory of files whose mtimes record when _prompt_fetch_repos last
+# started a fetch of each repo. Like the cache below, this is global.
+typeset -g _prompt_fetch_stamps="$HOME/.local/share/zsh/fetch"
 
-  # Git updates FETCH_HEAD after a successful fetch. The stamp is touched when
-  # a fetch starts, so one that fails or hangs isn't retried at every prompt.
-  local -a recent=(
-    $_prompt_config/.git/FETCH_HEAD(N.mm-60)
-    $_prompt_config_stamp(N.mm-60)
-  )
-  (( $#recent )) && return 0
+function _prompt_fetch_repos {
+  # Fetch the upstream of each repo in $PROMPT_REPOS in the background, so the
+  # prompt can show when it's behind, unless it was fetched (by us or by hand)
+  # in the last hour. The fetches are disowned (with &!) so a slow or missing
+  # network doesn't hold up the prompt, and their results show up in a later
+  # prompt. Git and ssh are stopped from prompting for anything themselves
+  # (e.g. https credentials or an ssh passphrase), though an ssh agent like
+  # 1Password's may still ask to approve using a key.
+  (( $+commands[git] )) || return 0
 
-  mkdir -p ${_prompt_config_stamp:h} && touch $_prompt_config_stamp
-  GIT_TERMINAL_PROMPT=0 git -C $_prompt_config fetch --quiet >/dev/null 2>&1 &!
+  local entry repo stamp
+  local -a recent
+  for entry in $PROMPT_REPOS; do
+    repo=${entry#*|}
+    [[ -d $repo/.git ]] || continue
+
+    # Git updates FETCH_HEAD after a successful fetch. The stamp (named after
+    # the repo's path, with / replaced by %) is touched when a fetch starts, so
+    # one that fails or hangs isn't retried at every prompt.
+    stamp=$_prompt_fetch_stamps/${repo//\//%}
+    recent=($repo/.git/FETCH_HEAD(N.mm-60) $stamp(N.mm-60))
+    (( $#recent )) && continue
+
+    mkdir -p $_prompt_fetch_stamps && touch $stamp
+    GIT_TERMINAL_PROMPT=0 GIT_SSH_COMMAND="${GIT_SSH_COMMAND:-ssh} -o BatchMode=yes" \
+      git -C $repo fetch --quiet >/dev/null 2>&1 &!
+  done
 }
 
 # Values already base64 encoded by _prompt_set_user_var, since running base64
@@ -300,7 +322,7 @@ function _prompt_set_title_preexec {
 
 # add-zsh-hook doesn't add a function twice if this file is sourced again.
 autoload -Uz add-zsh-hook
-add-zsh-hook precmd _prompt_fetch_config
+add-zsh-hook precmd _prompt_fetch_repos
 add-zsh-hook precmd _prompt_set
 add-zsh-hook precmd _prompt_set_title
 add-zsh-hook preexec _prompt_set_title_preexec
