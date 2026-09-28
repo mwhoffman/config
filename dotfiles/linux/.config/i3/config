@@ -81,20 +81,9 @@ bindsym $mod+Shift+Ctrl+l resize grow width 10 px or 10 ppt
 
 # Change container layout.
 bindsym $mod+f fullscreen toggle
-bindsym $mod+e layout toggle split
-bindsym $mod+Shift+s layout stacking
-bindsym $mod+Shift+t layout tabbed
-
-# Toggle orientation of the next split.
-bindsym $mod+s split toggle
-
-# Toggle floating.
 bindsym $mod+Shift+f floating toggle
-bindsym $mod+z focus mode_toggle
-
-# Focus parent/child.
-bindsym $mod+a focus parent
-bindsym $mod+Shift+a focus child
+bindsym $mod+e layout toggle split
+bindsym $mod+s split toggle
 
 # Switch to workspace.
 bindsym $mod+1 workspace number 1
