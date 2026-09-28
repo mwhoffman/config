@@ -128,8 +128,8 @@ function _prompt_set {
   _prompt_parse_branch
   local branch=$reply[1] flags=$reply[2]
 
-  # Add the icon of each repo in $PROMPT_REPOS that needs attention, separated
-  # by spaces and colored by its status, from most to least pressing: local
+  # Collect the icon of each repo in $PROMPT_REPOS that needs attention,
+  # separated by spaces and colored by its status, from most to least pressing: local
   # changes (staged, unstaged, conflicted or untracked), behind its upstream,
   # or ahead of it. Local changes use gruvbox's orange, to match git status and
   # nvim; it has no ANSI equivalent, so it's a hex (24-bit) color. Repos with
@@ -164,12 +164,6 @@ function _prompt_set {
   PROMPT+="%F{11}%B%m%b%f"
   PROMPT+=" ${caret1} "
 
-  # If any repos need attention then add their icons.
-  if [[ -n $repo_icons ]]; then
-    PROMPT+=$repo_icons
-    PROMPT+=" ${caret1} "
-  fi
-
   # If we're in a named directory then add the name.
   if [[ -n $dir_name ]]; then
     PROMPT+="%F{blue}%B${dir_name//\%/%%}%b%f"
@@ -187,6 +181,11 @@ function _prompt_set {
 
   # Add the trailing part of the prompt.
   PROMPT+=" ${caret2} "
+
+  # Show the icons of any repos that need attention on the right of the prompt
+  # (which is empty otherwise). They're followed by a space since kitty only
+  # draws an icon wider than a cell if it's followed by one.
+  RPROMPT=${repo_icons:+$repo_icons }
 }
 
 # The git repos whose status is shown in the prompt, as "ICON|DIR" entries in
@@ -194,8 +193,8 @@ function _prompt_set {
 # are skipped. This is only set if it isn't already, so local.zsh (which is
 # sourced before this file) can set it differently for a machine.
 (( ${+PROMPT_REPOS} )) || typeset -ga PROMPT_REPOS=(
-  $'\uf013|'"$HOME/config"  # config repo with gear icon.
-  $'\uf02d|'"$HOME/notes"   # notes repo with book icon.
+  $'\uf423|'"$HOME/config"  # config repo with gear icon.
+  $'\uf405|'"$HOME/notes"   # notes repo with book icon.
 )
 
 # The directory of files whose mtimes record when _prompt_fetch_repos last
@@ -319,6 +318,10 @@ function _prompt_set_title_preexec {
   cmd=${cmd//[[:cntrl:]]/}
   _prompt_set_title $cmd
 }
+
+# Only show the right prompt (the repo icons) on the current prompt, removing
+# it from earlier ones once their command runs.
+setopt TRANSIENT_RPROMPT
 
 # add-zsh-hook doesn't add a function twice if this file is sourced again.
 autoload -Uz add-zsh-hook
