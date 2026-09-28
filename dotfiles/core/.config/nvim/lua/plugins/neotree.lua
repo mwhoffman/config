@@ -63,4 +63,52 @@ spec.init = function()
   vim.g.loaded_netrwPlugin = 1
 end
 
+-- A replacement for neo-tree's git_status component which marks files like the
+-- git status flags in the zsh prompt: ? if untracked, * if any change is
+-- unstaged, ! for a conflict, and ✓ if every change is staged. Ignored files
+-- aren't marked, and neither are directories, but they still get a highlight
+-- (with no text) since neo-tree colors names using this component's highlight;
+-- a directory's is from neo-tree's one-letter summary of what's under it.
+local function git_status(_, node, state)
+  if node.type == "message" then
+    return {}
+  end
+  local status = require("neo-tree.git").find_existing_status_code(
+    node.path, state.git_base_by_worktree)
+  if type(status) == "table" then
+    status = status[1]
+  end
+  if not status or status == "!" then
+    return {}
+  end
+
+  local text, highlight
+  if status == "?" then
+    text, highlight = "?", "NeoTreeGitUntracked"
+  elseif #status == 1 then
+    text = ""
+    highlight = ({
+      A = "NeoTreeGitAdded",
+      D = "NeoTreeGitDeleted",
+      U = "NeoTreeGitConflict"})[status] or "NeoTreeGitModified"
+  else
+    local x, y = status:sub(1, 1), status:sub(2, 2)
+    if require("neo-tree.git.parser").status_code_is_conflict(x, y) then
+      text, highlight = "!", "NeoTreeGitConflict"
+    elseif y ~= "." then
+      text, highlight = "*", "NeoTreeGitModified"
+    else
+      text, highlight = "✓", "NeoTreeGitStaged"
+    end
+  end
+  if node.type == "directory" then
+    text = ""
+  end
+  return {text = text, highlight = highlight}
+end
+
+spec.opts.filesystem.components = {git_status = git_status}
+spec.opts.buffers = {components = {git_status = git_status}}
+spec.opts.git_status = {components = {git_status = git_status}}
+
 return spec
