@@ -17,6 +17,11 @@ local spec = {
     window = {
       width = 40,
       auto_expand_width = false,
+      popup = {
+        size = function()
+          return {height = "80%", width = math.min(50, vim.o.columns - 12)}
+        end,
+      },
     },
     filesystem = {
       filtered_items = {
