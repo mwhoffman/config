@@ -3,7 +3,6 @@
 local spec = {
   "goolord/alpha-nvim",
   event = "VimEnter",
-  dependencies = {"nvim-tree/nvim-web-devicons"},
 }
 
 -- All the real work happens here. We mostly roll our own sections, using the
