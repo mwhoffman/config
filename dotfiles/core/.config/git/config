@@ -12,7 +12,7 @@
 [color "status"]
     added = brightgreen
     changed = "#fe8019"
-    untracked = "#fe8019" italic
+    untracked = "#fe8019"
 
 [alias]
     undo = reset --soft HEAD^
