@@ -39,7 +39,8 @@ spec.config = function()
   dashboard.section.buttons.val = {
     button("n", "", "New file", "<cmd>ene<cr>"),
     button("f", "", "Find files", "<cmd>Telescope find_files<cr>"),
-    button("r", "", "Find recent", "<cmd>Telescope oldfiles<cr>"),
+    button("r", "", "Find recent",
+      "<cmd>Telescope oldfiles only_cwd=true<cr>"),
     button("l", "󰒲", "Lazy", "<cmd>Lazy<cr>"),
     button("m", "󰏗", "Mason", "<cmd>Mason<cr>"),
     button("q", "", "Quit", "<cmd>qa<cr>"),
