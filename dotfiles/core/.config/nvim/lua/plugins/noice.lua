@@ -22,6 +22,13 @@ return {
     lsp = {
       hover = {silent = true},
     },
+    routes = {
+      {
+        -- Skip E37 messages because they basically duplicate E162.
+        filter = {event = "msg_show", kind = "emsg", find = "E37"},
+        opts = {skip = true},
+      },
+    },
   },
   dependencies = {
     "MunifTanjim/nui.nvim",
