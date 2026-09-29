@@ -34,7 +34,6 @@ end, {desc = "Close hover"})
 -- doesn't exist until noice loads.
 vim.keymap.set("n", "<c-l>", function()
   vim.cmd("nohlsearch | diffupdate | silent! Noice dismiss")
-  vim.cmd("normal! \12")
 end, {desc = "Redraw and dismiss notifications"})
 
 -- Move between recent buffers.
