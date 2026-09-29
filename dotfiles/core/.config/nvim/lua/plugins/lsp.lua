@@ -17,8 +17,6 @@ return {
     opts = {
       ensure_installed = {
         "lua-language-server",
-        "ruff",
-        "ty",
         "tree-sitter-cli",
       },
     },
