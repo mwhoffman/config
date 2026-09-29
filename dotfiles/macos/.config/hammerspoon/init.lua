@@ -25,7 +25,7 @@ end
 
 -- return a function that focuses the nearest window in direction dir (e.g.
 -- 'West') on the current space and moves the mouse to its center.
-local function focus_dir(dir)
+local function focus_window(dir)
   return function()
     local win = hs.window.frontmostWindow()
     local target = win and wf['windowsTo' .. dir](wf, win, nil, true)[1]
@@ -49,10 +49,10 @@ hs.hotkey.bind(hyper, '5', set_layout({0, 0, 0.5, 1}))       -- west
 hs.hotkey.bind(hyper, '6', set_layout({0.5, 0, 0.5, 1}))     -- east
 
 -- change the focus
-hs.hotkey.bind(hyper, 'h', focus_dir('West'))
-hs.hotkey.bind(hyper, 'j', focus_dir('South'))
-hs.hotkey.bind(hyper, 'k', focus_dir('North'))
-hs.hotkey.bind(hyper, 'l', focus_dir('East'))
+hs.hotkey.bind(hyper, 'h', focus_window('West'))
+hs.hotkey.bind(hyper, 'j', focus_window('South'))
+hs.hotkey.bind(hyper, 'k', focus_window('North'))
+hs.hotkey.bind(hyper, 'l', focus_window('East'))
 
 -- show a grid to resize windows
 hs.hotkey.bind(hyper, 'a', hs.grid.show)
