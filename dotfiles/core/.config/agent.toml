@@ -1,0 +1,6 @@
+# The 1Password SSH agent config file. This allows us to control which keys are
+# exposed via the agent.
+
+# Add only keys in the Private vault.
+[[ssh-keys]]
+vault = "Private"
