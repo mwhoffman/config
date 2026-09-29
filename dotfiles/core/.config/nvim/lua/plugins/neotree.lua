@@ -5,7 +5,6 @@ local spec = {
   "nvim-neo-tree/neo-tree.nvim",
   dependencies = {
     "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons",
     "MunifTanjim/nui.nvim",
   },
   -- Neo-tree itself is lazy loaded, so we don't need to rely on the plugin
@@ -115,5 +114,32 @@ end
 spec.opts.filesystem.components = {git_status = git_status}
 spec.opts.buffers = {components = {git_status = git_status}}
 spec.opts.git_status = {components = {git_status = git_status}}
+
+-- An icon provider for neo-tree using mini.icons (see mini-icons.lua), rather
+-- than its default which uses nvim-web-devicons (mocked by mini.icons) and so
+-- doesn't get mini.icons' icons for directories or its defaults. Directories
+-- with their own icon (e.g. .git) get it, and others keep neo-tree's (closed,
+-- open and empty) folder icons. Files get mini.icons' icon, except that those
+-- with no extension it doesn't know get our default for them (like eza).
+local function icon_provider(icon, node)
+  if node.type ~= "file" and node.type ~= "directory" then
+    return
+  end
+  local mini = require("mini.icons")
+  local glyph, highlight, is_default = mini.get(node.type, node.name)
+  if node.type == "directory" then
+    if not is_default then
+      icon.text, icon.highlight = glyph, highlight
+    end
+    return
+  end
+  if is_default and not node.name:find(".", 2, true) then
+    local noext = require("mini-icons").defaults.noext
+    glyph, highlight = noext.glyph, noext.hl
+  end
+  icon.text, icon.highlight = glyph, highlight
+end
+
+spec.opts.default_component_configs.icon = {provider = icon_provider}
 
 return spec

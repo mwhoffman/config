@@ -1,9 +1,6 @@
 -- lualine replaces the default statusline with a prettier, configurable one.
 return {
   "nvim-lualine/lualine.nvim",
-  dependencies = {
-    "nvim-tree/nvim-web-devicons"
-  },
   opts = {
     sections = {
       lualine_a = {"mode"},
