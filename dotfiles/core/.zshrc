@@ -109,9 +109,11 @@ else
   alias ls="ls -G"
 fi
 
-# Create a notes alias if zk is installed and ~/notes/.zk exists.
-if (( $+commands[zk] )) && [[ -d ~/notes/.zk ]]; then
-  alias notes="zk -W ~/notes edit --interactive"
+# Create a notes alias if just/zk are installed and the notes justfile exists.
+if (( $+commands[just] )) && \
+   (( $+commands[zk] )) && \
+   [[ -e ~/notes/justfile ]]; then
+  alias notes="just -f $HOME/notes/justfile"
 fi
 
 # Point vi at the editor chosen above (nvim, or vim if nvim is missing).
