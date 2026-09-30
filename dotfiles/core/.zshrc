@@ -53,6 +53,17 @@ setopt HIST_SAVE_NO_DUPS      # Don't write duplicates to the history file.
 setopt HIST_FIND_NO_DUPS      # Don't show duplicates when searching.
 setopt HIST_IGNORE_SPACE      # Don't save commands starting with a space.
 
+# Before accepting a line combine the lbuffer and rbuffer (buffer before/after
+# the cursor), strip spaces, and put this cleaned text back into LBUFFER only.
+function trim-trailing-space-before-accept() {
+  local buffer="${LBUFFER}${RBUFFER}"
+  buffer="${buffer%%[[:space:]]#}"
+  LBUFFER="${buffer}"
+  RBUFFER=""
+  zle .accept-line
+}
+zle -N accept-line trim-trailing-space-before-accept
+
 # Define the $LS_COLORS variable used to color the output of ls, but we'll also
 # use it for completions. dircolors is a GNU tool, so on macOS it only exists if
 # homebrew's coreutils are in PATH.
