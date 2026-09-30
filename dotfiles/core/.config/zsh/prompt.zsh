@@ -194,7 +194,7 @@ function _prompt_set {
 # sourced before this file) can set it differently for a machine.
 (( ${+PROMPT_REPOS} )) || typeset -ga PROMPT_REPOS=(
   $'\uf423|'"$HOME/config"  # config repo with gear icon.
-  $'\uf405|'"$HOME/notes/notes"   # notes repo with book icon.
+  $'\uf405|'"$HOME/notes"   # notes repo with book icon.
 )
 
 # The directory of files whose mtimes record when _prompt_fetch_repos last
