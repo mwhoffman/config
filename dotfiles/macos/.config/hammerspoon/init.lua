@@ -5,30 +5,39 @@ hs.loadSpoon("EmmyLua")
 local wf = hs.window.filter.defaultCurrentSpace
 wf:keepActive()
 
-hs.grid.setGrid('8x4') -- w x h
-hs.grid.setMargins({5, 5})
-hs.grid.ui.showExtraKeys = false
-hs.window.animationDuration = 0.2
+hs.window.animationDuration = 0
+
+local gap = 10 -- px between adjacent windows; none along screen edges
 
 -- return a function that moves the focused window to r, a {x, y, w, h} rect
--- in fractions of the screen. This is scaled to the current hs.grid size so
--- hs.grid.set can apply the margins.
+-- in fractions of the screen. Interior edges are inset by gap/2 so adjacent
+-- windows end up gap apart, while edges on the screen border stay flush.
 local function set_layout(r)
   return function()
     local win = hs.window.focusedWindow()
-    if win then
-      local g = hs.grid.getGrid(win:screen())
-      hs.grid.set(win, {r[1] * g.w, r[2] * g.h, r[3] * g.w, r[4] * g.h})
-    end
+    if not win then return end
+    local s = win:screen():frame()
+    local x1, y1, x2, y2 = r[1], r[2], r[1] + r[3], r[2] + r[4]
+    local function inset(v) return (v > 0 and v < 1) and gap / 2 or 0 end
+    win:setFrame({
+      x = s.x + x1 * s.w + inset(x1),
+      y = s.y + y1 * s.h + inset(y1),
+      w = (x2 - x1) * s.w - inset(x1) - inset(x2),
+      h = (y2 - y1) * s.h - inset(y1) - inset(y2),
+    })
   end
 end
 
 -- return a function that focuses the nearest window in direction dir (e.g.
--- 'West') on the current space and moves the mouse to its center.
+-- 'West') on the current space and moves the mouse to its center. Windows
+-- squarely in that direction win; otherwise (e.g. on a screen that's offset
+-- diagonally) fall back to anything on that side.
 local function focus_window(dir)
   return function()
     local win = hs.window.frontmostWindow()
-    local target = win and wf['windowsTo' .. dir](wf, win, nil, true)[1]
+    if not win then return end
+    local find = wf['windowsTo' .. dir]
+    local target = find(wf, win, nil, true)[1] or find(wf, win, nil, false)[1]
     if target then
       target:focus()
       hs.mouse.absolutePosition(target:frame().center)
@@ -55,10 +64,8 @@ hs.hotkey.bind(hyper, 'k', focus_window('North'))
 hs.hotkey.bind(hyper, 'l', focus_window('East'))
 
 -- show a grid to resize windows
-hs.hotkey.bind(hyper, 'a', hs.grid.show)
 hs.hotkey.bind(hyper, 'r', hs.reload)
 hs.hotkey.bind(hyper, 'o', hs.openConsole)
 
 -- display to show we've reloaded
 hs.alert.show('Loaded hammerspoon config')
-
