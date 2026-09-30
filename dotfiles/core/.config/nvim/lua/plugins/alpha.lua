@@ -3,6 +3,8 @@
 local spec = {
   "goolord/alpha-nvim",
   event = "VimEnter",
+  -- Don't load at all when files were given (alpha would skip itself anyway).
+  cond = function() return vim.fn.argc() == 0 end,
 }
 
 -- All the real work happens here. We mostly roll our own sections, using the

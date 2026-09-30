@@ -37,11 +37,6 @@ spec.keys = {
     function() return require("todo-comments").jump_prev() end,
     desc = "Previous todo comment",
   },
-  {
-    "<leader>ft",
-    "<cmd>:TodoTelescope<cr>",
-    desc = "Find todo comments",
-  },
 }
 
 return spec

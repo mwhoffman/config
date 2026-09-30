@@ -1,15 +1,6 @@
 -- Modules from the mini.nvim collection: small, independent plugins that each
 -- do one thing.
 return {
-  -- Better support for comments: comment selections, lines, motions. Also
-  -- defines comments as objects that actions (d, y, c, ...) can be applied to,
-  -- e.g. dgc deletes a comment block.
-  {
-    'nvim-mini/mini.comment',
-    event = {"BufReadPre", "BufNewFile"},
-    opts = {},
-  },
-
   -- Icons for files and directories, using our own icons and colors (see
   -- mini-icons.lua). Plugins that use nvim-web-devicons get them too, since
   -- requiring it gives a mock of it that uses mini.icons (which loads it).
