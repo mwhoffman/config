@@ -1,5 +1,5 @@
 -- telescope is a fuzzy finder with a preview window. We use it to find files,
--- recent files and strings (searched with ripgrep).
+-- recent files, strings (searched with ripgrep) and diagnostics.
 local spec = {
   "nvim-telescope/telescope.nvim",
   dependencies = {
@@ -87,6 +87,12 @@ spec.keys = {
     "<leader>fR",
     "<cmd>Telescope oldfiles<cr>",
     desc = "Find recent files (all)",
+    silent = true,
+  },
+  {
+    "<leader>fd",
+    "<cmd>Telescope diagnostics<cr>",
+    desc = "Find diagnostics",
     silent = true,
   },
 }

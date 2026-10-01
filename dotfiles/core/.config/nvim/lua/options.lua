@@ -2,7 +2,7 @@ local opt = vim.opt
 
 opt.background = "dark"
 opt.backup = false
-opt.fillchars = {vert="│", eob=" "}
+opt.fillchars = {vert = "│", eob = " "}
 opt.hlsearch = true
 opt.mouse = "a"
 opt.scrolloff = 5
@@ -50,6 +50,15 @@ opt.winborder = "rounded"
 
 -- Open files with all folds open.
 opt.foldlevelstart = 99
+
+-- Show the full diagnostic messages for the cursor's line below it, and open a
+-- float with the messages when jumping to a diagnostic (with ]d, [d, ...).
+-- Sort by severity, so a line's sign is for its most severe diagnostic and its
+-- messages are listed most severe first.
+vim.diagnostic.config({
+  severity_sort = true,
+  virtual_lines = {current_line = true},
+})
 
 -- Autocommand which activates whenever is a buffer is read and will jump the
 -- cursor the location it was at when the buffer was last closed.

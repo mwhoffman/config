@@ -25,7 +25,6 @@ return {
       {"<leader>c", group="Copy…"},
       {"<leader>f", group="Find…"},
       {"<leader>w", group="Windows…"},
-      {"<leader>x", group="Trouble…"},
       {"<leader>z", group="Zk…"},
       {"h", hidden=true, mode="n"},
       {"j", hidden=true, mode="n"},

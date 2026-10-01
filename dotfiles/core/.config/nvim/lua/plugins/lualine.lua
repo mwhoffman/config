@@ -28,7 +28,7 @@ return {
     },
     options = {
       theme = "auto",
-      disabled_filetypes = {"alpha", "trouble"},
+      disabled_filetypes = {"alpha"},
       section_separators = {left = '', right = ''},
       component_separators = {left = '', right = ''},
     },

@@ -55,6 +55,15 @@ return {
       vim.cmd "hi! link NeotreeNormalNC NeotreeNormal"
       vim.cmd "hi! link NeoTreeSignColumn NeoTreeNormal"
 
+      -- Remove the background from gruvbox's sign groups (used by diagnostic
+      -- signs), so they match the sign column like the git signs do.
+      for _, color in ipairs(
+        {"Red", "Green", "Yellow", "Blue", "Purple", "Aqua", "Orange"}) do
+        local group = "Gruvbox" .. color .. "Sign"
+        local fg = vim.api.nvim_get_hl(0, {name = group}).fg
+        vim.api.nvim_set_hl(0, group, {fg = fg})
+      end
+
       -- Make the window separators and statusline match nvim-tree so that they
       -- "disappear".
       vim.cmd("hi! StatusLine guifg=" .. get_color("NeotreeNormal", "bg"))
