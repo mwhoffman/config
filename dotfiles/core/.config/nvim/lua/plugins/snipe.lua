@@ -5,7 +5,16 @@ return {
   keys = {
     {
       "<leader>s",
-      function() require("snipe").open_buffer_menu() end,
+      -- Open the menu, and dim the editor behind it (the menu's window is
+      -- unset if there was nothing to show).
+      function()
+        local snipe = require("snipe")
+        snipe.open_buffer_menu()
+        local win = snipe.global_menu.win
+        if type(win) == "number" and vim.api.nvim_win_is_valid(win) then
+          require("backdrop").open(win)
+        end
+      end,
       desc = "Snipe buffers"
     }
   },

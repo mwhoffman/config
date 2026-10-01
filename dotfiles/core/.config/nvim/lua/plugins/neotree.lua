@@ -142,4 +142,28 @@ end
 
 spec.opts.default_component_configs.icon = {provider = icon_provider}
 
+-- Neo-tree highlights a floating tree the same as a sidebar. Instead give it
+-- the background of other floats (and the usual cursor line, which is visible
+-- against that), leaving the sidebar's highlights alone. Also dim the editor
+-- behind it.
+spec.opts.event_handlers = {
+  {
+    event = "neo_tree_window_after_open",
+    handler = function(args)
+      if args.position ~= "float" then
+        return
+      end
+      vim.wo[args.winid][0].winhighlight = table.concat({
+        "Normal:NeoTreeFloatNormal",
+        "NormalNC:NeoTreeFloatNormal",
+        "SignColumn:NeoTreeFloatNormal",
+        "CursorLine:CursorLine",
+        "FloatBorder:NeoTreeFloatBorder",
+        "EndOfBuffer:NeoTreeEndOfBuffer",
+      }, ",")
+      require("backdrop").open(args.winid)
+    end,
+  },
+}
+
 return spec

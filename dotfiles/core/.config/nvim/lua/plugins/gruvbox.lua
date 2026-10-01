@@ -9,16 +9,20 @@ return {
     -- Include the package and save the load function.
     local gruvbox = require("gruvbox")
     local gruvbox_load = gruvbox.load
-    local bg1, bg3
+    local fg1, bg0, bg1, bg3
 
     -- Override the load function to check the background option.
     gruvbox.load = function()
       -- Set the background based on whether we want a dark theme or not.
       if vim.o.background == "dark" then
+        fg1 = gruvbox.palette.light1
+        bg0 = gruvbox.palette.dark0
         bg1 = gruvbox.palette.dark1
         bg3 = gruvbox.palette.dark3
 
       else
+        fg1 = gruvbox.palette.dark1
+        bg0 = gruvbox.palette.light0
         bg1 = gruvbox.palette.light1
         bg3 = gruvbox.palette.light3
       end
@@ -28,6 +32,11 @@ return {
       gruvbox.setup({
         terminal_colors = true,
         overrides = {
+          -- Give floats the same background as normal text (gruvbox uses bg1),
+          -- which matches snacks' picker windows. Likewise their titles use
+          -- the normal text color rather than Title's.
+          NormalFloat = {fg = fg1, bg = bg0},
+          FloatTitle = {fg = fg1, bg = bg0},
           NeotreeNormal = {bg = bg1},
           NeotreeCursorLine = {bg = bg3},
           -- Don't give markdown code blocks a background. render-markdown
