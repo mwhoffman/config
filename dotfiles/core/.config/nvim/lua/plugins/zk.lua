@@ -1,20 +1,20 @@
 -- zk-nvim integrates the zk note-taking tool: it starts zk's language server
 -- for markdown files in a notebook (link completion, go to linked note, hover
--- previews, backlinks as references, dead link diagnostics) and adds telescope
+-- previews, backlinks as references, dead link diagnostics) and adds snacks
 -- pickers for finding, creating and linking notes. It manages the zk LSP
 -- client itself, so zk isn't enabled in lsp.lua.
 local spec = {
   "zk-org/zk-nvim",
   name = "zk",
   dependencies = {
-    "nvim-telescope/telescope.nvim",
+    "folke/snacks.nvim",
   },
   -- Load for markdown files, so the language server starts for notes, and when
   -- these commands are run, so that e.g. `nvim +ZkNotes` works.
   ft = "markdown",
   cmd = {"ZkNew", "ZkNotes"},
   opts = {
-    picker = "telescope",
+    picker = "snacks_picker",
   },
 }
 

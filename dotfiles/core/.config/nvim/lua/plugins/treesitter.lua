@@ -50,9 +50,13 @@ spec.config = function()
         return
       end
 
-      -- Fold using treesitter (for all filetypes, including legacy ones).
-      vim.wo[0][0].foldmethod = "expr"
-      vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+      -- Fold using treesitter (for all filetypes, including legacy ones). This
+      -- is set for the windows showing the buffer, which needn't include the
+      -- current one (e.g. a picker preview, while in the picker's input).
+      for _, win in ipairs(vim.fn.win_findbuf(args.buf)) do
+        vim.wo[win][0].foldmethod = "expr"
+        vim.wo[win][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+      end
 
       local ft = vim.bo[args.buf].filetype
       if legacy[ft] then

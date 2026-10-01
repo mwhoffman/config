@@ -1,5 +1,5 @@
 -- todo-comments highlights TODO, FIXME, NOTE, etc. comments, and lets us jump
--- between them or search for them with telescope.
+-- between them or search for them (e.g. with :TodoQuickFix).
 local spec = {
   "folke/todo-comments.nvim",
   dependencies = {
@@ -15,8 +15,8 @@ local spec = {
       keyword = "wide",
     },
     search = {
-      -- Define the pattern to use for :TodoTelescope. See the above for a
-      -- note on "false positives".
+      -- Define the pattern to use when searching for todos. See the above for
+      -- a note on "false positives".
       pattern = [[\s+\b(KEYWORDS)(\(.+\))?:]],
     },
   }

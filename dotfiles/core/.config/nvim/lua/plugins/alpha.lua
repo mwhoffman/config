@@ -39,9 +39,10 @@ spec.config = function()
   -- Add our own buttons.
   dashboard.section.buttons.val = {
     button("n", "", "New file", "<cmd>ene<cr>"),
-    button("f", "", "Find files", "<cmd>Telescope find_files<cr>"),
+    button("f", "", "Find files",
+      "<cmd>lua require('snacks').picker.files()<cr>"),
     button("r", "", "Find recent",
-      "<cmd>Telescope oldfiles only_cwd=true<cr>"),
+      "<cmd>lua require('snacks').picker.recent({filter = {cwd = true}})<cr>"),
     button("l", "󰒲", "Lazy", "<cmd>Lazy<cr>"),
     button("m", "󰏗", "Mason", "<cmd>Mason<cr>"),
     button("q", "", "Quit", "<cmd>qa<cr>"),

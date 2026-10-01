@@ -56,10 +56,6 @@ return {
   ft = {"markdown"},
   opts = {
     latex = {enabled = false},
-    -- This plugin disables nvim's highlight patterns which hide the lines
-    -- around code blocks (so that it can draw its borders there). But it's
-    -- lazy-loaded after the highlighter starts, so restart it for that to apply.
-    restart_highlighter = true,
     custom_handlers = {
       markdown_inline = {extends = true, parse = parse_entities},
     },
@@ -90,6 +86,23 @@ return {
       language = false,
     },
   },
+  -- This plugin disables nvim's highlight patterns which hide the lines around
+  -- code blocks (so that it can draw its borders there). But it's lazy-loaded
+  -- after the highlighter starts, so restart the highlighter for that to apply.
+  -- Its restart_highlighter option does this on first render, but only for the
+  -- current buffer, which fails if that isn't markdown (e.g. a picker's input
+  -- when a preview is rendered). So disable the patterns now, and restart the
+  -- markdown buffers which are highlighted.
+  config = function(_, opts)
+    require("render-markdown").setup(opts)
+    require("render-markdown.core.ts").init()
+    for buf in pairs(vim.treesitter.highlighter.active) do
+      if vim.bo[buf].filetype == "markdown" then
+        vim.treesitter.stop(buf)
+        vim.treesitter.start(buf)
+      end
+    end
+  end,
   keys = {
     {
       "<leader>m",
