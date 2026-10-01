@@ -30,6 +30,12 @@ return {
         overrides = {
           NeotreeNormal = {bg = bg1},
           NeotreeCursorLine = {bg = bg3},
+          -- Don't give markdown code blocks a background. render-markdown
+          -- links this to ColorColumn, which virt-column clears when it loads,
+          -- so otherwise the result depends on which loads first. This links
+          -- to render-markdown's empty group since a group with no attributes
+          -- doesn't count as set, and render-markdown would still link it.
+          RenderMarkdownCode = {link = "RenderMarkdownPadding"},
         },
       })
 
