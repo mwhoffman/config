@@ -319,12 +319,22 @@ function _prompt_set_title_preexec {
   _prompt_set_title $cmd
 }
 
+function _prompt_reset_term_modes {
+  # Turn off terminal modes a program may have left on if it died without
+  # cleaning up, e.g. tmux over an ssh connection that dropped. Nothing at a
+  # prompt should have them on: focus reporting, mouse tracking (X10, normal,
+  # button, any and SGR) and a hidden cursor.
+  print -rn -- $'\e[?1004l\e[?9l\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?25h'
+}
+
+add-zsh-hook precmd _prompt_reset_term_modes
 # Only show the right prompt (the repo icons) on the current prompt, removing
 # it from earlier ones once their command runs.
 setopt TRANSIENT_RPROMPT
 
 # add-zsh-hook doesn't add a function twice if this file is sourced again.
 autoload -Uz add-zsh-hook
+add-zsh-hook precmd _prompt_reset_term_modes
 add-zsh-hook precmd _prompt_fetch_repos
 add-zsh-hook precmd _prompt_set
 add-zsh-hook precmd _prompt_set_title
