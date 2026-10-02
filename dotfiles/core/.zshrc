@@ -56,6 +56,9 @@ setopt HIST_IGNORE_SPACE      # Don't save commands starting with a space.
 # Before accepting a line combine the lbuffer and rbuffer (buffer before/after
 # the cursor), strip spaces, and put this cleaned text back into LBUFFER only.
 function trim-trailing-space-before-accept() {
+  # The "#" (zero or more) below needs extendedglob; without it "#" is a literal
+  # and nothing is trimmed. localoptions keeps this set only within the widget.
+  setopt localoptions extendedglob
   local buffer="${LBUFFER}${RBUFFER}"
   buffer="${buffer%%[[:space:]]#}"
   LBUFFER="${buffer}"
