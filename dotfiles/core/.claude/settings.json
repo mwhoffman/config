@@ -1,0 +1,17 @@
+{
+  "spinnerTipsEnabled": false,
+  "workflowKeywordTriggerEnabled": false,
+  "feedbackSurveyRate": 0,
+  "promptSuggestionEnabled": false,
+  "awaySummaryEnabled": false,
+  "autoMemoryEnabled": false,
+  "theme": "dark-ansi",
+  "editorMode": "vim",
+  "preferredNotifChannel": "notifications_disabled",
+  "terminalProgressBarEnabled": false,
+  "statusLine": {
+    "type": "command",
+    "command": "python3 ~/.claude/statusline.py",
+    "hideVimModeIndicator": true
+  }
+}
