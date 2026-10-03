@@ -14,7 +14,8 @@ which will clone the repository into `~/config`, install my common collection of
 apps, and install my dotfiles. After pulling in recent changes from github this
 process can be repeated by running `~/config/setup` which will install any
 missing apps and missing dotfiles&mdash;importantly it should be a no op if
-nothing has changed.
+nothing has changed. Installed apps aren't upgraded by this; to do that run
+`just update` from `~/config`.
 
 [core]: https://github.com/mwhoffman/config/tree/main/dotfiles/core
 [macos]: https://github.com/mwhoffman/config/tree/main/dotfiles/macos
