@@ -70,7 +70,7 @@ case $(uname -s) in
   Linux)
     missing=$(missing_apt build-essential procps curl file git)
     if [[ -n "${missing}" ]]; then
-      echo "📦 Installing apt packages:" ${missing}
+      echo "📥 Installing apt packages:" ${missing}
       sudo apt-get update
       sudo apt-get install -y ${missing}
     fi
@@ -85,7 +85,7 @@ esac
 if ! find_brew; then
   # The installer needs sudo, and with NONINTERACTIVE it can't prompt for a
   # password itself, so authenticate (and cache credentials) first.
-  echo "📦 Installing homebrew"
+  echo "📥 Installing homebrew"
   sudo -v
 
   # This is homebrew's recommended install command, except the installer is
@@ -103,7 +103,7 @@ fi
 # installed.
 missing=$(missing_brew just stow)
 if [[ -n "${missing}" ]]; then
-  echo "📦 Installing brew packages:" ${missing}
+  echo "📥 Installing brew packages:" ${missing}
   brew install ${missing}
 fi
 
@@ -113,7 +113,7 @@ fi
 # rather than git's own error, so it fails with the same message as any other
 # origin.
 if [[ ! -e "${TARGET}" && ! -L "${TARGET}" ]]; then
-  echo "📦 Installing config: ${TARGET}"
+  echo "📥 Installing config: ${TARGET}"
   git clone "${CONFIG}" "${TARGET}"
 
 elif [[ ! -d "${TARGET}/.git" ]]; then

@@ -53,9 +53,9 @@ install:
   # Ask for sudo at most once for the steps below, and drop the cached
   # credentials when done, including if a step fails.
   trap 'sudo -k' EXIT
-  just _brew Brewfile
-  just _install-zsh-plugins
-  just _install-fonts
+  just _brew bundles/Brewfile
+  just _install-zsh-plugins bundles/zsh-plugins.txt
+  just _install-fonts bundles/fonts.txt
 
 # Install packages.
 [linux]
@@ -65,9 +65,9 @@ install:
   # Ask for sudo at most once for the steps below, and drop the cached
   # credentials when done, including if a step fails.
   trap 'sudo -k' EXIT
-  just _brew Brewfile
+  just _brew bundles/Brewfile
   just _install-apt zsh
-  just _install-zsh-plugins
+  just _install-zsh-plugins bundles/zsh-plugins.txt
   if [ "{{gui}}" = true ]; then
     # Install apt sources for third-party packages. Note: spotify's key doesn't
     # live in a consistent place. So this will likely need to be updated every
@@ -78,8 +78,8 @@ install:
     just _install-apt-source spotify \
       https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.asc \
       https://repository.spotify.com stable non-free
-    just _install-apt i3-wm polybar rofi
-    just _install-fonts
+    just _install-apt-bundle bundles/apt-gui.txt
+    just _install-fonts bundles/fonts.txt
   fi
 
 # Install the given brewfile. Brew's auto-update is skipped: existing packages
@@ -98,7 +98,7 @@ _install-apt-source name key source suite component:
   list=/etc/apt/sources.list.d/{{name}}.list
   options="[arch=amd64 signed-by=$keyring]"
   if [ ! -e "$keyring" ]; then
-    echo "📦 Installing apt key: $keyring"
+    echo "📥 Installing apt key: $keyring"
     # Download the key before converting it (so a failed download only shows
     # curl's error), and build the keyring in a temporary file that's only
     # installed once that succeeds, so a failure doesn't leave an empty keyring
@@ -110,7 +110,7 @@ _install-apt-source name key source suite component:
     sudo install -m 644 "$tmp" "$keyring"
   fi
   if [ ! -e "$list" ]; then
-    echo "📦 Installing apt source: $list"
+    echo "📥 Installing apt source: $list"
     echo "deb $options {{source}} {{suite}} {{component}}" \
       | sudo tee "$list" >/dev/null
   fi
@@ -126,41 +126,64 @@ _install-apt *packages:
       || missing+=("$pkg")
   done
   if [ "${#missing[@]}" -gt 0 ]; then
-    echo "📦 Installing apt packages: ${missing[*]}"
+    echo "📥 Installing apt packages: ${missing[*]}"
     sudo apt-get install -y "${missing[@]}"
   fi
 
-# Install zsh plugins.
-_install-zsh-plugins:
+# Install the apt packages listed in the given bundle, one per line, with #
+# comments.
+[linux]
+_install-apt-bundle bundle:
   #!/usr/bin/env bash
   set -euo pipefail
+  echo "📦 Installing apt bundle: {{bundle}}"
+  # Strip comments; word splitting then drops blank lines. This is assigned
+  # first, rather than expanded inline, so that a missing bundle is an error.
+  packages=$(sed 's/#.*//' {{bundle}})
+  just _install-apt $packages
+
+# Install the zsh plugins listed in the given bundle, one github owner/repo per
+# line, with # comments.
+_install-zsh-plugins bundle:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  echo "📦 Installing zsh plugins: {{bundle}}"
   dest={{home}}/.local/share/zsh
   mkdir -p "$dest"
-  for repo in \
-    zsh-users/zsh-syntax-highlighting \
-    zsh-users/zsh-autosuggestions \
-    jeffreytse/zsh-vi-mode
-  do
+  # Strip comments; word splitting then drops blank lines. This is assigned
+  # first, rather than expanded inline, so that a missing bundle is an error.
+  repos=$(sed 's/#.*//' {{bundle}})
+  for repo in $repos; do
     target="$dest/${repo#*/}"
     if [ ! -d "$target" ]; then
-      echo "📦 Installing zsh plugin: $target"
-      git clone -q "https://github.com/$repo" "$target"
+      echo "📥 Installing zsh plugin: $target"
+      # Github asks for a login when a repo doesn't exist, so disable prompts
+      # to make that fail instead, and say which entry was at fault.
+      if ! GIT_TERMINAL_PROMPT=0 git clone -q "https://github.com/$repo" "$target"; then
+        echo "error: failed to clone zsh plugin '$repo' from {{bundle}}" >&2
+        exit 1
+      fi
     fi
   done
 
-# Install nerd fonts.
-_install-fonts:
+# Install the nerd fonts listed in the given bundle, one release asset name per
+# line, with # comments.
+_install-fonts bundle:
   #!/usr/bin/env bash
   set -euo pipefail
+  echo "📦 Installing fonts: {{bundle}}"
   case {{os}} in
     macos) font_dir={{home}}/Library/Fonts ;;
     *) font_dir={{home}}/.local/share/fonts ;;
   esac
   base=https://github.com/ryanoasis/nerd-fonts/releases/latest/download
-  for font in Hack JetBrainsMono; do
+  # Strip comments; word splitting then drops blank lines. This is assigned
+  # first, rather than expanded inline, so that a missing bundle is an error.
+  fonts=$(sed 's/#.*//' {{bundle}})
+  for font in $fonts; do
     target="$font_dir/$font"
     if [ ! -d "$target" ]; then
-      echo "📦 Installing font: $target"
+      echo "📥 Installing font: $target"
       # Download and extract in a temporary directory next to the target and
       # only move it into place once that succeeds, so a failed download
       # doesn't leave an empty directory behind that later runs would skip.
@@ -183,17 +206,23 @@ _gitconfig:
   #!/usr/bin/env bash
   set -euo pipefail
   target={{home}}/.config/git/local
-  if [ -f "$target" ]; then
-    exit 0
-  fi
   name={{quote(git_name)}}
   email={{quote(git_email)}}
-  [ -n "$name" ] || read -rp "Git name: " name
-  [ -n "$email" ] || read -rp "Git email: " email
+  # Whether the given user option is already set.
+  has() { git config --file "$target" --get "user.$1" >/dev/null; }
+  if has name && has email; then
+    exit 0
+  fi
+  echo "🔧 Updating git config: $target"
   mkdir -p "$(dirname "$target")"
-  echo "📦 Installing git config: $target"
-  git config --file "$target" user.name "$name"
-  git config --file "$target" user.email "$email"
+  if ! has name; then
+    [ -n "$name" ] || read -rp "Git name: " name
+    git config --file "$target" user.name "$name"
+  fi
+  if ! has email; then
+    [ -n "$email" ] || read -rp "Git email: " email
+    git config --file "$target" user.email "$email"
+  fi
 
 # Install kitty's source, which has the modules and type stubs that kitty's
 # tab_bar.py imports, so type checkers can find them. This checks out the tag
@@ -207,7 +236,7 @@ _install-kitty-src:
   if command -v kitty >/dev/null; then
     ref="v$(kitty --version | awk '{print $2}')"
   fi
-  echo "📦 Installing kitty source: $target ($ref)"
+  echo "📥 Installing kitty source: $target ($ref)"
   if [ ! -d "$target" ]; then
     # Only check out the kitty directory, and only fetch its files as needed.
     git clone -q --depth 1 --no-checkout --filter=blob:none \

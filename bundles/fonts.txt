@@ -1,0 +1,6 @@
+# Nerd fonts, named as in the release assets (<name>.tar.xz) at
+# https://github.com/ryanoasis/nerd-fonts/releases. On linux these are only
+# installed with a gui (see the justfile).
+
+Hack
+JetBrainsMono
