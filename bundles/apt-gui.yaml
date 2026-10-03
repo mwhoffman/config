@@ -1,0 +1,28 @@
+# Apt sources and packages installed on linux with a gui (see the justfile).
+
+# Third-party repos, each with the url of its signing key.
+sources:
+  - name: 1password
+    key: https://downloads.1password.com/linux/keys/1password.asc
+    url: https://downloads.1password.com/linux/debian/amd64
+    suite: stable
+    component: main
+
+  # Spotify's key doesn't live in a consistent place, so this will likely need
+  # to be updated every once in a while.
+  - name: spotify
+    key: https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.asc
+    url: https://repository.spotify.com
+    suite: stable
+    component: non-free
+
+packages:
+  # Standard i3 packages.
+  - dunst
+  - i3-wm
+  - polybar
+  - rofi
+
+  # These require the sources above.
+  - 1password
+  - spotify-client

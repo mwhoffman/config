@@ -98,10 +98,10 @@ if ! find_brew; then
   find_brew || { echo "❌ Could not find brew after installing it."; exit 1; }
 fi
 
-# We need just to run the setup and stow to link the dotfiles. Only install what
-# is missing since brew would otherwise auto-update and upgrade what's
-# installed.
-missing=$(missing_brew just stow)
+# We need just to run the setup, stow to link the dotfiles and yq to read the
+# bundles. Only install what is missing since brew would otherwise auto-update
+# and upgrade what's installed.
+missing=$(missing_brew just stow yq)
 if [[ -n "${missing}" ]]; then
   echo "📥 Installing brew packages:" ${missing}
   brew install ${missing}

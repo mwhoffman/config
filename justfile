@@ -22,6 +22,7 @@ git_email := env("MWCONFIG_GIT_EMAIL", "")
 _ := require("brew")
 _ := require("git")
 _ := require("stow")
+_ := require("yq")
 
 # Stow dotfiles.
 dotfiles: (_link "core") (_link os) _gitconfig _prune-links
@@ -54,8 +55,8 @@ install:
   # credentials when done, including if a step fails.
   trap 'sudo -k' EXIT
   just _brew bundles/Brewfile
-  just _install-zsh-plugins bundles/zsh-plugins.txt
-  just _install-fonts bundles/fonts.txt
+  just _install-zsh-plugins bundles/zsh-plugins.yaml
+  just _install-fonts bundles/fonts.yaml
 
 # Install packages.
 [linux]
@@ -67,19 +68,10 @@ install:
   trap 'sudo -k' EXIT
   just _brew bundles/Brewfile
   just _install-apt zsh
-  just _install-zsh-plugins bundles/zsh-plugins.txt
+  just _install-zsh-plugins bundles/zsh-plugins.yaml
   if [ "{{gui}}" = true ]; then
-    # Install apt sources for third-party packages. Note: spotify's key doesn't
-    # live in a consistent place. So this will likely need to be updated every
-    # once in a while.
-    just _install-apt-source 1password \
-      https://downloads.1password.com/linux/keys/1password.asc \
-      https://downloads.1password.com/linux/debian/amd64 stable main
-    just _install-apt-source spotify \
-      https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.asc \
-      https://repository.spotify.com stable non-free
-    just _install-apt-bundle bundles/apt-gui.txt
-    just _install-fonts bundles/fonts.txt
+    just _install-apt-bundle bundles/apt-gui.yaml
+    just _install-fonts bundles/fonts.yaml
   fi
 
 # Install the given brewfile. Brew's auto-update is skipped: existing packages
@@ -113,6 +105,8 @@ _install-apt-source name key source suite component:
     echo "📥 Installing apt source: $list"
     echo "deb $options {{source}} {{suite}} {{component}}" \
       | sudo tee "$list" >/dev/null
+    # Fetch the new source's package index so its packages can be installed.
+    sudo apt-get update
   fi
 
 # Install any of the given apt packages that aren't already installed.
@@ -130,29 +124,35 @@ _install-apt *packages:
     sudo apt-get install -y "${missing[@]}"
   fi
 
-# Install the apt packages listed in the given bundle, one per line, with #
-# comments.
+# Install the given apt bundle: a yaml file with a list of packages and,
+# optionally, a list of the sources (third-party repos) they need.
 [linux]
 _install-apt-bundle bundle:
   #!/usr/bin/env bash
   set -euo pipefail
   echo "📦 Installing apt bundle: {{bundle}}"
-  # Strip comments; word splitting then drops blank lines. This is assigned
-  # first, rather than expanded inline, so that a missing bundle is an error.
-  packages=$(sed 's/#.*//' {{bundle}})
+  # The lists are assigned first, rather than expanded inline, so that a missing
+  # or malformed bundle is an error. Each source is a line of its fields, read
+  # on a separate file descriptor so the install can't consume the others.
+  sources=$(yq -r '.sources[] | [.name, .key, .url, .suite, .component] | join(" ")' {{bundle}})
+  packages=$(yq -r '.packages[]' {{bundle}})
+  while read -r -u 3 name key url suite component; do
+    [ -n "$name" ] || continue
+    just _install-apt-source "$name" "$key" "$url" "$suite" "$component"
+  done 3<<< "$sources"
   just _install-apt $packages
 
-# Install the zsh plugins listed in the given bundle, one github owner/repo per
-# line, with # comments.
+# Install the zsh plugins in the given bundle: a yaml list of github owner/repo
+# entries.
 _install-zsh-plugins bundle:
   #!/usr/bin/env bash
   set -euo pipefail
   echo "📦 Installing zsh plugins: {{bundle}}"
   dest={{home}}/.local/share/zsh
   mkdir -p "$dest"
-  # Strip comments; word splitting then drops blank lines. This is assigned
-  # first, rather than expanded inline, so that a missing bundle is an error.
-  repos=$(sed 's/#.*//' {{bundle}})
+  # This is assigned first, rather than expanded inline, so that a missing or
+  # malformed bundle is an error.
+  repos=$(yq -r '.[]' {{bundle}})
   for repo in $repos; do
     target="$dest/${repo#*/}"
     if [ ! -d "$target" ]; then
@@ -166,8 +166,8 @@ _install-zsh-plugins bundle:
     fi
   done
 
-# Install the nerd fonts listed in the given bundle, one release asset name per
-# line, with # comments.
+# Install the nerd fonts in the given bundle: a yaml list of release asset
+# names.
 _install-fonts bundle:
   #!/usr/bin/env bash
   set -euo pipefail
@@ -177,9 +177,9 @@ _install-fonts bundle:
     *) font_dir={{home}}/.local/share/fonts ;;
   esac
   base=https://github.com/ryanoasis/nerd-fonts/releases/latest/download
-  # Strip comments; word splitting then drops blank lines. This is assigned
-  # first, rather than expanded inline, so that a missing bundle is an error.
-  fonts=$(sed 's/#.*//' {{bundle}})
+  # This is assigned first, rather than expanded inline, so that a missing or
+  # malformed bundle is an error.
+  fonts=$(yq -r '.[]' {{bundle}})
   for font in $fonts; do
     target="$font_dir/$font"
     if [ ! -d "$target" ]; then

@@ -2,5 +2,5 @@
 # https://github.com/ryanoasis/nerd-fonts/releases. On linux these are only
 # installed with a gui (see the justfile).
 
-Hack
-JetBrainsMono
+- Hack
+- JetBrainsMono

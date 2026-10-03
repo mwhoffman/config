@@ -1,6 +1,6 @@
 # Zsh plugins, as github owner/repo. Cloned into ~/.local/share/zsh/<repo> (see
 # the justfile).
 
-zsh-users/zsh-syntax-highlighting
-zsh-users/zsh-autosuggestions
-jeffreytse/zsh-vi-mode
+- zsh-users/zsh-syntax-highlighting
+- zsh-users/zsh-autosuggestions
+- jeffreytse/zsh-vi-mode

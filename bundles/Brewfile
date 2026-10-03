@@ -11,6 +11,7 @@ brew "ripgrep"
 brew "stow"
 brew "tmux"
 brew "uv"
+brew "yq"
 brew "zk"
 
 if OS.mac?
