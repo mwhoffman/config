@@ -18,33 +18,12 @@ gui := if gui_env =~ '^(|false|no|off|nil|0)$' {
 git_name := env("MWCONFIG_GIT_NAME", "")
 git_email := env("MWCONFIG_GIT_EMAIL", "")
 
-# Require these tools so we fail early if they don't exist.
-_ := require("brew")
-_ := require("git")
-_ := require("stow")
-_ := require("yq")
+#--------------#
+# Core targets #
+#--------------#
 
-# Stow dotfiles.
+# Install dotfiles and clean up.
 dotfiles: (_link "core") (_link os) _gitconfig _prune-links
-
-# Link a single stow package, also removing links for files deleted upstream.
-_link package:
-  @echo "📦 Installing dotfiles: {{package}}"
-  @stow --no-folding -d dotfiles -t {{home}} -R {{package}}
-
-# Remove dead links into dotfiles, e.g. left over from deleted directories.
-# Stow's links are relative, so they start with config/dotfiles/ or ../.
-# Packages only hold dotfiles, so skip non-hidden top-level entries; on macOS
-# that also avoids privacy-protected dirs like ~/Library and ~/Documents.
-_prune-links:
-  @echo "🗑️ Pruning dead dotfiles"
-  @find {{home}} -mindepth 1 -maxdepth 6 \
-    \(  ! -path '{{home}}/.*' \
-       -o -path '{{home}}/.cache' \
-       -o -path '{{home}}/.Trash' \
-       -o -path '{{home}}/.local/share/Trash' \) -prune \
-    -o -type l \( -lname 'config/dotfiles/*' -o -lname '*../config/dotfiles/*' \) \
-    ! -exec test -e {} \; -exec rm {} +
 
 # Install packages.
 [macos]
@@ -73,6 +52,30 @@ install:
     just _install-apt-bundle bundles/apt-gui.yaml
     just _install-fonts bundles/fonts.yaml
   fi
+
+#----------------#
+# Helper targets #
+#----------------#
+
+# Link a single stow package.
+_link package:
+  @echo "📦 Installing dotfiles: {{package}}"
+  @stow --no-folding -d dotfiles -t {{home}} -R {{package}}
+
+# Remove dead links into dotfiles, e.g. left over from deleted directories.
+# Stow's links are relative, so they start with config/dotfiles/ or ../.
+# Packages only hold dotfiles, so skip non-hidden top-level entries; on macOS
+# that also avoids privacy-protected dirs like ~/Library and ~/Documents.
+_prune-links:
+  @echo "🗑️ Pruning dead dotfiles"
+  @find {{home}} -mindepth 1 -maxdepth 6 \
+    \(  ! -path '{{home}}/.*' \
+       -o -path '{{home}}/.cache' \
+       -o -path '{{home}}/.Trash' \
+       -o -path '{{home}}/.local/share/Trash' \) -prune \
+    -o -type l \( -lname 'config/dotfiles/*' -o -lname '*../config/dotfiles/*' \) \
+    ! -exec test -e {} \; -exec rm {} +
+
 
 # Install the given brewfile. Brew's auto-update is skipped: existing packages
 # aren't upgraded anyway, and this avoids re-downloading the package index (the
