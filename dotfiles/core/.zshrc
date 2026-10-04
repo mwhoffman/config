@@ -159,6 +159,18 @@ if (( $+commands[fzf] )); then
     src "/usr/share/doc/fzf/examples/key-bindings.zsh"
   fi
   unset fzf_zsh
+
+  # Bind the cd widget to ctrl-o as well as the default alt-c.
+  bindkey '^O' fzf-cd-widget
+
+  # Use fd for listing where available, so that .gitignore is respected.
+  if (( $+commands[fd] )); then
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+    _fzf_compgen_path() { fd --hidden --follow --exclude .git . "$1" }
+    _fzf_compgen_dir() { fd --type d --hidden --follow --exclude .git . "$1" }
+  fi
 fi
 
 # Source any additional configuration.
