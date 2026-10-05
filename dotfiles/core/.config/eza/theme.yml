@@ -66,8 +66,8 @@ file_type:
 filenames:
   "._DS_Store": {icon: {glyph: "\uF179"}}
   ".aliases": {icon: {glyph: "\U000F1183"}}
-  ".atom": {icon: {glyph: "\uE764"}}
-  ".babelrc": {icon: {glyph: "\uE60B"}}
+  ".atom": {icon: {glyph: "\U000F107F"}}
+  ".babelrc": {icon: {glyph: "\uE639"}}
   ".bash_aliases": {icon: {glyph: "\U000F1183"}}
   ".bash_history": {icon: {glyph: "\U000F1183"}}
   ".bash_logout": {icon: {glyph: "\U000F1183"}}
@@ -80,7 +80,7 @@ filenames:
   ".clangd": {icon: {glyph: "\uE6A8"}}
   ".codespellrc": {icon: {glyph: "\U000F04C6"}}
   ".condarc": {icon: {glyph: "\uE715"}}
-  ".config": {icon: {glyph: "\uE5FC"}}
+  ".config": {icon: {glyph: "\U000F107F"}}
   ".containerignore": {icon: {glyph: "\U000F0868"}}
   ".cshrc": {icon: {glyph: "\U000F1183"}}
   ".dockerignore": {icon: {glyph: "\U000F0868"}}
@@ -90,21 +90,20 @@ filenames:
   ".env": {icon: {glyph: "\uF462"}}
   ".envrc": {icon: {glyph: "\U000F1183"}}
   ".eslintignore": {icon: {glyph: "\uE655"}}
-  ".eslintrc": {icon: {glyph: "\uE60B"}}
+  ".eslintrc": {icon: {glyph: "\uE655"}}
   ".eslintrc.cjs": {icon: {glyph: "\uE655"}}
   ".eslintrc.js": {icon: {glyph: "\uE655"}}
   ".eslintrc.json": {icon: {glyph: "\uE655"}}
   ".eslintrc.yaml": {icon: {glyph: "\uE655"}}
   ".eslintrc.yml": {icon: {glyph: "\uE655"}}
-  ".exercism": {icon: {glyph: "\uEBE5"}}
+  ".exercism": {icon: {glyph: "\U000F107F"}}
   ".fdignore": {icon: {glyph: "\U000F107B"}}
   ".fennelrc": {icon: {glyph: "\uE6AF"}}
   ".gcloudignore": {icon: {glyph: "\U000F11F6"}}
-  ".git": {icon: {glyph: "\uE5FB"}}
   ".git-blame-ignore-revs": {icon: {glyph: "\U000F02A2"}}
   ".gitattributes": {icon: {glyph: "\U000F02A2"}}
   ".gitconfig": {icon: {glyph: "\U000F02A2"}}
-  ".github": {icon: {glyph: "\uE5FD"}}
+  ".github": {icon: {glyph: "\U000F107F"}}
   ".gitignore": {icon: {glyph: "\U000F02A2"}}
   ".gitignore_global": {icon: {glyph: "\U000F02A2"}}
   ".gitkeep": {icon: {glyph: "\U000F02A2"}}
@@ -115,7 +114,7 @@ filenames:
   ".gvimrc": {icon: {glyph: "\uE62B"}}
   ".htaccess": {icon: {glyph: "\U000F107B"}}
   ".htpasswd": {icon: {glyph: "\U000F107B"}}
-  ".idea": {icon: {glyph: "\uE7B5"}}
+  ".idea": {icon: {glyph: "\U000F107F"}}
   ".ideavimrc": {icon: {glyph: "\uE62B"}}
   ".ignore": {icon: {glyph: "\U000F107B"}}
   ".indent.pro": {icon: {glyph: "\U000F15FF"}}
@@ -130,14 +129,14 @@ filenames:
   ".mailmap": {icon: {glyph: "\U000F02A2"}}
   ".nanorc": {icon: {glyph: "\uE838"}}
   ".node_repl_history": {icon: {glyph: "\uE718"}}
-  ".npm": {icon: {glyph: "\uE5FA"}}
+  ".npm": {icon: {glyph: "\U000F19FC"}}
   ".npmignore": {icon: {glyph: "\uE71E"}}
   ".npmrc": {icon: {glyph: "\uE71E"}}
   ".nuxtrc": {icon: {glyph: "\U000F1106"}}
   ".nvmrc": {icon: {glyph: "\U000F107B"}}
   ".ocamlinit": {icon: {glyph: "\uE67A"}}
   ".oelint.cfg": {icon: {glyph: "\U000F107B"}}
-  ".opam": {icon: {glyph: "\uE67A"}}
+  ".opam": {icon: {glyph: "\U000F19FC"}}
   ".parentlock": {icon: {glyph: "\uF023"}}
   ".pnpmfile.cjs": {icon: {glyph: "\uE865"}}
   ".pre-commit-config.yaml": {icon: {glyph: "\U000F06E2"}}
@@ -156,7 +155,7 @@ filenames:
   ".python_history": {icon: {glyph: "\uE606"}}
   ".rgignore": {icon: {glyph: "\U000F107B"}}
   ".rustfmt.toml": {icon: {glyph: "\uE68B"}}
-  ".rvm": {icon: {glyph: "\uEB48"}}
+  ".rvm": {icon: {glyph: "\U000F19FC"}}
   ".rvmrc": {icon: {glyph: "\uEB48"}}
   ".settings.json": {icon: {glyph: "\uE60B"}}
   ".SRCINFO": {icon: {glyph: "\uF303"}}
@@ -178,7 +177,7 @@ filenames:
   ".zlogout": {icon: {glyph: "\U000F1183"}}
   ".zprofile": {icon: {glyph: "\U000F1183"}}
   ".zsh_history": {icon: {glyph: "\U000F1183"}}
-  ".zsh_sessions": {icon: {glyph: "\U000F1183"}}
+  ".zsh_sessions": {icon: {glyph: "\U000F107F"}}
   ".zshenv": {icon: {glyph: "\U000F1183"}}
   ".zshrc": {icon: {glyph: "\U000F1183"}}
   "_gvimrc": {icon: {glyph: "\uE62B"}}
@@ -204,7 +203,7 @@ filenames:
   "build.zig.zon": {icon: {glyph: "\uE6A9"}}
   "bun.lock": {icon: {glyph: "\uE76F"}}
   "bun.lockb": {icon: {glyph: "\uE76F"}}
-  "cabal": {icon: {glyph: "\uE777"}}
+  "cabal": {icon: {glyph: "\U000F19FC"}}
   "cantorrc": {icon: {glyph: "\uF373"}}
   "Cargo.lock": {icon: {glyph: "\uE68B"}}
   "Cargo.toml": {icon: {glyph: "\uE68B"}}
@@ -224,14 +223,14 @@ filenames:
   "commitlint.config.js": {icon: {glyph: "\uE74E"}}
   "commitlint.config.ts": {icon: {glyph: "\uE628"}}
   "compiler": {icon: {glyph: "\U000F107D"}}
-  "compose.yaml": {icon: {glyph: "\uE650"}}
-  "compose.yml": {icon: {glyph: "\uE650"}}
+  "compose.yaml": {icon: {glyph: "\U000F0868"}}
+  "compose.yml": {icon: {glyph: "\U000F0868"}}
   "composer.json": {icon: {glyph: "\uED6D"}}
   "composer.lock": {icon: {glyph: "\uED6D"}}
-  "config.ld": {icon: {glyph: "\U000F08B1"}}
+  "config.ld": {icon: {glyph: "\uE620"}}
   "config.ru": {icon: {glyph: "\uEB48"}}
   "config.status": {icon: {glyph: "\U000F107B"}}
-  "configure": {icon: {glyph: "\uF0AD"}}
+  "configure": {icon: {glyph: "\U000F05B7"}}
   "configure.ac": {icon: {glyph: "\U000F107B"}}
   "configure.in": {icon: {glyph: "\U000F107B"}}
   "constraints.txt": {icon: {glyph: "\uE606"}}
@@ -242,12 +241,12 @@ filenames:
   "COPYING": {icon: {glyph: "\uF02D"}}
   "copying.lesser": {icon: {glyph: "\uF02D"}}
   "COPYRIGHT": {icon: {glyph: "\uF02D"}}
-  "cron.d": {icon: {glyph: "\uE5FC"}}
-  "cron.daily": {icon: {glyph: "\uE5FC"}}
-  "cron.hourly": {icon: {glyph: "\uE5FC"}}
-  "cron.minutely": {icon: {glyph: "\uE5FC"}}
-  "cron.monthly": {icon: {glyph: "\uE5FC"}}
-  "cron.weekly": {icon: {glyph: "\uE5FC"}}
+  "cron.d": {icon: {glyph: "\U000F107F"}}
+  "cron.daily": {icon: {glyph: "\U000F107F"}}
+  "cron.hourly": {icon: {glyph: "\U000F107F"}}
+  "cron.minutely": {icon: {glyph: "\U000F107F"}}
+  "cron.monthly": {icon: {glyph: "\U000F107F"}}
+  "cron.weekly": {icon: {glyph: "\U000F107F"}}
   "crontab": {icon: {glyph: "\U000F107B"}}
   "crypttab": {icon: {glyph: "\U000F107B"}}
   "csh.cshrc": {icon: {glyph: "\U000F1183"}}
@@ -259,22 +258,21 @@ filenames:
   "directory.build.targets": {icon: {glyph: "\uE615"}}
   "directory.packages.props": {icon: {glyph: "\uE615"}}
   "doc": {icon: {glyph: "\U000F10B7"}}
-  "docker-compose.yaml": {icon: {glyph: "\uE650"}}
-  "docker-compose.yml": {icon: {glyph: "\uE650"}}
-  "Dockerfile": {icon: {glyph: "\uE650"}}
+  "docker-compose.yaml": {icon: {glyph: "\U000F0868"}}
+  "docker-compose.yml": {icon: {glyph: "\U000F0868"}}
+  "Dockerfile": {icon: {glyph: "\U000F0868"}}
   "docs": {icon: {glyph: "\U000F10B7"}}
   "Documents": {icon: {glyph: "\U000F0C82"}}
   "Downloads": {icon: {glyph: "\U000F024D"}}
-  "dropbox": {icon: {glyph: "\uE707"}}
   "dune": {icon: {glyph: "\uE67A"}}
-  "dune-project": {icon: {glyph: "\uF0AD"}}
+  "dune-project": {icon: {glyph: "\U000F05B7"}}
   "Earthfile": {icon: {glyph: "\uF0AC"}}
   "environment": {icon: {glyph: "\U000F107B"}}
   "eslint.config.cjs": {icon: {glyph: "\uE655"}}
   "eslint.config.js": {icon: {glyph: "\uE655"}}
   "eslint.config.mjs": {icon: {glyph: "\uE655"}}
   "eslint.config.ts": {icon: {glyph: "\uE655"}}
-  "etc": {icon: {glyph: "\uE5FC"}}
+  "etc": {icon: {glyph: "\U000F107F"}}
   "example.gitolite.rc": {icon: {glyph: "\uE67E"}}
   "ext_typoscript_setup.txt": {icon: {glyph: "\uF15C"}}
   "favicon.ico": {icon: {glyph: "\uE623"}}
@@ -296,13 +294,12 @@ filenames:
   "go.mod": {icon: {glyph: "\uE65E"}}
   "go.sum": {icon: {glyph: "\uE65E"}}
   "go.work": {icon: {glyph: "\uE65E"}}
-  "go.work.sum": {icon: {glyph: "\U000F07D3"}}
-  "gradle": {icon: {glyph: "\uE660"}}
+  "go.work.sum": {icon: {glyph: "\uE65E"}}
+  "gradle": {icon: {glyph: "\U000F19FC"}}
   "gradle-wrapper.properties": {icon: {glyph: "\uE660"}}
   "gradle.properties": {icon: {glyph: "\uE660"}}
   "gradlew": {icon: {glyph: "\uE660"}}
   "gradlew.bat": {icon: {glyph: "\uE660"}}
-  "groovy": {icon: {glyph: "\uE775"}}
   "group": {icon: {glyph: "\uF023"}}
   "gruntfile.babel.js": {icon: {glyph: "\uE611"}}
   "gruntfile.coffee": {icon: {glyph: "\uE611"}}
@@ -336,7 +333,7 @@ filenames:
   "id_ed25519": {icon: {glyph: "\U000F0306"}}
   "id_ed25519_sk": {icon: {glyph: "\U000F0306"}}
   "id_rsa": {icon: {glyph: "\U000F0306"}}
-  "include": {icon: {glyph: "\uE5FC"}}
+  "include": {icon: {glyph: "\U000F107F"}}
   "indent": {icon: {glyph: "\U000F107D"}}
   "indent.pro": {icon: {glyph: "\U000F15FF"}}
   "index.theme": {icon: {glyph: "\uEE72"}}
@@ -345,8 +342,8 @@ filenames:
   "ipf.rules": {icon: {glyph: "\U000F107B"}}
   "Jenkinsfile": {icon: {glyph: "\uE66E"}}
   "jsconfig.json": {icon: {glyph: "\uE60B"}}
-  "Justfile": {icon: {glyph: "\uF0AD"}}
-  "justfile": {icon: {glyph: "\uF0AD"}}
+  "Justfile": {icon: {glyph: "\U000F05B7"}}
+  "justfile": {icon: {glyph: "\U000F05B7"}}
   "kalgebrarc": {icon: {glyph: "\uF373"}}
   "kdeglobals": {icon: {glyph: "\uF373"}}
   "kdenlive-layoutsrc": {icon: {glyph: "\uF33C"}}
@@ -367,12 +364,11 @@ filenames:
   "LICENSE.md": {icon: {glyph: "\uF02D"}}
   "LICENSE.txt": {icon: {glyph: "\uF02D"}}
   "lltxxxxx.txt": {icon: {glyph: "\uF15C"}}
-  "localized": {icon: {glyph: "\uF179"}}
   "localtime": {icon: {glyph: "\uF43A"}}
   "lock": {icon: {glyph: "\uF023"}}
   "LOCK": {icon: {glyph: "\uF023"}}
-  "log": {icon: {glyph: "\uF18D"}}
-  "LOG": {icon: {glyph: "\uF18D"}}
+  "log": {icon: {glyph: "\uF4ED"}}
+  "LOG": {icon: {glyph: "\uF4ED"}}
   "lsp": {icon: {glyph: "\U000F107D"}}
   "lua": {icon: {glyph: "\U000F024B"}}
   "lxde-rc.xml": {icon: {glyph: "\uF363"}}
@@ -393,7 +389,7 @@ filenames:
   "mini.nvim": {icon: {glyph: "\U000F069D"}}
   "mix.lock": {icon: {glyph: "\uE62D"}}
   "mnt": {icon: {glyph: "\U000F0253"}}
-  "Movies": {icon: {glyph: "\U000F0FCE"}}
+  "Movies": {icon: {glyph: "\uF03D"}}
   "mpv.conf": {icon: {glyph: "\uF36E"}}
   "Music": {icon: {glyph: "\uF001"}}
   "Network": {icon: {glyph: "\U000F0870"}}
@@ -402,8 +398,9 @@ filenames:
   "next.config.cjs": {icon: {glyph: "\uE83E"}}
   "next.config.js": {icon: {glyph: "\uE83E"}}
   "next.config.ts": {icon: {glyph: "\uE83E"}}
+  "node_modules": {icon: {glyph: "\U000F19FC"}}
   "npm-shrinkwrap.json": {icon: {glyph: "\uE71E"}}
-  "npm_cache": {icon: {glyph: "\uE5FA"}}
+  "npm_cache": {icon: {glyph: "\U000F19FC"}}
   "npmrc": {icon: {glyph: "\uE71E"}}
   "nuxt.config.cjs": {icon: {glyph: "\U000F1106"}}
   "nuxt.config.js": {icon: {glyph: "\U000F1106"}}
@@ -414,7 +411,7 @@ filenames:
   "pack": {icon: {glyph: "\U000F107D"}}
   "package-lock.json": {icon: {glyph: "\uE71E"}}
   "package.json": {icon: {glyph: "\uE71E"}}
-  "pacman.d": {icon: {glyph: "\uE5FC"}}
+  "pacman.d": {icon: {glyph: "\U000F107F"}}
   "pam.d": {icon: {glyph: "\U000F08AC"}}
   "parser": {icon: {glyph: "\U000F107D"}}
   "passwd": {icon: {glyph: "\uF023"}}
@@ -460,11 +457,9 @@ filenames:
   "release.toml": {icon: {glyph: "\uE68B"}}
   "renovate.json": {icon: {glyph: "\uE60B"}}
   "requirements.txt": {icon: {glyph: "\uE606"}}
-  "rmd": {icon: {glyph: "\uF48A"}}
   "robots.txt": {icon: {glyph: "\U000F06A9"}}
   "root": {icon: {glyph: "\U000F0DCC"}}
   "rplugin": {icon: {glyph: "\U000F107D"}}
-  "rubydoc": {icon: {glyph: "\uEB48"}}
   "rvmrc": {icon: {glyph: "\uEB48"}}
   "sbin": {icon: {glyph: "\U000F19FA"}}
   "SECURITY": {icon: {glyph: "\U000F0483"}}
@@ -503,13 +498,13 @@ filenames:
   "tmux.conf.local": {icon: {glyph: "\uEBC8"}}
   "TODO": {icon: {glyph: "\uF0AE"}}
   "TODO.md": {icon: {glyph: "\uF0AE"}}
-  "Trash": {icon: {glyph: "\U000F19F4"}}
+  "Trash": {icon: {glyph: "\uF1F8"}}
   "tsconfig.json": {icon: {glyph: "\uE69D"}}
   "tutor": {icon: {glyph: "\U000F107D"}}
   "unlicense": {icon: {glyph: "\uF02D"}}
   "Users": {icon: {glyph: "\U000F024C"}}
   "usr": {icon: {glyph: "\U000F024C"}}
-  "Vagrantfile": {icon: {glyph: "\u2371"}}
+  "Vagrantfile": {icon: {glyph: "\uE8D0"}}
   "var": {icon: {glyph: "\U000F12E3"}}
   "vercel.json": {icon: {glyph: "\uE8D3"}}
   "Videos": {icon: {glyph: "\uF03D"}}
@@ -527,19 +522,18 @@ filenames:
   "vitest.config.ts": {icon: {glyph: "\uE8D9"}}
   "vlcrc": {icon: {glyph: "\U000F057C"}}
   "Volumes": {icon: {glyph: "\U000F0253"}}
-  "webpack": {icon: {glyph: "\U000F072B"}}
   "webpack.config.js": {icon: {glyph: "\U000F072B"}}
   "weston.ini": {icon: {glyph: "\uF367"}}
   "workspace": {icon: {glyph: "\uE63A"}}
   "wrangler.jsonc": {icon: {glyph: "\uE792"}}
   "wrangler.toml": {icon: {glyph: "\uE792"}}
-  "xbps.d": {icon: {glyph: "\uE5FC"}}
+  "xbps.d": {icon: {glyph: "\U000F107F"}}
   "xdph.conf": {icon: {glyph: "\uF359"}}
-  "xmobarrc": {icon: {glyph: "\uF369"}}
+  "xmobarrc": {icon: {glyph: "\uF35E"}}
   "xmobarrc.hs": {icon: {glyph: "\uF35E"}}
   "xmonad.hs": {icon: {glyph: "\uF35E"}}
   "xorg.conf": {icon: {glyph: "\uF369"}}
-  "xorg.conf.d": {icon: {glyph: "\uE5FC"}}
+  "xorg.conf.d": {icon: {glyph: "\U000F107F"}}
   "xsettingsd.conf": {icon: {glyph: "\uF369"}}
   "yarn.lock": {icon: {glyph: "\uE6A7"}}
   "zlogin": {icon: {glyph: "\U000F1183"}}
@@ -550,27 +544,27 @@ filenames:
 extensions:
   "123dx": {icon: {glyph: "\U000F0EEB"}}
   "3dm": {icon: {glyph: "\U000F0EEB"}}
-  "3g2": {icon: {glyph: "\uF03D"}}
-  "3gp": {icon: {glyph: "\uF03D"}}
-  "3gp2": {icon: {glyph: "\uF03D"}}
-  "3gpp": {icon: {glyph: "\uF03D"}}
-  "3gpp2": {icon: {glyph: "\uF03D"}}
+  "3g2": {icon: {glyph: "\uF1C8"}}
+  "3gp": {icon: {glyph: "\uF1C8"}}
+  "3gp2": {icon: {glyph: "\uF1C8"}}
+  "3gpp": {icon: {glyph: "\uF1C8"}}
+  "3gpp2": {icon: {glyph: "\uF1C8"}}
   "3mf": {icon: {glyph: "\U000F01A7"}}
   "7z": {icon: {glyph: "\uF410"}}
   "a": {icon: {glyph: "\uEAE8"}}
-  "aac": {icon: {glyph: "\uF001"}}
+  "aac": {icon: {glyph: "\uF1C7"}}
   "acf": {icon: {glyph: "\uF1B6"}}
   "ada": {icon: {glyph: "\U000F1077"}}
   "adb": {icon: {glyph: "\U000F1077"}}
   "ads": {icon: {glyph: "\U000F1077"}}
   "age": {icon: {glyph: "\U000F099D"}}
   "ai": {icon: {glyph: "\uE7B4"}}
-  "aif": {icon: {glyph: "\uF001"}}
-  "aifc": {icon: {glyph: "\uF001"}}
-  "aiff": {icon: {glyph: "\uF001"}}
-  "alac": {icon: {glyph: "\uF001"}}
+  "aif": {icon: {glyph: "\uF1C7"}}
+  "aifc": {icon: {glyph: "\uF1C7"}}
+  "aiff": {icon: {glyph: "\uF1C7"}}
+  "alac": {icon: {glyph: "\uF1C7"}}
   "android": {icon: {glyph: "\uE70E"}}
-  "ape": {icon: {glyph: "\uF001"}}
+  "ape": {icon: {glyph: "\uF1C7"}}
   "apk": {icon: {glyph: "\uE70E"}}
   "apl": {icon: {glyph: "\uE730"}}
   "app": {icon: {glyph: "\uEAE8"}}
@@ -585,7 +579,7 @@ extensions:
   "asp": {icon: {glyph: "\uF121"}}
   "ass": {icon: {glyph: "\U000F0A16"}}
   "astro": {icon: {glyph: "\uE6B3"}}
-  "avi": {icon: {glyph: "\uF03D"}}
+  "avi": {icon: {glyph: "\uF1C8"}}
   "avif": {icon: {glyph: "\uF1C5"}}
   "avro": {icon: {glyph: "\uE60B"}}
   "awk": {icon: {glyph: "\uF489"}}
@@ -615,16 +609,16 @@ extensions:
   "bz3": {icon: {glyph: "\uF410"}}
   "bzl": {icon: {glyph: "\uE63A"}}
   "c": {icon: {glyph: "\uE61E"}}
-  "c++": {icon: {glyph: "\uE61D"}}
+  "c++": {icon: {glyph: "\U000F0672"}}
   "cab": {icon: {glyph: "\uF17A"}}
   "cache": {icon: {glyph: "\uF49B"}}
-  "cast": {icon: {glyph: "\uF03D"}}
+  "cast": {icon: {glyph: "\uF1C8"}}
   "catpart": {icon: {glyph: "\U000F0EEB"}}
   "catproduct": {icon: {glyph: "\U000F0EEB"}}
   "cbl": {icon: {glyph: "\U000F133C"}}
   "cbr": {icon: {glyph: "\uF1C5"}}
   "cbz": {icon: {glyph: "\uF1C5"}}
-  "cc": {icon: {glyph: "\uE61D"}}
+  "cc": {icon: {glyph: "\U000F0672"}}
   "ccm": {icon: {glyph: "\U000F0672"}}
   "cert": {icon: {glyph: "\uEAFA"}}
   "cfc": {icon: {glyph: "\uE645"}}
@@ -649,9 +643,9 @@ extensions:
   "config": {icon: {glyph: "\U000F107B"}}
   "config.ru": {icon: {glyph: "\uEB48"}}
   "cow": {icon: {glyph: "\U000F019A"}}
-  "cp": {icon: {glyph: "\uE61D"}}
+  "cp": {icon: {glyph: "\U000F0672"}}
   "cpio": {icon: {glyph: "\uF410"}}
-  "cpp": {icon: {glyph: "\uE61D"}}
+  "cpp": {icon: {glyph: "\U000F0672"}}
   "cppm": {icon: {glyph: "\U000F0672"}}
   "cpy": {icon: {glyph: "\U000F133C"}}
   "cr": {icon: {glyph: "\uE62F"}}
@@ -670,7 +664,7 @@ extensions:
   "cu": {icon: {glyph: "\uE64B"}}
   "cue": {icon: {glyph: "\uE271"}}
   "cuh": {icon: {glyph: "\uE64B"}}
-  "cxx": {icon: {glyph: "\uE61D"}}
+  "cxx": {icon: {glyph: "\U000F0672"}}
   "cxxm": {icon: {glyph: "\U000F0672"}}
   "d": {icon: {glyph: "\uE7AF"}}
   "d.ts": {icon: {glyph: "\uE628"}}
@@ -682,13 +676,13 @@ extensions:
   "desktop": {icon: {glyph: "\uEBD1"}}
   "di": {icon: {glyph: "\uE7AF"}}
   "diff": {icon: {glyph: "\uF440"}}
-  "djv": {icon: {glyph: "\uF1C2"}}
-  "djvu": {icon: {glyph: "\uF1C2"}}
+  "djv": {icon: {glyph: "\uE28B"}}
+  "djvu": {icon: {glyph: "\uE28B"}}
   "dll": {icon: {glyph: "\uEAE8"}}
   "dmg": {icon: {glyph: "\uE271"}}
   "doc": {icon: {glyph: "\uF1C2"}}
-  "dockerfile": {icon: {glyph: "\uE650"}}
-  "dockerignore": {icon: {glyph: "\uE650"}}
+  "dockerfile": {icon: {glyph: "\U000F0868"}}
+  "dockerignore": {icon: {glyph: "\U000F0868"}}
   "docm": {icon: {glyph: "\uF1C2"}}
   "docx": {icon: {glyph: "\uF1C2"}}
   "dot": {icon: {glyph: "\U000F1049"}}
@@ -742,10 +736,10 @@ extensions:
   "fdmdownload": {icon: {glyph: "\U000F01DA"}}
   "feature": {icon: {glyph: "\uE7B7"}}
   "fish": {icon: {glyph: "\U000F1183"}}
-  "flac": {icon: {glyph: "\uF001"}}
+  "flac": {icon: {glyph: "\uF1C7"}}
   "flc": {icon: {glyph: "\uF031"}}
   "flf": {icon: {glyph: "\uF031"}}
-  "flv": {icon: {glyph: "\uF03D"}}
+  "flv": {icon: {glyph: "\uF1C8"}}
   "fnl": {icon: {glyph: "\uE6AF"}}
   "fnt": {icon: {glyph: "\uF031"}}
   "fodg": {icon: {glyph: "\uF379"}}
@@ -776,8 +770,7 @@ extensions:
   "geom": {icon: {glyph: "\uE855"}}
   "gform": {icon: {glyph: "\uF298"}}
   "gif": {icon: {glyph: "\uF1C5"}}
-  "git": {icon: {glyph: "\U000F02A2"}}
-  "glb": {icon: {glyph: "\uF1B2"}}
+  "glb": {icon: {glyph: "\U000F01A7"}}
   "gleam": {icon: {glyph: "\U000F09A5"}}
   "glsl": {icon: {glyph: "\uE855"}}
   "gm1": {icon: {glyph: "\uEABE"}}
@@ -803,19 +796,19 @@ extensions:
   "gvy": {icon: {glyph: "\uE775"}}
   "gz": {icon: {glyph: "\uF410"}}
   "h": {icon: {glyph: "\uE61E"}}
-  "h++": {icon: {glyph: "\uE61D"}}
-  "h264": {icon: {glyph: "\uF03D"}}
+  "h++": {icon: {glyph: "\U000F0672"}}
+  "h264": {icon: {glyph: "\uF1C8"}}
   "haml": {icon: {glyph: "\uE664"}}
   "hbs": {icon: {glyph: "\uE60F"}}
   "hc": {icon: {glyph: "\U000F00A2"}}
   "heex": {icon: {glyph: "\uE62D"}}
   "heic": {icon: {glyph: "\uF1C5"}}
-  "heics": {icon: {glyph: "\uF03D"}}
+  "heics": {icon: {glyph: "\uF1C8"}}
   "heif": {icon: {glyph: "\uF1C5"}}
   "hex": {icon: {glyph: "\U000F12A7"}}
-  "hh": {icon: {glyph: "\uE61D"}}
+  "hh": {icon: {glyph: "\U000F0672"}}
   "hi": {icon: {glyph: "\uEAE8"}}
-  "hpp": {icon: {glyph: "\uE61D"}}
+  "hpp": {icon: {glyph: "\U000F0672"}}
   "hrl": {icon: {glyph: "\uE7B1"}}
   "hs": {icon: {glyph: "\uE777"}}
   "htm": {icon: {glyph: "\uF13B"}}
@@ -824,7 +817,7 @@ extensions:
   "huff": {icon: {glyph: "\U000F0858"}}
   "hurl": {icon: {glyph: "\U000F0337"}}
   "hx": {icon: {glyph: "\uE666"}}
-  "hxx": {icon: {glyph: "\uE61D"}}
+  "hxx": {icon: {glyph: "\U000F0672"}}
   "iam": {icon: {glyph: "\U000F0EEB"}}
   "ical": {icon: {glyph: "\uEAB0"}}
   "icalendar": {icon: {glyph: "\uEAB0"}}
@@ -906,7 +899,7 @@ extensions:
   "lisp": {icon: {glyph: "\U000F0172"}}
   "localized": {icon: {glyph: "\uF179"}}
   "lock": {icon: {glyph: "\uF023"}}
-  "log": {icon: {glyph: "\uF18D"}}
+  "log": {icon: {glyph: "\uF4ED"}}
   "lpp": {icon: {glyph: "\uEABE"}}
   "lrc": {icon: {glyph: "\U000F0A16"}}
   "ltx": {icon: {glyph: "\uE69B"}}
@@ -919,12 +912,12 @@ extensions:
   "lzma": {icon: {glyph: "\uF410"}}
   "lzo": {icon: {glyph: "\uF410"}}
   "m": {icon: {glyph: "\uE61E"}}
-  "m2ts": {icon: {glyph: "\uF03D"}}
-  "m2v": {icon: {glyph: "\uF03D"}}
+  "m2ts": {icon: {glyph: "\uF1C8"}}
+  "m2v": {icon: {glyph: "\uF1C8"}}
   "m3u": {icon: {glyph: "\U000F0CB9"}}
   "m3u8": {icon: {glyph: "\U000F0CB9"}}
-  "m4a": {icon: {glyph: "\uF001"}}
-  "m4v": {icon: {glyph: "\uF03D"}}
+  "m4a": {icon: {glyph: "\uF1C7"}}
+  "m4v": {icon: {glyph: "\uF1C8"}}
   "magnet": {icon: {glyph: "\uF076"}}
   "makefile": {icon: {glyph: "\uE673"}}
   "markdown": {icon: {glyph: "\uF48A"}}
@@ -937,23 +930,23 @@ extensions:
   "mint": {icon: {glyph: "\U000F08ED"}}
   "mjs": {icon: {glyph: "\uE74E"}}
   "mk": {icon: {glyph: "\uE673"}}
-  "mka": {icon: {glyph: "\uF001"}}
+  "mka": {icon: {glyph: "\uF1C7"}}
   "mkd": {icon: {glyph: "\uF48A"}}
-  "mkv": {icon: {glyph: "\uF03D"}}
+  "mkv": {icon: {glyph: "\uF1C8"}}
   "ml": {icon: {glyph: "\uE67A"}}
   "mli": {icon: {glyph: "\uE67A"}}
   "mll": {icon: {glyph: "\uE67A"}}
   "mly": {icon: {glyph: "\uE67A"}}
-  "mm": {icon: {glyph: "\uE61D"}}
+  "mm": {icon: {glyph: "\U000F0672"}}
   "mo": {icon: {glyph: "\U000F05CA"}}
   "mobi": {icon: {glyph: "\uE28B"}}
   "mojo": {icon: {glyph: "\U000F0238"}}
-  "mov": {icon: {glyph: "\uF03D"}}
-  "mp2": {icon: {glyph: "\uF001"}}
-  "mp3": {icon: {glyph: "\uF001"}}
-  "mp4": {icon: {glyph: "\uF03D"}}
-  "mpeg": {icon: {glyph: "\uF03D"}}
-  "mpg": {icon: {glyph: "\uF03D"}}
+  "mov": {icon: {glyph: "\uF1C8"}}
+  "mp2": {icon: {glyph: "\uF1C7"}}
+  "mp3": {icon: {glyph: "\uF1C7"}}
+  "mp4": {icon: {glyph: "\uF1C8"}}
+  "mpeg": {icon: {glyph: "\uF1C8"}}
+  "mpg": {icon: {glyph: "\uF1C8"}}
   "mpp": {icon: {glyph: "\U000F0672"}}
   "msf": {icon: {glyph: "\uF370"}}
   "msi": {icon: {glyph: "\uF17A"}}
@@ -980,14 +973,14 @@ extensions:
   "odp": {icon: {glyph: "\uF37A"}}
   "ods": {icon: {glyph: "\uF378"}}
   "odt": {icon: {glyph: "\uF1C2"}}
-  "oga": {icon: {glyph: "\uF001"}}
-  "ogg": {icon: {glyph: "\uF001"}}
-  "ogm": {icon: {glyph: "\uF03D"}}
-  "ogv": {icon: {glyph: "\uF03D"}}
-  "ogx": {icon: {glyph: "\uE69F"}}
+  "oga": {icon: {glyph: "\uF1C7"}}
+  "ogg": {icon: {glyph: "\uF1C7"}}
+  "ogm": {icon: {glyph: "\uF1C8"}}
+  "ogv": {icon: {glyph: "\uF1C8"}}
+  "ogx": {icon: {glyph: "\uF1C8"}}
   "opam": {icon: {glyph: "\U000F0627"}}
   "opml": {icon: {glyph: "\U000F05C0"}}
-  "opus": {icon: {glyph: "\uF001"}}
+  "opus": {icon: {glyph: "\uF1C7"}}
   "orf": {icon: {glyph: "\uF1C5"}}
   "org": {icon: {glyph: "\uE633"}}
   "otf": {icon: {glyph: "\uF031"}}
@@ -999,7 +992,7 @@ extensions:
   "pbm": {icon: {glyph: "\uF1C5"}}
   "pcbdoc": {icon: {glyph: "\uEABE"}}
   "pck": {icon: {glyph: "\uF487"}}
-  "pcm": {icon: {glyph: "\uF001"}}
+  "pcm": {icon: {glyph: "\uF1C7"}}
   "pdf": {icon: {glyph: "\uF1C1"}}
   "pem": {icon: {glyph: "\uEB11"}}
   "pfx": {icon: {glyph: "\uEB11"}}
@@ -1021,17 +1014,17 @@ extensions:
   "pp": {icon: {glyph: "\uE631"}}
   "ppm": {icon: {glyph: "\uF1C5"}}
   "pps": {icon: {glyph: "\uF1C4"}}
-  "ppsm": {icon: {glyph: "\U000F1390"}}
+  "ppsm": {icon: {glyph: "\uF1C4"}}
   "ppsx": {icon: {glyph: "\uF1C4"}}
   "ppt": {icon: {glyph: "\uF1C4"}}
-  "pptm": {icon: {glyph: "\U000F1390"}}
+  "pptm": {icon: {glyph: "\uF1C4"}}
   "pptx": {icon: {glyph: "\uF1C4"}}
   "prefab": {icon: {glyph: "\uEEF6"}}
   "prisma": {icon: {glyph: "\uE684"}}
   "prjpcb": {icon: {glyph: "\uEABE"}}
   "pro": {icon: {glyph: "\U000F15FF"}}
-  "procfile": {icon: {glyph: "\uE739"}}
-  "properties": {icon: {glyph: "\uE60B"}}
+  "procfile": {icon: {glyph: "\uE77B"}}
+  "properties": {icon: {glyph: "\U000F107B"}}
   "prql": {icon: {glyph: "\uF1C0"}}
   "ps": {icon: {glyph: "\uF1C5"}}
   "ps1": {icon: {glyph: "\uEBC7"}}
@@ -1094,7 +1087,7 @@ extensions:
   "s3db": {icon: {glyph: "\uE7C4"}}
   "sal": {icon: {glyph: "\U000F147B"}}
   "sass": {icon: {glyph: "\uE603"}}
-  "sbt": {icon: {glyph: "\U000F0A16"}}
+  "sbt": {icon: {glyph: "\uE737"}}
   "sc": {icon: {glyph: "\uE737"}}
   "scad": {icon: {glyph: "\uF34E"}}
   "scala": {icon: {glyph: "\uE737"}}
@@ -1126,14 +1119,14 @@ extensions:
   "slnx": {icon: {glyph: "\U000F05C0"}}
   "slvs": {icon: {glyph: "\U000F0EEB"}}
   "sml": {icon: {glyph: "\U000F0627"}}
-  "snd": {icon: {glyph: "\U000F0223"}}
+  "snd": {icon: {glyph: "\uF1C7"}}
   "so": {icon: {glyph: "\uEAE8"}}
   "sol": {icon: {glyph: "\uE656"}}
   "spec.js": {icon: {glyph: "\uE74E"}}
   "spec.jsx": {icon: {glyph: "\uE7BA"}}
   "spec.ts": {icon: {glyph: "\uE628"}}
   "spec.tsx": {icon: {glyph: "\uE7BA"}}
-  "spx": {icon: {glyph: "\uF001"}}
+  "spx": {icon: {glyph: "\uF1C7"}}
   "sql": {icon: {glyph: "\uF1C0"}}
   "sqlite": {icon: {glyph: "\uE7C4"}}
   "sqlite3": {icon: {glyph: "\uE7C4"}}
@@ -1172,10 +1165,10 @@ extensions:
   "sv": {icon: {glyph: "\U000F035B"}}
   "svelte": {icon: {glyph: "\uE697"}}
   "svg": {icon: {glyph: "\uF1C5"}}
-  "svgz": {icon: {glyph: "\U000F0721"}}
+  "svgz": {icon: {glyph: "\uF1C5"}}
   "svh": {icon: {glyph: "\U000F035B"}}
   "svx": {icon: {glyph: "\uE697"}}
-  "swf": {icon: {glyph: "\uF001"}}
+  "swf": {icon: {glyph: "\uF1C8"}}
   "swift": {icon: {glyph: "\uE755"}}
   "t": {icon: {glyph: "\uE67E"}}
   "tar": {icon: {glyph: "\uF410"}}
@@ -1231,31 +1224,31 @@ extensions:
   "vhdl": {icon: {glyph: "\U000F035B"}}
   "vhs": {icon: {glyph: "\U000F0A1B"}}
   "vi": {icon: {glyph: "\uE81E"}}
-  "video": {icon: {glyph: "\uF03D"}}
+  "video": {icon: {glyph: "\uF1C8"}}
   "vim": {icon: {glyph: "\uE62B"}}
   "vmdk": {icon: {glyph: "\uE271"}}
-  "vob": {icon: {glyph: "\uF03D"}}
+  "vob": {icon: {glyph: "\uF1C8"}}
   "vsh": {icon: {glyph: "\uE6AC"}}
   "vsix": {icon: {glyph: "\U000F0A1E"}}
   "vue": {icon: {glyph: "\U000F0844"}}
   "war": {icon: {glyph: "\uE256"}}
   "wasm": {icon: {glyph: "\uE6A1"}}
-  "wav": {icon: {glyph: "\uF001"}}
-  "webm": {icon: {glyph: "\uF03D"}}
+  "wav": {icon: {glyph: "\uF1C7"}}
+  "webm": {icon: {glyph: "\uF1C8"}}
   "webmanifest": {icon: {glyph: "\uE60B"}}
   "webp": {icon: {glyph: "\uF1C5"}}
   "webpack": {icon: {glyph: "\U000F072B"}}
   "wgsl": {icon: {glyph: "\uE955"}}
   "whl": {icon: {glyph: "\uE606"}}
   "windows": {icon: {glyph: "\uF17A"}}
-  "wma": {icon: {glyph: "\uF001"}}
-  "wmv": {icon: {glyph: "\uF03D"}}
+  "wma": {icon: {glyph: "\uF1C7"}}
+  "wmv": {icon: {glyph: "\uF1C8"}}
   "woff": {icon: {glyph: "\uF031"}}
   "woff2": {icon: {glyph: "\uF031"}}
   "wrl": {icon: {glyph: "\U000F01A7"}}
   "wrz": {icon: {glyph: "\U000F01A7"}}
-  "wv": {icon: {glyph: "\uF001"}}
-  "wvc": {icon: {glyph: "\uF001"}}
+  "wv": {icon: {glyph: "\uF1C7"}}
+  "wvc": {icon: {glyph: "\uF1C7"}}
   "x": {icon: {glyph: "\U000F0FD8"}}
   "x_b": {icon: {glyph: "\U000F0EEB"}}
   "x_t": {icon: {glyph: "\U000F0EEB"}}
