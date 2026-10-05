@@ -327,7 +327,6 @@ function _prompt_reset_term_modes {
   print -rn -- $'\e[?1004l\e[?9l\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?25h'
 }
 
-add-zsh-hook precmd _prompt_reset_term_modes
 # Only show the right prompt (the repo icons) on the current prompt, removing
 # it from earlier ones once their command runs.
 setopt TRANSIENT_RPROMPT
