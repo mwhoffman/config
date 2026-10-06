@@ -26,6 +26,7 @@ import time
 from kitty import fast_data_types as dt
 from kitty import tab_bar as tb
 
+
 # The local short hostname (like zsh's %m), which is shown if the shell hasn't
 # set the shell_host user var, rather than kitty's initial title (e.g. "zsh").
 HOST = socket.gethostname().split(".")[0]
@@ -33,6 +34,14 @@ HOST = socket.gethostname().split(".")[0]
 # How long in seconds a command has to run before it's shown, so short lived
 # commands (e.g. ls) don't flash in the tab.
 CMD_DELAY = 0.5
+
+# The ANSI colors (0-15, as defined by the theme) used to draw tabs. Each tab
+# has two sections, the index and the title, whose background colors are given
+# here as (index, title) pairs.
+ACTIVE_COLORS = (4, 12)   # Blue and bright blue.
+INACTIVE_COLORS = (8, 7)  # Bright black (gray) and white.
+TEXT_COLOR = 0            # Black.
+BELL_COLOR = 1            # Red.
 
 # The last host and command seen for each window id and when they were first
 # seen.
@@ -48,6 +57,18 @@ def redraw(timer_id: int | None) -> None:
   # Marking the tab bars dirty only redraws them the next time kitty's main
   # loop runs, which otherwise waits for an event (e.g. output or a key press).
   dt.wakeup_main_loop()
+
+
+def ansi(color: int) -> int:
+  """Return the given ANSI color as a cursor color."""
+  # The low byte tags the kind of color: 1 for an indexed color and 2 for rgb
+  # (see tb.as_rgb).
+  return color << 8 | 1
+
+
+def tab_colors(tab: tb.TabBarData) -> tuple[int, int]:
+  """Return the ANSI colors of the tab's index and title sections."""
+  return ACTIVE_COLORS if tab.is_active else INACTIVE_COLORS
 
 
 def get_title(
@@ -102,23 +123,21 @@ def draw_tab(
     title=get_title(draw_data, tab, max_tab_length, index)
   )
 
-  # This implements active slanted tabs with two colors, one for the index and
-  # one for the title using standard/bright color variants.
+  # This implements slanted tabs with two colors, one for the index and one
+  # for the title. These are ANSI colors, so they follow the theme and the
+  # active/inactive_tab_background options are not used.
+  index_color, title_color = tab_colors(tab)
+  template = (
+    f"\x1b[38;5;{TEXT_COLOR}m{{index}} "
+    f"\x1b[38;5;{index_color}m\x1b[48;5;{title_color}m "
+    f"\x1b[38;5;{TEXT_COLOR}m{{title}}"
+  )
   draw_data = draw_data._replace(
-    title_template=(
-      "\x1b[38;5;1m{bell_symbol}"    # Red bell.
-      "\x1b[38;5;0m{index} "
-      "\x1b[38;5;8m\x1b[48;5;7m "   # Gray inactive tab.
-      "\x1b[38;5;0m{title}"
-    ),
-    active_title_template=(
-      "\x1b[38;5;0m{index} "
-      "\x1b[38;5;4m\x1b[48;5;12m "  # Blue active tab.
-      "\x1b[38;5;0m{title}"
-    ),
+    title_template=f"\x1b[38;5;{BELL_COLOR}m{{bell_symbol}}{template}",
+    active_title_template=template,
   )
 
-  tab_bg = screen.cursor.bg
+  tab_bg = ansi(index_color)
   separator_symbol = ""
   soft_separator_symbol = ""
   min_title_length = 1 + 2
@@ -143,7 +162,7 @@ def draw_tab(
   tab_fg = screen.cursor.fg
   default_bg = tb.as_rgb(int(draw_data.default_bg))
   if extra_data.next_tab:
-    next_tab_bg = tb.as_rgb(draw_data.tab_bg(extra_data.next_tab))
+    next_tab_bg = ansi(tab_colors(extra_data.next_tab)[0])
     needs_soft_separator = next_tab_bg == tab_bg
   else:
     next_tab_bg = default_bg
