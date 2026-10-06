@@ -13,18 +13,22 @@ shell_host isn't set (e.g. while the shell starts) the local short hostname is
 shown instead.
 """
 
-# Tell ty where to find kitty's modules. Install them with `just
-# _install-kitty-src` (see ~/config/justfile).
+# Tell ty where to find kitty's modules. This just assumes that we've installed
+# to ~/.local/share/kitty-src/.
 # /// script
 # [tool.ty.environment]
 # extra-paths = ["~/.local/share/kitty-src"]
 # ///
 
+import os
 import socket
 import time
 
+from kitty import constants
 from kitty import fast_data_types as dt
+from kitty import rgb
 from kitty import tab_bar as tb
+from kitty import utils
 
 
 # The local short hostname (like zsh's %m), which is shown if the shell hasn't
@@ -35,13 +39,59 @@ HOST = socket.gethostname().split(".")[0]
 # commands (e.g. ls) don't flash in the tab.
 CMD_DELAY = 0.5
 
-# The ANSI colors (0-15, as defined by the theme) used to draw tabs. Each tab
-# has two sections, the index and the title, whose background colors are given
-# here as (index, title) pairs.
-ACTIVE_COLORS = (4, 12)   # Blue and bright blue.
-INACTIVE_COLORS = (8, 7)  # Bright black (gray) and white.
-TEXT_COLOR = 0            # Black.
-BELL_COLOR = 1            # Red.
+# The glyphs drawn between sections with different background colors (i.e.
+# between a tab's index and title, and between tabs) and between adjacent tabs
+# with the same background color.
+SEPARATOR = ""
+SOFT_SEPARATOR = ""
+
+# The default colors used to draw tabs. Each tab has two sections, the index
+# (color1) and the title (color2). These can be overridden in tab_bar.conf (see
+# load_colors).
+DEFAULT_COLORS = {
+  "active_color1": "#458588",    # Blue.
+  "active_color2": "#83a598",    # Bright blue.
+  "inactive_color1": "#7c6f64",  # Gray.
+  "inactive_color2": "#a89984",  # Light gray.
+  "text_color": "#282828",       # Black.
+  "bell_color": "#cc241d",       # Red.
+}
+
+
+def load_colors() -> dict[str, dt.Color]:
+  """Load the tab colors, overriding the defaults with those in tab_bar.conf.
+
+  This file is in the kitty config directory and uses the same format as
+  kitty.conf, i.e. "name value" lines and comments starting with #, where the
+  values are colors as in kitty.conf (e.g. #458588). It is reread when kitty
+  reloads its config, since that reloads this module.
+  """
+  colors: dict[str, dt.Color] = {}
+  for name, value in DEFAULT_COLORS.items():
+    color = rgb.to_color(value)
+    assert color is not None
+    colors[name] = color
+
+  path = os.path.join(constants.config_dir, "tab_bar.conf")
+  try:
+    with open(path) as f:
+      lines = f.read().splitlines()
+  except FileNotFoundError:
+    return colors
+
+  for number, line in enumerate(lines, 1):
+    fields = line.split()
+    if not fields or fields[0].startswith("#"):
+      continue
+    color = rgb.to_color(fields[1]) if len(fields) == 2 else None
+    if fields[0] not in colors or color is None:
+      utils.log_error(f"Ignoring invalid line {number} of {path}: {line}")
+      continue
+    colors[fields[0]] = color
+  return colors
+
+
+COLORS = load_colors()
 
 # The last host and command seen for each window id and when they were first
 # seen.
@@ -59,16 +109,10 @@ def redraw(timer_id: int | None) -> None:
   dt.wakeup_main_loop()
 
 
-def ansi(color: int) -> int:
-  """Return the given ANSI color as a cursor color."""
-  # The low byte tags the kind of color: 1 for an indexed color and 2 for rgb
-  # (see tb.as_rgb).
-  return color << 8 | 1
-
-
-def tab_colors(tab: tb.TabBarData) -> tuple[int, int]:
-  """Return the ANSI colors of the tab's index and title sections."""
-  return ACTIVE_COLORS if tab.is_active else INACTIVE_COLORS
+def tab_colors(tab: tb.TabBarData) -> tuple[dt.Color, dt.Color]:
+  """Return the colors of the tab's index and title sections."""
+  state = "active" if tab.is_active else "inactive"
+  return COLORS[f"{state}_color1"], COLORS[f"{state}_color2"]
 
 
 def get_title(
@@ -124,22 +168,22 @@ def draw_tab(
   )
 
   # This implements slanted tabs with two colors, one for the index and one
-  # for the title. These are ANSI colors, so they follow the theme and the
+  # for the title. These are the colors from tab_bar.conf, so the
   # active/inactive_tab_background options are not used.
   index_color, title_color = tab_colors(tab)
+  text_color = COLORS["text_color"]
+  bell_color = COLORS["bell_color"]
   template = (
-    f"\x1b[38;5;{TEXT_COLOR}m{{index}} "
-    f"\x1b[38;5;{index_color}m\x1b[48;5;{title_color}m "
-    f"\x1b[38;5;{TEXT_COLOR}m{{title}}"
+    f"\x1b[38{text_color.as_sgr}m{{index}} "
+    f"\x1b[38{index_color.as_sgr}m\x1b[48{title_color.as_sgr}m{SEPARATOR} "
+    f"\x1b[38{text_color.as_sgr}m{{title}}"
   )
   draw_data = draw_data._replace(
-    title_template=f"\x1b[38;5;{BELL_COLOR}m{{bell_symbol}}{template}",
+    title_template=f"\x1b[38{bell_color.as_sgr}m{{bell_symbol}}{template}",
     active_title_template=template,
   )
 
-  tab_bg = ansi(index_color)
-  separator_symbol = ""
-  soft_separator_symbol = ""
+  tab_bg = tb.as_rgb(int(index_color))
   min_title_length = 1 + 2
   start_draw = 2
 
@@ -162,7 +206,7 @@ def draw_tab(
   tab_fg = screen.cursor.fg
   default_bg = tb.as_rgb(int(draw_data.default_bg))
   if extra_data.next_tab:
-    next_tab_bg = ansi(tab_colors(extra_data.next_tab)[0])
+    next_tab_bg = tb.as_rgb(int(tab_colors(extra_data.next_tab)[0]))
     needs_soft_separator = next_tab_bg == tab_bg
   else:
     next_tab_bg = default_bg
@@ -172,7 +216,7 @@ def draw_tab(
     screen.draw(" ")
     screen.cursor.fg = tab_bg
     screen.cursor.bg = next_tab_bg
-    screen.draw(separator_symbol)
+    screen.draw(SEPARATOR)
   else:
     prev_fg = screen.cursor.fg
     if tab_bg == tab_fg:
@@ -182,7 +226,7 @@ def draw_tab(
       c2 = draw_data.inactive_bg.contrast(draw_data.inactive_fg)
       if c1 < c2:
         screen.cursor.fg = default_bg
-    screen.draw(f" {soft_separator_symbol}")
+    screen.draw(f" {SOFT_SEPARATOR}")
     screen.cursor.fg = prev_fg
 
   end = screen.cursor.x
