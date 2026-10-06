@@ -1,19 +1,8 @@
+/* Import the colors (found relative to this file). */
+@import "colors"
+
 * {
   font: "Hack Nerd Font Mono 18";
-
-  /* Gruvbox colors, named as in the i3 config ($bg, $fg, ...); fg1 is
-     gruvbox's slightly dimmer foreground, which i3 doesn't use. */
-  bg: #282828;
-  fg: #fbf1c7;
-  fg1: #ebdbb2;
-  blue: #458588;
-  green: #98971a;
-  yellow: #d79921;
-
-  /* What the colors are used for. */
-  accent: @blue;   /* The search bar. */
-  outline: @blue;  /* The border around the window. */
-  selected: @fg1;  /* The selected row. */
 
   background-color: transparent;
   text-color: inherit;

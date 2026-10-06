@@ -21,6 +21,7 @@ local highlights = {
   IconsBrightWhite = '#ebdbb2',
   IconsAccent1 = '#d65d0e',
   IconsBrightAccent1 = '#fe8019',
+  IconsMantle = '#1d2021',
   IconsBase = '#282828',
   IconsSurface0 = '#3c3836',
   IconsSurface1 = '#504945',
