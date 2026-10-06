@@ -34,9 +34,9 @@ def main():
   weekly = (limits.get("seven_day") or {}).get("used_percentage") or 0
 
   # Format usage.
-  used = "--%" if session is None else f"{round(session)}%"
+  used = "--%" if session is None else f"{round(100-session)}%"
   if weekly > WEEKLY_THRESHOLD:
-    used += f"; {round(weekly)}% weekly"
+    used += f"; {round(100-weekly)}% weekly"
 
   # Formate left/right.
   left = f"-- {vimmode} --" if vimmode else ""
