@@ -115,7 +115,7 @@ spec.opts.filesystem.components = {git_status = git_status}
 spec.opts.buffers = {components = {git_status = git_status}}
 spec.opts.git_status = {components = {git_status = git_status}}
 
--- An icon provider for neo-tree using mini.icons (see mini-icons.lua), rather
+-- An icon provider for neo-tree using mini.icons (see bedeck.icons), rather
 -- than its default which uses nvim-web-devicons (mocked by mini.icons) and so
 -- doesn't get mini.icons' icons for directories or its defaults. Directories
 -- with their own icon (e.g. .git) get it, and others keep neo-tree's (closed,
@@ -134,7 +134,7 @@ local function icon_provider(icon, node)
     return
   end
   if is_default and not node.name:find(".", 2, true) then
-    local noext = require("mini-icons").defaults.noext
+    local noext = require("bedeck.icons").defaults.noext
     glyph, highlight = noext.glyph, noext.hl
   end
   icon.text, icon.highlight = glyph, highlight
