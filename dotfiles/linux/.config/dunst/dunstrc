@@ -19,7 +19,7 @@ foreground = "#a89984"
 background = "#282828"
 foreground = "#ebdbb2"
 
-# Critical urgency has a yellow border.
+# Critical urgency has the urgent color as its border.
 [urgency_critical]
 background = "#282828"
 foreground = "#ebdbb2"
