@@ -27,10 +27,10 @@ size:
   unit_huge: {foreground: Green, is_bold: false}
 
 git:
-  new: {foreground: "#fe8019"}
-  modified: {foreground: "#fe8019"}
-  renamed: {foreground: "#fe8019"}
-  typechange: {foreground: "#fe8019"}
+  new: {foreground: LightGreen}
+  modified: {foreground: Yellow}
+  renamed: {foreground: Yellow}
+  typechange: {foreground: Yellow}
   deleted: {foreground: LightRed}
 
 punctuation: {foreground: "#928374"}

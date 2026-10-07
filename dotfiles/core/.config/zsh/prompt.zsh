@@ -129,12 +129,12 @@ function _prompt_set {
   local branch=$reply[1] flags=$reply[2]
 
   # Collect the icon of each repo in $PROMPT_REPOS that needs attention,
-  # separated by spaces and colored by its status, from most to least pressing: local
-  # changes (staged, unstaged, conflicted or untracked), behind its upstream,
-  # or ahead of it. Local changes use gruvbox's orange, to match git status and
-  # nvim; it has no ANSI equivalent, so it's a hex (24-bit) color. Repos with
-  # nothing to report are left out. Whether a repo is behind depends on its
-  # last fetch; see _prompt_fetch_repos.
+  # separated by spaces and colored by its status, from most to least pressing:
+  # local changes (staged, unstaged, conflicted or untracked), behind its
+  # upstream, or ahead of it. Local changes are yellow, to match unstaged
+  # changes in git status and modified files in eza. Repos with nothing to
+  # report are left out. Whether a repo is behind depends on its last fetch; see
+  # _prompt_fetch_repos.
   local entry repo icon repo_flags repo_color repo_icons=""
   for entry in $PROMPT_REPOS; do
     icon=${entry%%|*} repo=${entry#*|}
@@ -142,7 +142,7 @@ function _prompt_set {
     _prompt_parse_branch $repo
     repo_flags=$reply[2] repo_color=""
     if [[ $repo_flags == *[✓*!?]* ]]; then
-      repo_color="#fe8019"
+      repo_color=yellow
     elif [[ $repo_flags == *↓* ]]; then
       repo_color=magenta
     elif [[ $repo_flags == *↑* ]]; then

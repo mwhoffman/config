@@ -8,11 +8,11 @@
     diff = auto
     status = auto
 
-# Roughly match gruvbox colors for git status.
+# Colors for git status: green for staged changes and yellow for unstaged ones,
+# which eza's theme matches. Untracked files keep git's default red.
 [color "status"]
     added = brightgreen
-    changed = "#fe8019"
-    untracked = "#fe8019"
+    changed = yellow
 
 [alias]
     undo = reset --soft HEAD^
