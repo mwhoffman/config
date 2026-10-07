@@ -131,10 +131,8 @@ function _prompt_set {
   # Collect the icon of each repo in $PROMPT_REPOS that needs attention,
   # separated by spaces and colored by its status, from most to least pressing:
   # local changes (staged, unstaged, conflicted or untracked), behind its
-  # upstream, or ahead of it. Local changes are yellow, to match unstaged
-  # changes in git status and modified files in eza. Repos with nothing to
-  # report are left out. Whether a repo is behind depends on its last fetch; see
-  # _prompt_fetch_repos.
+  # upstream, or ahead of it. Repos with nothing to report are left out. Whether
+  # a repo is behind depends on its last fetch; see _prompt_fetch_repos.
   local entry repo icon repo_flags repo_color repo_icons=""
   for entry in $PROMPT_REPOS; do
     icon=${entry%%|*} repo=${entry#*|}
@@ -142,11 +140,11 @@ function _prompt_set {
     _prompt_parse_branch $repo
     repo_flags=$reply[2] repo_color=""
     if [[ $repo_flags == *[✓*!?]* ]]; then
-      repo_color=yellow
+      repo_color=${THEME_COLORS[changed]:-default}
     elif [[ $repo_flags == *↓* ]]; then
-      repo_color=magenta
+      repo_color=${THEME_COLORS[behind]:-default}
     elif [[ $repo_flags == *↑* ]]; then
-      repo_color=green
+      repo_color=${THEME_COLORS[ahead]:-default}
     fi
     [[ -n $repo_color ]] && repo_icons+="${repo_icons:+ }%F{$repo_color}$icon%f"
   done
@@ -155,28 +153,34 @@ function _prompt_set {
   local caret2=$'\uf101'       # double caret to end the prompt.
   local branch_icon=$'\ue725'  # git branch icon.
 
+  # The colors (see theme.zsh), which fall back to the default text color if
+  # they aren't set; otherwise an empty color would be shown as black.
+  local host_color=${THEME_COLORS[host]:-default}
+  local dir_color=${THEME_COLORS[directory]:-default}
+  local branch_color=${THEME_COLORS[branch]:-default}
+
   # Below, text like directory and branch names is added with every "%" doubled
   # (${var//\%/%%}) so it's shown literally rather than read as a prompt escape
   # (e.g. a directory named "100%F{red}").
   PROMPT=""
 
   # Add the hostname.
-  PROMPT+="%F{11}%B%m%b%f"
+  PROMPT+="%F{$host_color}%B%m%b%f"
   PROMPT+=" ${caret1} "
 
   # If we're in a named directory then add the name.
   if [[ -n $dir_name ]]; then
-    PROMPT+="%F{blue}%B${dir_name//\%/%%}%b%f"
+    PROMPT+="%F{$dir_color}%B${dir_name//\%/%%}%b%f"
     PROMPT+=" ${caret1} "
   fi
 
   # Add the current working directory.
-  PROMPT+="%F{blue}%B${dir//\%/%%}%b%f"
+  PROMPT+="%F{$dir_color}%B${dir//\%/%%}%b%f"
 
   # If we're in a git directory then add the name of the current branch, and its
   # status flags (after a space) if there are any.
   if [[ -n $branch ]]; then
-    PROMPT+=" on %F{14}${branch_icon} %B${branch//\%/%%}${flags:+ $flags}%b%f"
+    PROMPT+=" on %F{$branch_color}${branch_icon} %B${branch//\%/%%}${flags:+ $flags}%b%f"
   fi
 
   # Add the trailing part of the prompt.

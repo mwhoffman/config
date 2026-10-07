@@ -101,10 +101,14 @@ zstyle ':completion:*' completer _extensions _complete
 # Ignore case if necessary and look for within-string matches.
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
-# Color for descriptions (e.g. completion groups) and messages.
-zstyle ':completion:*:*:*:*:descriptions' format '%F{green}-- %d --%f'
-zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
-zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
+# Source the theme colors, which are also used by the prompt below.
+src "$HOME/.config/zsh/theme.zsh"
+
+# Color for descriptions (e.g. completion groups) and messages. These fall back
+# to the default text color if the theme doesn't set them.
+zstyle ':completion:*:*:*:*:descriptions' format "%F{${THEME_COLORS[completion_description]:-default}}-- %d --%f"
+zstyle ':completion:*:messages' format " %F{${THEME_COLORS[completion_message]:-default}} -- %d --%f"
+zstyle ':completion:*:warnings' format " %F{${THEME_COLORS[completion_warning]:-default}}-- no matches found --%f"
 
 # Use $LS_COLORS to color completed files and directories.
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}

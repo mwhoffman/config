@@ -1,5 +1,6 @@
 [include]
     path = ~/.config/git/local
+    path = ~/.config/git/colors
 
 [user]
     useConfigOnly = true
@@ -7,12 +8,6 @@
 [color]
     diff = auto
     status = auto
-
-# Colors for git status: green for staged changes and yellow for unstaged ones,
-# which eza's theme matches. Untracked files keep git's default red.
-[color "status"]
-    added = brightgreen
-    changed = yellow
 
 [alias]
     undo = reset --soft HEAD^
