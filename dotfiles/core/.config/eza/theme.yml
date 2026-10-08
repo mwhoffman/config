@@ -312,6 +312,7 @@ filenames:
   "indent": {icon: {glyph: "\U000F107D"}}
   "indent.pro": {icon: {glyph: "\U000F15FF"}}
   "index.theme": {icon: {glyph: "\uEE72"}}
+  "init.lua": {icon: {glyph: "\uE620"}}
   "inputrc": {icon: {glyph: "\U000F107B"}}
   "ionic.config.json": {icon: {glyph: "\uE7A9"}}
   "ipf.rules": {icon: {glyph: "\U000F107B"}}
