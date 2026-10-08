@@ -356,6 +356,7 @@ filenames:
   "makefile": {icon: {glyph: "\uE673"}}
   "Makefile.ac": {icon: {glyph: "\uE673"}}
   "Makefile.am": {icon: {glyph: "\uE673"}}
+  "makefile.am": {icon: {glyph: "\uE673"}}
   "Makefile.in": {icon: {glyph: "\uE673"}}
   "MANIFEST": {icon: {glyph: "\uE606"}}
   "MANIFEST.in": {icon: {glyph: "\uE606"}}

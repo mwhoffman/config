@@ -425,6 +425,7 @@ local config = {
     ['makefile'] = {glyph = '\u{e673}', hl = 'IconsFilePlain'},
     ['Makefile.ac'] = {glyph = '\u{e673}', hl = 'IconsFilePlain'},
     ['Makefile.am'] = {glyph = '\u{e673}', hl = 'IconsFilePlain'},
+    ['makefile.am'] = {glyph = '\u{e673}', hl = 'IconsFilePlain'},
     ['Makefile.in'] = {glyph = '\u{e673}', hl = 'IconsFilePlain'},
     ['MANIFEST'] = {glyph = '\u{e606}', hl = 'IconsBrightYellow'},
     ['MANIFEST.in'] = {glyph = '\u{e606}', hl = 'IconsBrightYellow'},
