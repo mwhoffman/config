@@ -118,6 +118,93 @@ function _prompt_parse_branch {
   reply=("$branch" "$flags")
 }
 
+function _prompt_parse_jj {
+  # Return the jj change of the given directory (or the current one) and its
+  # status flags: reply=(change flags), or reply=() if jj isn't installed or it
+  # isn't a jj directory. The change is the shortest prefix of the working
+  # copy's change id followed by its bookmarks, or by its closest ancestors'
+  # bookmarks in parentheses if it has none itself, e.g. "qsyx main" or
+  # "qsyx (main)".
+  reply=()
+
+  # Check for jj or return nothing.
+  (( $+commands[jj] )) || return
+
+  # Look for the repo ourselves, so that jj isn't run in every other directory.
+  local root=${${1:-$PWD}:a}
+  while [[ ! -d $root/.jj ]]; do
+    [[ $root == / ]] && return
+    root=${root:h}
+  done
+
+  # One tab separated line for the working copy (@), and for each of its
+  # closest ancestors with a bookmark: whether it's the working copy, its
+  # change id, its flags, its bookmarks, and those bookmarks which aren't in
+  # sync with their remotes.
+  local template='
+    if(current_working_copy, "@", "-") ++ "\t" ++
+    change_id.shortest(4) ++ "\t" ++
+    if(!empty, "*") ++ if(conflict, "!") ++ "\t" ++
+    local_bookmarks.map(|b| b.name()).join(" ") ++ "\t" ++
+    local_bookmarks.filter(|b| !b.synced()).map(|b| b.name()).join(" ") ++ "\n"'
+
+  # Run jj log or return nothing. This snapshots the working copy, as any jj
+  # command does, so that the flags reflect the files as they are now; adding
+  # --ignore-working-copy would instead show them as of the last jj command.
+  local jj_log
+  jj_log=$(jj -R $root log --no-graph --color=never \
+    -r '@ | heads(::@ & bookmarks())' -T $template 2> /dev/null) || return
+
+  local change flags=""
+  local -a fields bookmarks unsynced
+  local at_bookmark=""
+
+  local line
+  for line in ${(f)jj_log}; do
+    fields=("${(@ps:\t:)line}")
+    if [[ $fields[1] == "@" ]]; then
+      # The flags are those of the working copy: "*" if it has any changes and
+      # "!" if it has conflicts. There's no staging or untracked files in jj.
+      change=$fields[2]
+      flags=$fields[3]
+      [[ -n $fields[4] ]] && at_bookmark=1
+    fi
+    bookmarks+=(${=fields[4]})
+    unsynced+=(${=fields[5]})
+  done
+
+  # Nothing to show if there's no working copy, e.g. in a bare jj repo.
+  [[ -n $change ]] || return
+
+  if (( $#bookmarks )); then
+    if [[ -n $at_bookmark ]]; then
+      change+=" $bookmarks"
+    else
+      change+=" ($bookmarks)"
+    fi
+  fi
+
+  # If any of the bookmarks is out of sync then ask (with a second call to jj)
+  # how far each of their remote bookmarks is ahead of and behind the local
+  # one, which is behind and ahead of it respectively.
+  if (( $#unsynced )); then
+    local ahead behind
+    local -a ab
+    template='if(remote, tracking_ahead_count.lower() ++ " " ++
+      tracking_behind_count.lower() ++ "\n")'
+    for line in ${(f)"$(jj -R $root bookmark list --ignore-working-copy \
+        --color=never --tracked $unsynced -T $template 2> /dev/null)"}; do
+      ab=(${=line})
+      (( ab[1] > 0 )) && behind=1
+      (( ab[2] > 0 )) && ahead=1
+    done
+    [[ -n $ahead  ]] && flags+="↑"
+    [[ -n $behind ]] && flags+="↓"
+  fi
+
+  reply=("$change" "$flags")
+}
+
 function _prompt_set {
   # Declared here so the helpers' results don't leak into the shell.
   local -a reply
@@ -125,8 +212,11 @@ function _prompt_set {
   _prompt_parse_pwd
   local dir=$reply[1] dir_name=$reply[2]
 
-  _prompt_parse_branch
-  local branch=$reply[1] flags=$reply[2]
+  # Prefer jj if this is a jj directory (which, if it's colocated, is a git
+  # directory as well) and fall back to git otherwise.
+  _prompt_parse_jj
+  (( $#reply )) || _prompt_parse_branch
+  local vcs_name=$reply[1] flags=$reply[2]
 
   # Collect the icon of each repo in $PROMPT_REPOS that needs attention,
   # separated by spaces and colored by its status, from most to least pressing:
@@ -177,10 +267,10 @@ function _prompt_set {
   # Add the current working directory.
   PROMPT+="%F{$dir_color}%B${dir//\%/%%}%b%f"
 
-  # If we're in a git directory then add the name of the current branch, and its
-  # status flags (after a space) if there are any.
-  if [[ -n $branch ]]; then
-    PROMPT+=" on %F{$branch_color}${branch_icon} %B${branch//\%/%%}${flags:+ $flags}%b%f"
+  # If we're in a jj or git directory then add the current change or branch, and
+  # its status flags (after a space) if there are any.
+  if [[ -n $vcs_name ]]; then
+    PROMPT+=" on %F{$branch_color}${branch_icon} %B${vcs_name//\%/%%}${flags:+ $flags}%b%f"
   fi
 
   # Add the trailing part of the prompt.
