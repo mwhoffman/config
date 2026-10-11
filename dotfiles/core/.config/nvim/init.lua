@@ -1,5 +1,9 @@
 require("options")
 require("keymaps")
+
+-- Set the colorscheme.
+vim.cmd.colorscheme("bedeck")
+
 require("lazy-setup")
 
 -- Add local behavior defining separators for statuslines.
