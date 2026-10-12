@@ -2,9 +2,15 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Quickly move up and down.
-vim.keymap.set({"n", "v"}, "<c-k>", "<c-u>", {desc = "Scroll upwards"})
-vim.keymap.set({"n", "v"}, "<c-j>", "<c-d>", {desc = "Scroll downwards"})
+-- Quickly move up and down by half a window. The scroll option is reset first,
+-- since a count given to <c-u> or <c-d> otherwise changes the distance for
+-- every later scroll.
+vim.keymap.set(
+  {"n", "v"}, "<c-k>", "<cmd>set scroll=0<cr><c-u>", {desc = "Scroll upwards"}
+)
+vim.keymap.set(
+  {"n", "v"}, "<c-j>", "<cmd>set scroll=0<cr><c-d>", {desc = "Scroll downwards"}
+)
 
 -- Enable quick movement to beginning/end of line in command mode.
 vim.keymap.set("c", "<c-a>", "<Home>")
