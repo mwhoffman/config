@@ -1372,7 +1372,7 @@ groups.IconsFileMedia = {fg = "#d3869b"}
 groups.IconsFileDocument = {fg = "#d3869b"}
 groups.IconsFileCompiled = {fg = "#d79921"}
 groups.IconsFileTemp = {fg = "#928374"}
-groups.IconsExtraColorsOrange = {fg = "#fe8019"}
+groups.IconsExtraColorsOrange = {fg = "#f97316"}
 groups.IconsExtraColorsVimGreen = {fg = "#019833"}
 groups.IconsExtraColorsAzure = {fg = "#3d9df3"}
 groups.IconsExtraColorsSky = {fg = "#00add8"}
