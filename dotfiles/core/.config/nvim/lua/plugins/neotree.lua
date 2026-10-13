@@ -1,6 +1,6 @@
 -- Neo-tree is a plugin for browsing the file system and other tree-like
--- structures. We use it as a floating or sidebar file tree, and in place of
--- netrw when editing a directory.
+-- structures. We use it as a floating or sidebar file tree. Editing a directory
+-- is left to oil.
 local spec = {
   "nvim-neo-tree/neo-tree.nvim",
   dependencies = {
@@ -9,7 +9,7 @@ local spec = {
   },
   -- Neo-tree itself is lazy loaded, so we don't need to rely on the plugin
   -- manager for this.
-  lazy = false,
+  lazy = true,
   opts = {
     -- Don't use git at all: drop the git_status source (which runs git itself)
     -- and don't mark files with their git status in the other sources.
@@ -34,7 +34,7 @@ local spec = {
           ".git",
         },
       },
-      hijack_netrw_behavior = "open_default",
+      hijack_netrw_behavior = "disabled",
     },
     default_component_configs = {
       indent = {indent_marker = "┆"},
@@ -47,12 +47,23 @@ local spec = {
   },
 }
 
--- This doesn't affect the lazy-loading behavior because we set lazy=False, but
--- the descriptions are also used by which-key to display command information.
 spec.keys = {
   {
     "<leader>t",
-    "<cmd>Neotree toggle reveal_force_cwd position=float<cr>",
+    -- Reveal the current file, or in an oil buffer show its directory (neo-tree
+    -- can't reveal the buffer itself, since its name isn't a path).
+    function()
+      local command = "Neotree toggle position=float"
+      if vim.bo.filetype ~= "oil" then
+        command = command .. " reveal_force_cwd"
+      else
+        local dir = require("oil").get_current_dir()
+        if dir then
+          command = command .. " dir=" .. vim.fn.fnameescape(vim.fs.normalize(dir))
+        end
+      end
+      vim.cmd(command)
+    end,
     desc = "File tree (floating)",
   },
   {
@@ -60,17 +71,7 @@ spec.keys = {
     "<cmd>Neotree buffers toggle position=float<cr>",
     desc = "Buffer tree (floating)",
   },
-  {
-    "<leader>T",
-    "<cmd>Neotree toggle reveal_force_cwd position=left<cr>",
-    desc = "File tree (sidebar)",
-  },
 }
-
--- Disable netrw so it doesn't flash underneath when we open directories.
-spec.init = function()
-  vim.g.loaded_netrwPlugin = 1
-end
 
 -- An icon provider for neo-tree using mini.icons (see bedeck.icons), rather
 -- than its default which uses nvim-web-devicons (mocked by mini.icons) and so
