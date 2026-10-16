@@ -1,0 +1,41 @@
+# Ghostty config.
+
+# Use the bedeck colors from themes/bedeck (matches kitty).
+theme = bedeck
+
+# Use the mono version of JetBrainsMono for text.
+font-family = JetBrainsMono Nerd Font Mono
+font-size = 14
+
+# Draw Nerd Font icons from the non-Mono Nerd Font. This allows for larger icons
+# than the Mono variant---if these characters are followed by a space they are
+# allowed to overlap into the following cell. Powerline separators and box
+# drawing are left out, since they need to fill exactly one cell.
+font-codepoint-map = U+E000-U+E00A=JetBrainsMono Nerd Font
+font-codepoint-map = U+E200-U+E2A9=JetBrainsMono Nerd Font
+font-codepoint-map = U+E300-U+E3E3=JetBrainsMono Nerd Font
+font-codepoint-map = U+E5FA-U+E6B7=JetBrainsMono Nerd Font
+font-codepoint-map = U+E700-U+E8EF=JetBrainsMono Nerd Font
+font-codepoint-map = U+EA60-U+EC1E=JetBrainsMono Nerd Font
+font-codepoint-map = U+ED00-U+F2FF=JetBrainsMono Nerd Font
+font-codepoint-map = U+F300-U+F381=JetBrainsMono Nerd Font
+font-codepoint-map = U+F400-U+F533,U+2665,U+26A1=JetBrainsMono Nerd Font
+font-codepoint-map = U+F0001-U+F1AF0=JetBrainsMono Nerd Font
+font-codepoint-map = U+23FB-U+23FE,U+2B58=JetBrainsMono Nerd Font
+
+# Set the cursor to a vertical bar and don't blink.
+cursor-style = bar
+cursor-style-blink = false
+
+# Keep padding minimal (matches kitty's window margin).
+window-padding-x = 6
+window-padding-y = 1
+
+# Disable intrusive things.
+shell-integration = none
+
+# Never ask to close windows.
+confirm-close-surface = false
+
+# Color the macOS titlebar with the terminal background.
+macos-titlebar-style = transparent
