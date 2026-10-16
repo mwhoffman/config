@@ -2,6 +2,8 @@
 -- fuzzy finder with a preview window. We use it to find files, recent files,
 -- strings (searched with ripgrep), git changes and diagnostics. It also
 -- replaces vim.ui.select (used e.g. for LSP code actions).
+local diagnostic_icons = require("diagnostic-icons")
+
 local spec = {
   "folke/snacks.nvim",
   -- Load after startup rather than on the keys below, so that vim.ui.select is
@@ -45,6 +47,13 @@ local spec = {
           renamed = "R",
           unmerged = "U",
           untracked = "?",
+        },
+        -- The same diagnostic icons as the signs and statusline.
+        diagnostics = {
+          Error = diagnostic_icons.error .. " ",
+          Warn = diagnostic_icons.warn .. " ",
+          Info = diagnostic_icons.info .. " ",
+          Hint = diagnostic_icons.hint .. " ",
         },
       },
     },

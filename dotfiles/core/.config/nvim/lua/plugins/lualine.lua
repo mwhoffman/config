@@ -1,10 +1,23 @@
 -- lualine replaces the default statusline with a prettier, configurable one.
+local diagnostic_icons = require("diagnostic-icons")
+
 return {
   "nvim-lualine/lualine.nvim",
   opts = {
     sections = {
       lualine_a = {"mode"},
-      lualine_b = {"branch", "diagnostics"},
+      lualine_b = {
+        "branch",
+        {
+          "diagnostics",
+          symbols = {
+            error = diagnostic_icons.error .. " ",
+            warn = diagnostic_icons.warn .. " ",
+            info = diagnostic_icons.info .. " ",
+            hint = diagnostic_icons.hint .. " ",
+          },
+        },
+      },
       lualine_c = {"filename"},
       lualine_x = {"filetype"},
       lualine_y = {"searchcount"},

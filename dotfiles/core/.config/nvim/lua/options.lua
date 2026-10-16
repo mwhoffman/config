@@ -54,10 +54,20 @@ opt.foldlevelstart = 99
 -- Show the full diagnostic messages for the cursor's line below it, and open a
 -- float with the messages when jumping to a diagnostic (with ]d, [d, ...).
 -- Sort by severity, so a line's sign is for its most severe diagnostic and its
--- messages are listed most severe first.
+-- messages are listed most severe first. Use our icons for the signs, rather
+-- than the letters E, W, I and H.
+local diagnostic_icons = require("diagnostic-icons")
 vim.diagnostic.config({
   severity_sort = true,
   virtual_lines = {current_line = true},
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = diagnostic_icons.error,
+      [vim.diagnostic.severity.WARN] = diagnostic_icons.warn,
+      [vim.diagnostic.severity.INFO] = diagnostic_icons.info,
+      [vim.diagnostic.severity.HINT] = diagnostic_icons.hint,
+    },
+  },
 })
 
 -- Autocommand which activates whenever is a buffer is read and will jump the
