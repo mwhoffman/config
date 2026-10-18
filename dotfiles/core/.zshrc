@@ -74,6 +74,10 @@ if [ -f "$HOME/.dircolors" ] && (( $+commands[dircolors] )); then
   eval $(dircolors $HOME/.dircolors)
 fi
 
+# Add generated user completion functions to the search path before compinit
+# runs so it picks them up.
+fpath+=~/.local/share/zsh/site-functions
+
 # Initialize zsh completion. The security check compinit performs on every
 # function file in $fpath is one of the slowest parts of shell startup, so
 # only do a full check once a day (via the zcompdump's mtime) and skip it
