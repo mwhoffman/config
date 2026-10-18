@@ -39,3 +39,5 @@ confirm-close-surface = false
 
 # Color the macOS titlebar with the terminal background.
 macos-titlebar-style = transparent
+gtk-titlebar = false
+window-decoration = server
