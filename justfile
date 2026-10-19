@@ -23,7 +23,11 @@ git_email := env("MWCONFIG_GIT_EMAIL", "")
 #--------------#
 
 # Install dotfiles and clean up.
-dotfiles: (_link "core") (_link os) _gitconfig _prune-links
+dotfiles:
+  @just _link "core"
+  @if [[ -d "dotfiles/{{os}}" ]]; then just _link "{{os}}"; fi
+  @just _gitconfig
+  @just _prune-links
 
 # Install packages.
 [macos]
