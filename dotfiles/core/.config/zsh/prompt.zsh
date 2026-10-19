@@ -239,8 +239,8 @@ function _prompt_set {
     [[ -n $repo_color ]] && repo_icons+="${repo_icons:+ }%F{$repo_color}$icon%f"
   done
 
-  local caret1=$'\uf105'       # single caret to separate prompt sections.
-  local caret2=$'\uf101'       # double caret to end the prompt.
+  local caret1=$'\u203a'       # single caret to separate prompt sections.
+  local caret2=$'\u00bb'       # double caret to end the prompt.
   local branch_icon=$'\ue725'  # git branch icon.
 
   # The colors (see theme.zsh), which fall back to the default text color if
