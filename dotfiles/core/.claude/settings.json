@@ -1,17 +1,20 @@
 {
-  "spinnerTipsEnabled": false,
   "workflowKeywordTriggerEnabled": false,
-  "feedbackSurveyRate": 0,
-  "promptSuggestionEnabled": false,
-  "awaySummaryEnabled": false,
-  "autoMemoryEnabled": false,
-  "theme": "dark-ansi",
-  "editorMode": "vim",
-  "preferredNotifChannel": "notifications_disabled",
-  "terminalProgressBarEnabled": false,
   "statusLine": {
     "type": "command",
     "command": "python3 ~/.claude/statusline.py",
     "hideVimModeIndicator": true
+  },
+  "feedbackSurveyRate": 0,
+  "spinnerTipsEnabled": false,
+  "promptSuggestionEnabled": false,
+  "awaySummaryEnabled": false,
+  "autoMemoryEnabled": false,
+  "theme": "auto",
+  "editorMode": "vim",
+  "preferredNotifChannel": "notifications_disabled",
+  "terminalProgressBarEnabled": false,
+  "env": {
+    "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1"
   }
 }
