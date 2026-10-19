@@ -30,6 +30,15 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    require("noice").setup(opts)
+    -- Hide the real cursor during cmdline mode and draw a fake one in noice's
+    -- cmdline instead. Otherwise noice moves the real cursor back to its
+    -- cmdline after each redraw, which races with incsearch moving it to the
+    -- match, so the cursor flickers between the two. This is an internal
+    -- field, so it may break when noice is updated.
+    require("noice.ui.cmdline").real_cursor = false
+  end,
   dependencies = {
     "MunifTanjim/nui.nvim",
     "rcarriga/nvim-notify",
