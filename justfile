@@ -368,25 +368,3 @@ _gitconfig:
     [ -n "$email" ] || read -rp "Git email: " email
     git config --file "$target" user.email "$email"
   fi
-
-# Install kitty's source, which has the modules and type stubs that kitty's
-# tab_bar.py imports, so type checkers can find them. This checks out the tag
-# matching the installed kitty (or master without kitty) and can be rerun to
-# update it, e.g. after upgrading kitty. It isn't run by install.
-_install-kitty-src:
-  #!/usr/bin/env bash
-  set -euo pipefail
-  target={{home}}/.local/share/kitty-src
-  ref=master
-  if command -v kitty >/dev/null; then
-    ref="v$(kitty --version | awk '{print $2}')"
-  fi
-  echo "📥 Installing kitty source: $target ($ref)"
-  if [ ! -d "$target" ]; then
-    # Only check out the kitty directory, and only fetch its files as needed.
-    git clone -q --depth 1 --no-checkout --filter=blob:none \
-      https://github.com/kovidgoyal/kitty "$target"
-    git -C "$target" sparse-checkout set kitty
-  fi
-  git -C "$target" fetch -q --depth 1 origin "$ref"
-  git -C "$target" checkout -q --detach FETCH_HEAD
