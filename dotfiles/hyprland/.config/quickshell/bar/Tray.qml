@@ -9,7 +9,25 @@ import qs.components
 // System tray (StatusNotifierItem) icons, e.g. 1Password, nm-applet.
 // Items listed in Icons.tray show a Nerd Font glyph instead of their own icon.
 RowLayout {
+  id: tray
   spacing: 8
+
+  // Left-click actions for apps that ignore a plain click (AppIndicators such
+  // as Spotify only offer a menu). Keyed by the start of the tray item's id;
+  // a click triggers the first menu entry whose text is listed. The app hides
+  // entries that don't apply, so listing both halves of a toggle works.
+  readonly property var clickEntries: ({
+    "spotify-client": ["Show Spotify", "Minimize to Tray"],
+  })
+
+  function clickEntry(id: string, entries: var): var {
+    for (const prefix in clickEntries) {
+      if (!id.startsWith(prefix)) continue
+      const labels = clickEntries[prefix]
+      return Array.prototype.find.call(entries, e => labels.includes(e.text)) ?? null
+    }
+    return null
+  }
 
   Repeater {
     model: SystemTray.items
@@ -58,7 +76,9 @@ RowLayout {
           } else if (event.button === Qt.RightButton || item.modelData.onlyMenu) {
             if (item.modelData.hasMenu) menu.open()
           } else {
-            item.modelData.activate()
+            const entry = tray.clickEntry(item.modelData.id, menu.entries)
+            if (entry) entry.triggered()
+            else item.modelData.activate()
           }
         }
       }
