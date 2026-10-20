@@ -28,7 +28,8 @@ local quit = "command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl
 
 -- Spotify ignores --minimized on Linux. Instead, close its first window as
 -- soon as it opens; with "Close button should minimize the Spotify window"
--- enabled in Spotify's settings, that hides it to the tray.
+-- enabled in Spotify's settings, that hides it to the tray. The tray must
+-- already exist, or closing quits Spotify (see when_bar_ready).
 local function start_spotify_in_tray()
   local sub, timer
   sub = hl.on("window.open", function (window)
@@ -42,10 +43,20 @@ local function start_spotify_in_tray()
   hl.exec_cmd("spotify-launcher")
 end
 
+-- Runs fn once Quickshell's bar (which hosts the system tray) has opened.
+local function when_bar_ready(fn)
+  local sub
+  sub = hl.on("layer.opened", function (layer)
+    if layer.namespace ~= "quickshell" then return end
+    sub:remove()
+    fn()
+  end)
+end
+
 hl.on("hyprland.start", function ()
   hl.exec_cmd("qs")
   hl.exec_cmd("1password --silent")
-  start_spotify_in_tray()
+  when_bar_ready(start_spotify_in_tray)
 end)
 
 
