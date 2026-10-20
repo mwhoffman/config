@@ -1,4 +1,12 @@
 # Apt packages installed on linux (see the justfile).
 
 packages:
+  - eza
+  - fd-find
+  - fzf
+  - just
+  - neovim
+  - ripgrep
+  - stow
+  - tmux
   - zsh
