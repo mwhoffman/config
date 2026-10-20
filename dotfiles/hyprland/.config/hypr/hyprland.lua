@@ -26,9 +26,26 @@ local quit = "command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl
 ---- AUTOSTART ----
 -------------------
 
+-- Spotify ignores --minimized on Linux. Instead, close its first window as
+-- soon as it opens; with "Close button should minimize the Spotify window"
+-- enabled in Spotify's settings, that hides it to the tray.
+local function start_spotify_in_tray()
+  local sub, timer
+  sub = hl.on("window.open", function (window)
+    if window.class ~= "Spotify" then return end
+    sub:remove()
+    timer:set_enabled(false)
+    hl.dispatch(hl.dsp.window.close({ window = window }))
+  end)
+  -- Give up if no window shows, so a later manual launch isn't closed.
+  timer = hl.timer(function () sub:remove() end, { timeout = 60000, type = "oneshot" })
+  hl.exec_cmd("spotify-launcher")
+end
+
 hl.on("hyprland.start", function ()
   hl.exec_cmd("qs")
   hl.exec_cmd("1password --silent")
+  start_spotify_in_tray()
 end)
 
 
