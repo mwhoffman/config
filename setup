@@ -134,10 +134,12 @@ if find_brew; then
 elif command -v apt-get >/dev/null 2>&1; then
   install_apt curl git just stow
   # Apt's yq package is a different tool (a python wrapper around jq), so the
-  # right one has to be installed manually.
-  if ! command -v yq >/dev/null 2>&1; then
-    echo "⚠️ yq needs to be installed manually; see https://github.com/mikefarah/yq"
-    echo "   (or rerun with LINUX_INSTALL_BREW=1 to use homebrew instead)."
+  # right one has to be installed manually. Rather than just checking that yq
+  # exists, check that it understands `tag`, which only mikefarah's v4 does.
+  if [[ "$(yq -n '1 | tag' 2>/dev/null)" != '!!int' ]]; then
+    echo "⚠️ yq needs to be installed manually;"
+    echo "   see https://github.com/mikefarah/yq or rerun setup with"
+    echo "   LINUX_INSTALL_BREW=1 to use homebrew instead."
   fi
 
 else
