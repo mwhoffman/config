@@ -13,7 +13,7 @@ RowLayout {
       property bool isFocused: Hyprland.focusedWorkspace?.id === (index + 1)
       property bool isActive: Hyprland.workspaces.values.some(w => w.id === index + 1)
       text: index + 1
-      color: isFocused ? Theme.focused : (isActive ? Theme.active : Theme.inactive)
+      color: isFocused ? Config.theme.focused : (isActive ? Config.theme.active : Config.theme.inactive)
     }
   }
 }

@@ -64,15 +64,15 @@ PopupWindow {
   Rectangle {
     id: background
     anchors.fill: parent
-    implicitWidth: column.implicitWidth + 2 * Theme.menuPadding
-    implicitHeight: column.implicitHeight + 2 * Theme.menuPadding
-    color: Theme.bg
-    border { color: Theme.inactive; width: 1 }
-    radius: Theme.menuRadius
+    implicitWidth: column.implicitWidth + 2 * Config.menu.padding
+    implicitHeight: column.implicitHeight + 2 * Config.menu.padding
+    color: Config.theme.bg
+    border { color: Config.theme.inactive; width: 1 }
+    radius: Config.menu.radius
 
     ColumnLayout {
       id: column
-      anchors { fill: parent; margins: Theme.menuPadding }
+      anchors { fill: parent; margins: Config.menu.padding }
       spacing: 0
 
       Repeater {

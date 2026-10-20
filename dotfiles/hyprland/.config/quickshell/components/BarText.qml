@@ -2,9 +2,9 @@ import QtQuick
 import qs
 
 Text {
-  color: Theme.active
+  color: Config.theme.active
   font {
-    family: Theme.fontFamily
-    pointSize: Theme.fontSize
+    family: Config.fontFamily
+    pointSize: Config.bar.fontSize
   }
 }

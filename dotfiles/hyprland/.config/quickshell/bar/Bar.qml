@@ -7,12 +7,12 @@ PanelWindow {
   required property var modelData
   screen: modelData
 
-  implicitHeight: 35
-  color: Theme.bg
+  implicitHeight: Config.bar.height
+  color: Config.theme.bg
   anchors { top: true; left: true; right: true }
 
   RowLayout {
-    spacing: Theme.widgetSpacing
+    spacing: Config.bar.spacing
 
     anchors {
       fill: parent

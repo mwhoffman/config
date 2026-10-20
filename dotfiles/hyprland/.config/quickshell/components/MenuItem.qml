@@ -21,38 +21,38 @@ Item {
   readonly property bool highlighted: mouse.containsMouse || menu.submenuRow === row
 
   enabled: modelData.enabled ?? true
-  implicitWidth: separator ? 0 : content.implicitWidth + 2 * Theme.menuPadding
-  implicitHeight: separator ? 2 * Theme.menuPadding + 1 : content.implicitHeight + 2 * Theme.menuPadding
+  implicitWidth: separator ? 0 : content.implicitWidth + 2 * Config.menu.padding
+  implicitHeight: separator ? 2 * Config.menu.padding + 1 : content.implicitHeight + 2 * Config.menu.padding
 
   component MenuText: Text {
-    color: row.enabled ? Theme.menuText : Theme.active
-    font { family: Theme.fontFamily; pointSize: Theme.menuFontSize }
+    color: row.enabled ? Config.theme.text : Config.theme.active
+    font { family: Config.fontFamily; pointSize: Config.menu.fontSize }
   }
 
   Rectangle {
     visible: row.separator
     anchors { verticalCenter: parent.verticalCenter; left: parent.left; right: parent.right }
     height: 1
-    color: Theme.inactive
+    color: Config.theme.inactive
   }
 
   Rectangle {
     anchors.fill: parent
     visible: !row.separator && row.enabled && row.highlighted
-    color: Theme.focused
-    radius: Theme.menuRadius / 2
+    color: Config.theme.focused
+    radius: Config.menu.radius / 2
   }
 
   RowLayout {
     id: content
     visible: !row.separator
-    anchors { fill: parent; leftMargin: Theme.menuPadding; rightMargin: Theme.menuPadding }
-    spacing: Theme.menuPadding
+    anchors { fill: parent; leftMargin: Config.menu.padding; rightMargin: Config.menu.padding }
+    spacing: Config.menu.padding
 
     Item {
       visible: row.menu.hasGutter
-      implicitWidth: Theme.iconSize
-      implicitHeight: Theme.iconSize
+      implicitWidth: Config.bar.iconSize
+      implicitHeight: Config.bar.iconSize
 
       MenuText {
         anchors.centerIn: parent

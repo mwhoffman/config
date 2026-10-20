@@ -10,7 +10,7 @@ import qs.components
 // Items listed in Icons.tray show a Nerd Font glyph instead of their own icon.
 RowLayout {
   id: tray
-  spacing: 8
+  spacing: Config.bar.traySpacing
 
   // Left-click actions for apps that ignore a plain click (AppIndicators such
   // as Spotify only offer a menu). Keyed by the start of the tray item's id;
@@ -38,8 +38,8 @@ RowLayout {
       required property SystemTrayItem modelData
       readonly property string glyph: Icons.trayIcon(modelData.id)
 
-      implicitWidth: glyph ? glyphText.implicitWidth : Theme.iconSize
-      implicitHeight: glyph ? glyphText.implicitHeight : Theme.iconSize
+      implicitWidth: glyph ? glyphText.implicitWidth : Config.bar.iconSize
+      implicitHeight: glyph ? glyphText.implicitHeight : Config.bar.iconSize
 
       BarText {
         id: glyphText
@@ -51,7 +51,7 @@ RowLayout {
       IconImage {
         anchors.centerIn: parent
         visible: item.glyph === ""
-        implicitSize: Theme.iconSize
+        implicitSize: Config.bar.iconSize
         source: item.glyph ? "" : item.modelData.icon
       }
 
@@ -61,7 +61,7 @@ RowLayout {
         anchor {
           item: item
           rect.w: item.width
-          rect.h: item.height + Theme.menuOffset
+          rect.h: item.height + Config.menu.offset
           edges: Edges.Bottom
           gravity: Edges.Bottom
         }

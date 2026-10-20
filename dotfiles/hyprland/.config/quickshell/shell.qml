@@ -5,7 +5,12 @@ import qs.bar
 ShellRoot {
   MediaKeys {}
 
-  // One bar per monitor.
+  // One wallpaper and one bar per monitor.
+  Variants {
+    model: Quickshell.screens
+    Wallpaper {}
+  }
+
   Variants {
     model: Quickshell.screens
     Bar {}
