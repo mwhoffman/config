@@ -1,22 +1,16 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 set allow-duplicate-variables
 
+# Local settings are read from config.yaml if it exists. See the README for the
+# available settings.
+
 home := home_directory()
 os := os()
 
-# Environment variables can be set which affect the setup process. MWCONFIG_GUI
-# set to any true value will install GUI packages on linux; an empty value, 0,
-# false, no, off or nil means off. MWCONFIG_GIT_NAME and MWCONFIG_GIT_EMAIL
-# specify name and email for git.
-
-gui_env := lowercase(env("MWCONFIG_GUI", ""))
-gui := if gui_env =~ '^(|false|no|off|nil|0)$' {
-  "false"
-} else {
-  "true"
-}
-git_name := env("MWCONFIG_GIT_NAME", "")
-git_email := env("MWCONFIG_GIT_EMAIL", "")
+# Fail early if any of the tools that the recipes rely on are missing.
+_ := require("git")
+_ := require("stow")
+_ := require("yq")
 
 #--------------#
 # Core targets #
@@ -34,60 +28,55 @@ dotfiles:
 install:
   #!/usr/bin/env bash
   set -euo pipefail
-  # Ask for sudo at most once for the steps below, and drop the cached
-  # credentials when done, including if a step fails.
   trap 'sudo -k' EXIT
+
+  # This is simpler than the linux checks below because macos always uses the
+  # "gui" option and there's only one real package manager.
   just _brew bundles/Brewfile
-  just _install-zsh-plugins bundles/zsh-plugins.yaml
-  just _install-fonts bundles/fonts.yaml
+  just _zsh-plugins bundles/zsh-plugins.yaml
+  just _fonts bundles/fonts.yaml
 
 # Install packages.
 [linux]
 install:
   #!/usr/bin/env bash
   set -euo pipefail
-  # Ask for sudo at most once for the steps below, and drop the cached
-  # credentials when done, including if a step fails.
   trap 'sudo -k' EXIT
-  just _brew bundles/Brewfile
-  just _install-apt zsh
-  just _install-zsh-plugins bundles/zsh-plugins.yaml
-  if [ "{{gui}}" = true ]; then
-    just _install-apt-bundle bundles/apt-gui.yaml
-    just _install-fonts bundles/fonts.yaml
+
+  # Attempt to use known package managers with the associated bundles.
+  if command -v brew >/dev/null; then
+    just _brew bundles/Brewfile
+  elif command -v apt-get >/dev/null; then
+    just _install-apt-bundle bundles/apt.yaml
+  else
+    echo "warning: No known package manager" >&2
   fi
 
-# Update installed packages.
-[macos]
-update:
-  #!/usr/bin/env bash
-  set -euo pipefail
-  # Ask for sudo at most once for the steps below, and drop the cached
-  # credentials when done, including if a step fails.
-  trap 'sudo -k' EXIT
-  just _update-brew bundles/Brewfile
-  just _update-zsh-plugins bundles/zsh-plugins.yaml
-  just _update-fonts bundles/fonts.yaml
+  # Install the zsh plugins. Will also update them.
+  just _zsh-plugins bundles/zsh-plugins.yaml
 
-# Update installed packages.
-[linux]
-update:
-  #!/usr/bin/env bash
-  set -euo pipefail
-  # Ask for sudo at most once for the steps below, and drop the cached
-  # credentials when done, including if a step fails.
-  trap 'sudo -k' EXIT
-  just _update-brew bundles/Brewfile
-  just _update-apt zsh
-  just _update-zsh-plugins bundles/zsh-plugins.yaml
-  if [ "{{gui}}" = true ]; then
-    just _update-apt-bundle bundles/apt-gui.yaml
-    just _update-fonts bundles/fonts.yaml
+  # Install any gui-specific bundles.
+  gui=$(just _config-bool gui)
+  if [ "$gui" = true ]; then
+    just _fonts bundles/fonts.yaml
   fi
 
 #----------------#
 # Helper targets #
 #----------------#
+
+# Print the value of a boolean setting from the local config.yaml, which is
+# false if the file or setting is missing.
+_config-bool key:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  value=false
+  if [ -f config.yaml ]; then value=$(yq '.{{key}} // false' config.yaml); fi
+  if [ "$value" != true ] && [ "$value" != false ]; then
+    echo "error: {{key}} in config.yaml must be true or false, not '$value'" >&2
+    exit 1
+  fi
+  echo "$value"
 
 # Link a single stow package.
 _link package:
@@ -115,13 +104,6 @@ _prune-links:
 _brew brewfile:
   @echo "📦 Installing brew bundle: {{brewfile}}"
   @HOMEBREW_NO_AUTO_UPDATE=1 brew bundle --file={{brewfile}} -q --no-upgrade
-
-# Upgrade the packages in the given brewfile. Unlike the other update targets
-# this also installs any that are missing, since that's how brew bundle works.
-# Brew's auto-update refreshes the package index first if it's over a day old.
-_update-brew brewfile:
-  @echo "🔄 Updating brew bundle: {{brewfile}}"
-  @brew bundle --file={{brewfile}} -q
 
 # Install a source list and scoped apt key for a third-party repo.
 [linux]
@@ -184,42 +166,9 @@ _install-apt-bundle bundle:
   done 3<<< "$sources"
   just _install-apt $packages
 
-# Upgrade any of the given apt packages that are installed and have a newer
-# version available. This doesn't refresh the package index, which needs sudo;
-# it relies on the system doing that regularly.
-[linux]
-_update-apt *packages:
-  #!/usr/bin/env bash
-  set -euo pipefail
-  outdated=()
-  for pkg in {{packages}}; do
-    policy=$(LC_ALL=C apt-cache policy "$pkg")
-    installed=$(awk '/Installed:/ {print $2}' <<< "$policy")
-    candidate=$(awk '/Candidate:/ {print $2}' <<< "$policy")
-    if [ -n "$installed" ] && [ "$installed" != "(none)" ] \
-        && [ "$installed" != "$candidate" ]; then
-      outdated+=("$pkg")
-    fi
-  done
-  if [ "${#outdated[@]}" -gt 0 ]; then
-    echo "📥 Updating apt packages: ${outdated[*]}"
-    sudo apt-get install -y --only-upgrade "${outdated[@]}"
-  fi
-
-# Upgrade the packages in the given apt bundle.
-[linux]
-_update-apt-bundle bundle:
-  #!/usr/bin/env bash
-  set -euo pipefail
-  echo "🔄 Updating apt bundle: {{bundle}}"
-  # This is assigned first, rather than expanded inline, so that a missing or
-  # malformed bundle is an error.
-  packages=$(yq -r '.packages[]' {{bundle}})
-  just _update-apt $packages
-
 # Install the zsh plugins in the given bundle: a yaml list of github owner/repo
-# entries.
-_install-zsh-plugins bundle:
+# entries. Plugins that are already installed are updated.
+_zsh-plugins bundle:
   #!/usr/bin/env bash
   set -euo pipefail
   echo "📦 Installing zsh plugins: {{bundle}}"
@@ -238,21 +187,8 @@ _install-zsh-plugins bundle:
         echo "error: failed to clone zsh plugin '$repo' from {{bundle}}" >&2
         exit 1
       fi
+      continue
     fi
-  done
-
-# Update the zsh plugins in the given bundle that are installed.
-_update-zsh-plugins bundle:
-  #!/usr/bin/env bash
-  set -euo pipefail
-  echo "🔄 Updating zsh plugins: {{bundle}}"
-  dest={{home}}/.local/share/zsh
-  # This is assigned first, rather than expanded inline, so that a missing or
-  # malformed bundle is an error.
-  repos=$(yq -r '.[]' {{bundle}})
-  for repo in $repos; do
-    target="$dest/${repo#*/}"
-    [ -d "$target" ] || continue
     if ! GIT_TERMINAL_PROMPT=0 git -C "$target" fetch -q; then
       echo "error: failed to fetch zsh plugin '$repo' from {{bundle}}" >&2
       exit 1
@@ -273,40 +209,24 @@ font_dir := if os == "macos" {
 font_url := "https://github.com/ryanoasis/nerd-fonts/releases"
 
 # Install the nerd fonts in the given bundle: a yaml list of release asset
-# names.
-_install-fonts bundle:
+# names. Fonts that are already installed are updated if they aren't from the
+# latest release; those installed without a recorded version are treated as out
+# of date.
+_fonts bundle:
   #!/usr/bin/env bash
   set -euo pipefail
   echo "📦 Installing fonts: {{bundle}}"
-  # This is assigned first, rather than expanded inline, so that a missing or
-  # malformed bundle is an error.
-  fonts=$(yq -r '.[]' {{bundle}})
-  version=
-  for font in $fonts; do
-    target={{font_dir}}/$font
-    if [ ! -d "$target" ]; then
-      echo "📥 Installing font: $target"
-      # Only look up the version once, and only if there's a font to install.
-      [ -n "$version" ] || version=$(just _font-version)
-      just _install-font "$font" "$version"
-    fi
-  done
-  if command -v fc-cache >/dev/null; then fc-cache; fi
-
-# Update the nerd fonts in the given bundle that are installed, if they aren't
-# from the latest release. Fonts installed without a recorded version are
-# treated as out of date.
-_update-fonts bundle:
-  #!/usr/bin/env bash
-  set -euo pipefail
-  echo "🔄 Updating fonts: {{bundle}}"
   # These are assigned first, rather than expanded inline, so that a missing or
   # malformed bundle is an error.
   fonts=$(yq -r '.[]' {{bundle}})
   version=$(just _font-version)
   for font in $fonts; do
     target={{font_dir}}/$font
-    [ -d "$target" ] || continue
+    if [ ! -d "$target" ]; then
+      echo "📥 Installing font: $target"
+      just _install-font "$font" "$version"
+      continue
+    fi
     current=$(cat "$target/.version" 2>/dev/null || true)
     if [ "$current" != "$version" ]; then
       echo "📥 Updating font: $target (${current:-unknown} -> $version)"
@@ -351,8 +271,6 @@ _gitconfig:
   #!/usr/bin/env bash
   set -euo pipefail
   target={{home}}/.config/git/local
-  name={{quote(git_name)}}
-  email={{quote(git_email)}}
   # Whether the given user option is already set.
   has() { git config --file "$target" --get "user.$1" >/dev/null; }
   if has name && has email; then
@@ -361,10 +279,10 @@ _gitconfig:
   echo "🔧 Updating git config: $target"
   mkdir -p "$(dirname "$target")"
   if ! has name; then
-    [ -n "$name" ] || read -rp "Git name: " name
+    read -rp "Git name: " name
     git config --file "$target" user.name "$name"
   fi
   if ! has email; then
-    [ -n "$email" ] || read -rp "Git email: " email
+    read -rp "Git email: " email
     git config --file "$target" user.email "$email"
   fi

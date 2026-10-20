@@ -1,0 +1,4 @@
+# Apt packages installed on linux (see the justfile).
+
+packages:
+  - zsh

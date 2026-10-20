@@ -14,8 +14,9 @@ which will clone the repository into `~/config`, install my common collection of
 apps, and install my dotfiles. After pulling in recent changes from github this
 process can be repeated by running `~/config/setup` which will install any
 missing apps and missing dotfiles&mdash;importantly it should be a no op if
-nothing has changed. Installed apps aren't upgraded by this; to do that run
-`just update` from `~/config`.
+nothing has changed. Zsh plugins and fonts are also updated if a newer version
+is available, but system and brew packages aren't upgraded; that's left to be
+done manually, e.g. with `brew upgrade` or `apt upgrade`.
 
 [core]: https://github.com/mwhoffman/config/tree/main/dotfiles/core
 [macos]: https://github.com/mwhoffman/config/tree/main/dotfiles/macos
@@ -28,7 +29,10 @@ reflected automatically in the git repository, and pulling down changes
 automatically "updates" the dotfiles. Re-running `setup` is only strictly
 necessary if there are new files.
 
-By setting the environment variable `MWCONFIG_GUI=1` the setup process will also
-install gui tools on linux. Finally, the `MWCONFIG_GIT_NAME` and
-`MWCONFIG_GIT_EMAIL` can be used to initialize the git name and email settings.
-If these are not set the setup script will ask for them.
+Local settings can be given in `~/config/config.yaml`, which is ignored by git.
+Currently the only setting is `gui`, which installs gui tools on linux:
+```yaml
+gui: true
+```
+If the git name and email settings aren't already set, the setup script will ask
+for them.

@@ -25,3 +25,7 @@ if OS.mac?
   cask "launchbar"
   cask "spotify"
 end
+
+if OS.linux?
+  brew "zsh"
+end

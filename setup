@@ -145,8 +145,7 @@ if [[ "${PUSH_URL}" != "${CONFIG_SSH}" ]]; then
 fi
 
 # Run the setup in this same process so that homebrew is in the PATH. Options
-# are given with MWCONFIG_* environment variables (see the justfile), which pass
-# through to just.
+# are read from config.yaml in the repo, if it exists (see the README).
 (cd "${TARGET}" && just install && just dotfiles)
 
 # We're done!
