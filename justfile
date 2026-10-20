@@ -10,13 +10,17 @@ home := home_directory()
 _ := require("git")
 _ := require("stow")
 _ := require("yq")
+_ := require("curl")
 
 #--------------#
 # Core targets #
 #--------------#
 
-# Install dotfiles, including any extra packages listed in the local config, and
-# clean up.
+# Show this list of commands.
+list:
+  @just --list
+
+# Install dotfiles and clean up.
 dotfiles:
   #!/usr/bin/env bash
   set -euo pipefail

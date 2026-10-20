@@ -15,20 +15,24 @@ install the core dotfiles. After pulling in recent changes from github this
 process can be repeated by running `~/config/setup` to get any new
 changes&mdash;importantly this should be a no op if nothing has changed (albeit
 zsh plugins and fonts will be updated if newer versions are available). Packages
-will not be upgraded; that's left to be done manually via whatever package
-manager is used.
+will not be upgraded; that's left to be done manually.
 
-[core]: https://github.com/mwhoffman/config/tree/main/dotfiles/core
+On macos packages are installed with homebrew, which setup installs if needed.
+On linux homebrew will be used if the environment variable
+`LINUX_INSTALL_BREW=1` is set before running setup; otherwise packages come from
+the system package manager. Dotfiles live under multiple packages in
+[dotfiles/][dotfiles] and will be linked into place using `stow`. The `core`
+package is always linked and other packages will be linked if they are listed in
+the local config (see below).
+
 [dotfiles]: https://github.com/mwhoffman/config/tree/main/dotfiles
 
-The dotfiles themselves live under [dotfiles/core][core], which is always
-linked, as well as other packages under [dotfiles][dotfiles] (e.g. `macos`)
-which are only linked if listed in the local config (see below). They are
-symlinked into place so any local edits should be reflected automatically in the
-git repository, and pulling down changes automatically "updates" the dotfiles.
-Re-running `setup` is only strictly necessary if there are new files.
+Once bootstrapped `setup` essentially amounts to calling `just install dotfiles`
+which runs the `install` and `dotfiles` just commands. In most instances you can
+run only `just dotfiles` to skip the installation command which is marginally
+slower due to its requirement to make network connections.
 
-Local settings can be given in `~/config/config.yaml`, which is ignored by git.
-The available settings are `gui`, which installs gui tools on linux, and
-`dotfiles`, a list of the packages under `dotfiles/` to link besides `core` (any
-other packages are unlinked).
+Finally, minimal local settings can be specified in `~/config/config.yaml`,
+which is ignored by git. The available settings are `gui`, which installs gui
+tools on linux, and `dotfiles`, a list of the packages under `dotfiles/` to link
+besides `core`&mdash;unspecified packages will be unlinked.

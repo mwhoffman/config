@@ -20,6 +20,9 @@ CONFIG="https://github.com/mwhoffman/config"
 CONFIG_SSH="git@github.com:mwhoffman/config.git"
 HOMEBREW="https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
 
+# Set to 1 to install homebrew on linux; macos always uses it.
+LINUX_INSTALL_BREW="${LINUX_INSTALL_BREW:-0}"
+
 # Check if brew is on our PATH; if not, search for it in the usual places and
 # run shellenv to add it. Return unsuccessfully if we can't find it at all.
 find_brew() {
@@ -55,24 +58,64 @@ missing_brew() {
   done
 }
 
+# Install those of the given apt packages that are missing. Only touch apt if
+# something is actually missing, since `apt-get install` also upgrades packages
+# that are already installed.
+install_apt() {
+  local missing
+  missing=$(missing_apt "$@")
+  if [[ -n "${missing}" ]]; then
+    echo "📥 Installing apt packages:" ${missing}
+    sudo apt-get update
+    sudo apt-get install -y ${missing}
+  fi
+}
+
+# Install those of the given brew formulae that are missing. Only touch brew if
+# something is actually missing, since it would otherwise auto-update and
+# upgrade what's installed.
+install_brew() {
+  local missing
+  missing=$(missing_brew "$@")
+  if [[ -n "${missing}" ]]; then
+    echo "📥 Installing brew packages:" ${missing}
+    brew install ${missing}
+  fi
+}
+
+# Install homebrew if it isn't already.
+bootstrap_brew() {
+  if ! find_brew; then
+    # The installer needs sudo, and with NONINTERACTIVE it can't prompt for a
+    # password itself, so authenticate (and cache credentials) first.
+    echo "📥 Installing homebrew"
+    sudo -v
+
+    # This is homebrew's recommended install command, except the installer is
+    # downloaded first: the assignment takes curl's exit status, so set -e stops
+    # the script if the download fails (or is cut short) rather than running an
+    # empty or partial script.
+    local installer
+    installer=$(curl -fsSL "${HOMEBREW}")
+    NONINTERACTIVE=1 /bin/bash -c "${installer}"
+
+    find_brew || { echo "❌ Could not find brew after installing it."; exit 1; }
+  fi
+}
+
 case $(uname -s) in
   # Macs have git via the command line tools (which the homebrew installer will
-  # take care of), so there is nothing else needed here.
+  # take care of), so we only need homebrew itself.
   Darwin)
+    bootstrap_brew
     ;;
 
-  # On linux we need the essentials for homebrew itself as well as git in order
-  # to clone this repository. The remaining packages come from homebrew so that
-  # we don't depend on the (often outdated) distro versions.
-  #
-  # Only touch apt if something is actually missing. Note that `apt-get install`
-  # will also upgrade packages that are already installed.
+  # Homebrew is optional on linux, so only install it if asked to, along with
+  # the essentials it needs to build packages.
   Linux)
-    missing=$(missing_apt build-essential procps curl file git)
-    if [[ -n "${missing}" ]]; then
-      echo "📥 Installing apt packages:" ${missing}
-      sudo apt-get update
-      sudo apt-get install -y ${missing}
+    if [[ "${LINUX_INSTALL_BREW}" == 1 ]]; then
+      install_apt build-essential procps curl file git
+      bootstrap_brew
     fi
     ;;
 
@@ -82,29 +125,24 @@ case $(uname -s) in
     ;;
 esac
 
-if ! find_brew; then
-  # The installer needs sudo, and with NONINTERACTIVE it can't prompt for a
-  # password itself, so authenticate (and cache credentials) first.
-  echo "📥 Installing homebrew"
-  sudo -v
+# Install the tools needed for the rest of the setup, preferring homebrew if
+# it's available (even if it wasn't installed above). Homebrew itself needs git
+# and curl, so those don't need installing with it.
+if find_brew; then
+  install_brew just stow yq
 
-  # This is homebrew's recommended install command, except the installer is
-  # downloaded first: the assignment takes curl's exit status, so set -e stops
-  # the script if the download fails (or is cut short) rather than running an
-  # empty or partial script.
-  installer=$(curl -fsSL "${HOMEBREW}")
-  NONINTERACTIVE=1 /bin/bash -c "${installer}"
+elif command -v apt-get >/dev/null 2>&1; then
+  install_apt curl git just stow
+  # Apt's yq package is a different tool (a python wrapper around jq), so the
+  # right one has to be installed manually.
+  if ! command -v yq >/dev/null 2>&1; then
+    echo "⚠️ yq needs to be installed manually; see https://github.com/mikefarah/yq"
+    echo "   (or rerun with LINUX_INSTALL_BREW=1 to use homebrew instead)."
+  fi
 
-  find_brew || { echo "❌ Could not find brew after installing it."; exit 1; }
-fi
-
-# We need just to run the setup, stow to link the dotfiles and yq to read the
-# bundles. Only install what is missing since brew would otherwise auto-update
-# and upgrade what's installed.
-missing=$(missing_brew just stow yq)
-if [[ -n "${missing}" ]]; then
-  echo "📥 Installing brew packages:" ${missing}
-  brew install ${missing}
+else
+  echo "❌ No known package manager."
+  exit 1
 fi
 
 # Check the target config directory and try to clone from git. Otherwise fail if
@@ -146,7 +184,7 @@ fi
 
 # Run the setup in this same process so that homebrew is in the PATH. Options
 # are read from config.yaml in the repo, if it exists (see the README).
-(cd "${TARGET}" && just install && just dotfiles)
+(cd "${TARGET}" && just install dotfiles)
 
 # We're done!
 echo "🎉 Setup complete! Start a new login shell to pick up any changes."
