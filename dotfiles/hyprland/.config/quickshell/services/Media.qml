@@ -21,8 +21,13 @@ Singleton {
     return players.find(p => p.isPlaying) ?? lastStarted ?? players[0] ?? null
   }
 
+  // Sends MPRIS PlayPause so the player toggles from its own state.
+  // (MprisPlayer.togglePlaying() sends Play or Pause based on the state last
+  // reported, which can be stale.)
   function playPause() {
-    if (player?.canTogglePlaying) player.togglePlaying()
+    if (!player?.canTogglePlaying) return
+    Quickshell.execDetached(["busctl", "--user", "call", player.dbusName,
+      "/org/mpris/MediaPlayer2", "org.mpris.MediaPlayer2.Player", "PlayPause"])
   }
 
   function next() {
