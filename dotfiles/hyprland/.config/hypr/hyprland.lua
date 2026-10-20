@@ -275,6 +275,10 @@ hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"), { repeating = true })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { repeating = true })
 hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"))
+-- Media keys go to Quickshell, which picks the active player (MediaKeys.qml).
+hl.bind("XF86AudioPlay", hl.dsp.global("quickshell:mediaPlayPause"))
+hl.bind("XF86AudioNext", hl.dsp.global("quickshell:mediaNext"))
+hl.bind("XF86AudioPrev", hl.dsp.global("quickshell:mediaPrevious"))
 
 -- Switch workspaces with mainMod + [0-9]; add SHIFT to move windows.
 for i = 1, 9 do
