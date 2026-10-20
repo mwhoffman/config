@@ -5,7 +5,6 @@ set allow-duplicate-variables
 # available settings.
 
 home := home_directory()
-os := os()
 
 # Fail early if any of the tools that the recipes rely on are missing.
 _ := require("git")
@@ -16,12 +15,28 @@ _ := require("yq")
 # Core targets #
 #--------------#
 
-# Install dotfiles and clean up.
+# Install dotfiles, including any extra packages listed in the local config, and
+# clean up.
 dotfiles:
-  @just _link "core"
-  @if [[ -d "dotfiles/{{os}}" ]]; then just _link "{{os}}"; fi
-  @just _gitconfig
-  @just _prune-links
+  #!/usr/bin/env bash
+  set -euo pipefail
+  just _link "core"
+  # This is assigned first, rather than expanded inline, so that an invalid
+  # setting is an error.
+  extras=$(just _config-list dotfiles)
+  # Unlink every other package that isn't listed, e.g. ones that have been
+  # removed from the list. This is a no-op for packages that aren't linked.
+  for dir in dotfiles/*/; do
+    package=$(basename "$dir")
+    if [ "$package" != core ] && ! grep -Fxq "$package" <<< "$extras"; then
+      just _unlink "$package"
+    fi
+  done
+  for package in $extras; do
+    just _link "$package"
+  done
+  just _gitconfig
+  just _prune-links
 
 # Install packages.
 [macos]
@@ -78,10 +93,29 @@ _config-bool key:
   fi
   echo "$value"
 
+# Print the items of a list setting from the local config.yaml, one per line,
+# which is empty if the file or setting is missing.
+_config-list key:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  [ -f config.yaml ] || exit 0
+  list='.{{key}} // []'
+  if [ "$(yq "$list | tag" config.yaml)" != '!!seq' ] \
+      || [ -n "$(yq "($list)[] | select(tag != \"!!str\")" config.yaml)" ]; then
+    echo "error: {{key}} in config.yaml must be a list of strings" >&2
+    exit 1
+  fi
+  yq -r "($list)[]" config.yaml
+
 # Link a single stow package.
 _link package:
   @echo "📦 Installing dotfiles: {{package}}"
   @stow --no-folding -d dotfiles -t {{home}} -R {{package}}
+
+# Unlink a single stow package. Stow only removes its own links, so this is a
+# no-op if the package isn't linked.
+_unlink package:
+  @stow --no-folding -d dotfiles -t {{home}} -D {{package}}
 
 # Remove dead links into dotfiles, e.g. left over from deleted directories.
 # Stow's links are relative, so they start with config/dotfiles/ or ../.
@@ -201,7 +235,7 @@ _zsh-plugins bundle:
     fi
   done
 
-font_dir := if os == "macos" {
+font_dir := if os() == "macos" {
   home / "Library/Fonts"
 } else {
   home / ".local/share/fonts"
