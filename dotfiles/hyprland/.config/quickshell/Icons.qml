@@ -21,6 +21,7 @@ Singleton {
   // (some apps append a number that can change between runs).
   readonly property var tray: ({
     "1Password_status_icon": "\u{f0881}",  // nf-md-onepassword
+    "spotify-client": "\u{f04c7}",         // nf-md-spotify
   })
 
   // Returns the override glyph for a tray item id, or "" if none.
