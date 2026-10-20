@@ -11,4 +11,12 @@ Singleton {
   readonly property int fontSize: 16
   readonly property int widgetSpacing: 24
   readonly property int iconSize: 18
+
+  // Popup menus (components/Menu.qml).
+  readonly property color menuText: "#ebdbb2"
+  readonly property int menuFontSize: 12
+  readonly property int menuPadding: 6
+  readonly property int menuRadius: 8
+  // Extra drop below the tray icon so the menu clears the bar.
+  readonly property int menuOffset: 12
 }

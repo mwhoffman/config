@@ -37,10 +37,16 @@ RowLayout {
         source: item.glyph ? "" : item.modelData.icon
       }
 
-      QsMenuAnchor {
+      Menu {
         id: menu
-        menu: item.modelData.menu
-        anchor.item: item
+        handle: item.modelData.menu
+        anchor {
+          item: item
+          rect.w: item.width
+          rect.h: item.height + Theme.menuOffset
+          edges: Edges.Bottom
+          gravity: Edges.Bottom
+        }
       }
 
       MouseArea {
