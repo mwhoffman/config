@@ -40,6 +40,7 @@ Singleton {
     notifications: {
       width: 380,
       fontSize: 12,
+      titleFontSize: 16,
       iconSize: 32,
       padding: 10,
       radius: 8,

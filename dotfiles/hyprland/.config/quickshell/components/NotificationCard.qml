@@ -6,9 +6,11 @@ import Quickshell
 import Quickshell.Services.Notifications
 import Quickshell.Widgets
 
+import qs.services
 import qs.settings
 
-// One notification: icon, app name, summary, body and action buttons.
+// One notification: icon, app name and arrival time, title (summary), body
+// and action buttons.
 //
 // It expires after a timeout (the app's, or Config.notifications.timeout),
 // paused while hovered; critical ones stay until clicked. Clicking it runs the
@@ -42,9 +44,10 @@ Rectangle {
   border { color: critical ? Config.theme.urgent : Config.theme.inactive; width: Config.notifications.border }
   radius: Config.notifications.radius
 
+  // Dim by default; the title is the one bright line.
   component CardText: Text {
     Layout.fillWidth: true
-    color: Config.theme.text
+    color: Config.theme.active
     wrapMode: Text.Wrap
     font { family: Config.fontFamily; pointSize: Config.notifications.fontSize }
   }
@@ -87,17 +90,31 @@ Rectangle {
       Layout.fillWidth: true
       spacing: 4
 
-      CardText {
-        text: card.notification?.appName ?? ""
-        color: Config.theme.active
-        elide: Text.ElideRight
-        wrapMode: Text.NoWrap
+      RowLayout {
+        Layout.fillWidth: true
+        spacing: Config.notifications.padding
+
+        CardText {
+          text: card.notification?.appName ?? ""
+          elide: Text.ElideRight
+          wrapMode: Text.NoWrap
+        }
+
+        CardText {
+          readonly property real arrival: NotificationService.arrival(card.notification)
+
+          Layout.fillWidth: false
+          visible: arrival > 0
+          text: Qt.formatDateTime(new Date(arrival), "HH:mm")
+          wrapMode: Text.NoWrap
+        }
       }
 
       CardText {
         visible: text !== ""
         text: card.notification?.summary ?? ""
-        font.bold: true
+        color: Config.theme.text
+        font { bold: true; pointSize: Config.notifications.titleFontSize }
       }
 
       CardText {
@@ -131,6 +148,7 @@ Rectangle {
             CardText {
               id: label
               anchors.centerIn: parent
+              color: Config.theme.text
               width: parent.width - Config.notifications.padding
               horizontalAlignment: Text.AlignHCenter
               elide: Text.ElideRight
