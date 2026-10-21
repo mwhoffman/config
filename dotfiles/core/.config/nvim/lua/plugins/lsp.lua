@@ -33,6 +33,13 @@ return {
       "mason-org/mason-lspconfig.nvim",
     },
     config = function()
+      -- QML: use the system Qt's qmlls (qmlls6 on Arch) rather than mason's
+      -- standalone build, which can't find the system's QML modules (QtQuick,
+      -- Quickshell). Only where it's installed, since this config is shared.
+      if vim.fn.executable("qmlls6") == 1 then
+        vim.lsp.config("qmlls", {cmd = {"qmlls6"}})
+        vim.lsp.enable("qmlls")
+      end
       require("mason-lspconfig").setup()
     end,
   },
