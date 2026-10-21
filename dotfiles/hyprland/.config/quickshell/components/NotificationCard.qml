@@ -45,8 +45,10 @@ Rectangle {
   radius: Config.notifications.radius
 
   // Dim by default; the title is the one bright line.
+  // Plain text unless set otherwise: only the body may use markup.
   component CardText: Text {
     Layout.fillWidth: true
+    textFormat: Text.PlainText
     color: Config.theme.active
     wrapMode: Text.Wrap
     font { family: Config.fontFamily; pointSize: Config.notifications.fontSize }

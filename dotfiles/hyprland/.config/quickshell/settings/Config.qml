@@ -23,6 +23,7 @@ Singleton {
       active: "#928374",
       text: "#ebdbb2",
       urgent: "#fb4934",
+      backdrop: "#99000000",  // dims the screen behind the auth prompt
     },
     bar: {
       height: 35,
@@ -49,6 +50,13 @@ Singleton {
       margin: 12,       // from the screen edge and bar
       timeout: 5000,    // ms, when the app doesn't set one
     },
+    auth: {
+      width: 420,
+      fontSize: 14,
+      titleFontSize: 16,
+      padding: 16,
+      radius: 8,
+    },
   })
 
   // Defaults merged with the override file.
@@ -60,6 +68,7 @@ Singleton {
   readonly property var bar: values.bar
   readonly property var menu: values.menu
   readonly property var notifications: values.notifications
+  readonly property var auth: values.auth
 
   readonly property string path: Quickshell.env("HOME") + "/.quickshell.json"
 

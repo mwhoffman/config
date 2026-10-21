@@ -18,6 +18,9 @@ Singleton {
   readonly property string radioOff: "\u{f043d}"     // nf-md-radiobox_blank
   readonly property string submenu: "\u{f0142}"      // nf-md-chevron_right
 
+  // Auth prompt (AuthPrompt.qml).
+  readonly property string lock: "\u{f033e}"         // nf-md-lock
+
   // Tray icon overrides, keyed by the start of the tray item's id
   // (some apps append a number that can change between runs).
   readonly property var tray: ({

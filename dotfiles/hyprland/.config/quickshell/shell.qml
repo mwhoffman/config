@@ -3,6 +3,7 @@
 import Quickshell
 
 ShellRoot {
+  AuthPrompt {}
   MediaKeys {}
   Notifications {}
 
