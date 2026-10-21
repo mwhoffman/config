@@ -18,10 +18,9 @@ if OS.mac?
   brew "coreutils"
 
   cask "1password"
+  cask "ghostty"
   cask "hammerspoon"
-  cask "jordanbaird-ice"
   cask "karabiner-elements"
-  cask "kitty"
   cask "launchbar"
   cask "spotify"
 end
