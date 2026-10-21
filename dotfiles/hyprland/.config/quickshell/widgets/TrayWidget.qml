@@ -1,8 +1,11 @@
+pragma ComponentBehavior: Bound
+
+import QtQuick
+import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.SystemTray
 import Quickshell.Widgets
-import QtQuick
-import QtQuick.Layouts
+
 import qs
 import qs.components
 
@@ -41,11 +44,16 @@ RowLayout {
       implicitWidth: glyph ? glyphText.implicitWidth : Config.bar.iconSize
       implicitHeight: glyph ? glyphText.implicitHeight : Config.bar.iconSize
 
-      BarText {
+      Text {
         id: glyphText
         anchors.centerIn: parent
         visible: item.glyph !== ""
         text: item.glyph
+        color: Config.theme.active
+        font {
+          family: Config.fontFamily
+          pointSize: Config.bar.fontSize
+        }
       }
 
       IconImage {

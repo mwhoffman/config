@@ -1,6 +1,7 @@
 pragma Singleton
-import Quickshell
+
 import QtQuick
+import Quickshell
 
 // Current date/time, updated once a minute.
 Singleton {

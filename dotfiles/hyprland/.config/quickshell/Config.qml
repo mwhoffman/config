@@ -1,15 +1,13 @@
 pragma Singleton
+
+import QtQuick
 import Quickshell
 import Quickshell.Io
-import QtQuick
 
-// Shell settings: the defaults below, overridden by ~/.quickshell.json.
-//
-// The defaults double as the schema. The override file has the same shape
-// and only needs the keys it changes, e.g.
-//   { "wallpaper": "~/Wallpapers/foo.jpg", "bar": { "spacing": 16 } }
-// Unknown keys, wrong types and malformed colors are logged as warnings and
-// ignored (see `qs log`). Edits to the file apply on save.
+// Shell settings with defaults given below that can be overridden by
+// ~/.quickshell.json. The override file has the same shape and only needs the
+// keys it changes. Unknown keys, wrong types and malformed colors are logged as
+// warnings and ignored.
 Singleton {
   id: root
 

@@ -1,7 +1,9 @@
 pragma Singleton
+pragma ComponentBehavior: Bound
+
+import QtQuick
 import Quickshell
 import Quickshell.Services.Mpris
-import QtQuick
 
 // MPRIS media players (Spotify, browsers, mpv, ...).
 //

@@ -1,6 +1,7 @@
 pragma Singleton
-import Quickshell
+
 import QtQuick
+import Quickshell
 
 // Nerd Font glyphs, written as escapes so they survive copy/paste.
 // Look up codepoints at https://www.nerdfonts.com/cheat-sheet

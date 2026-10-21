@@ -1,7 +1,9 @@
-import Quickshell
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
+
 import qs
+import qs.widgets
 
 PanelWindow {
   required property var modelData
@@ -20,9 +22,9 @@ PanelWindow {
       rightMargin: 10
     }
 
-    Workspaces {}
+    WorkspaceWidget {}
     Item { Layout.fillWidth: true }
-    Tray {}
+    TrayWidget {}
     VolumeWidget {}
     CpuWidget {}
     MemoryWidget {}

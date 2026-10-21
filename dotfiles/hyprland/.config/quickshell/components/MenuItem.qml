@@ -1,7 +1,10 @@
-import Quickshell
-import Quickshell.Widgets
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
+import Quickshell.Widgets
+
 import qs
 
 // One row of a Menu: either a separator, or an entry with an optional

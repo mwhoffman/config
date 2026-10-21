@@ -1,9 +1,13 @@
+import QtQuick
 import Quickshell
 import Quickshell.Wayland
-import QtQuick
+
+import qs
 
 // Full-screen wallpaper on the background layer of one monitor.
 PanelWindow {
+  id: root
+
   required property var modelData
   screen: modelData
 
@@ -21,8 +25,8 @@ PanelWindow {
     onStatusChanged: if (status === Image.Error) console.warn("Wallpaper failed to load:", Config.wallpaper)
     // Decode at screen resolution rather than the image's full size.
     sourceSize {
-      width: parent.width * modelData.devicePixelRatio
-      height: parent.height * modelData.devicePixelRatio
+      width: root.width * root.modelData.devicePixelRatio
+      height: root.height * root.modelData.devicePixelRatio
     }
   }
 }

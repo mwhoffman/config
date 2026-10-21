@@ -1,5 +1,6 @@
 import Quickshell
 import Quickshell.Hyprland
+
 import qs.services
 
 // Hyprland global shortcuts for media control. Bind keys to them in

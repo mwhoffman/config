@@ -1,19 +1,12 @@
-import Quickshell
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
+
 import qs
 
 // Themed popup menu with cascading submenus.
-//
-// Fill it one of two ways:
-//   handle: a QsMenuHandle, such as a tray item's `menu`.
-//   model:  a JS array of plain entries, for menus built in QML. Every
-//           field is optional:
-//             { text, icon, enabled, isSeparator, buttonType, checkState,
-//               children: [...entries], triggered: () => {} }
-//
-// Position it with `anchor` (a PopupAnchor), then call open(). It closes
-// on an outside click, or after an entry is triggered.
 PopupWindow {
   id: root
 
@@ -30,7 +23,7 @@ PopupWindow {
     (e.icon ?? "") !== "" || (e.buttonType ?? QsMenuButtonType.None) !== QsMenuButtonType.None)
 
   // Row whose submenu is showing, if any.
-  property Item submenuRow: null
+  property MenuItem submenuRow: null
 
   function open() { visible = true }
   function close() { visible = false }
@@ -92,22 +85,23 @@ PopupWindow {
     source: Qt.resolvedUrl("Menu.qml")
 
     onItemChanged: {
-      if (!item) return
+      const submenu = item as Menu
+      if (!submenu) return
       const entry = root.submenuRow.modelData
       // Plain entries list their children; menu handles load their own.
       if (entry.children !== undefined) {
-        item.model = entry.children
+        submenu.model = entry.children
       } else {
-        item.handle = entry
+        submenu.handle = entry
       }
-      item.anchor.item = root.submenuRow
-      item.anchor.edges = Edges.Right | Edges.Top
-      item.anchor.gravity = Edges.Right | Edges.Bottom
-      item.activated.connect(e => {
+      submenu.anchor.item = root.submenuRow
+      submenu.anchor.edges = Edges.Right | Edges.Top
+      submenu.anchor.gravity = Edges.Right | Edges.Bottom
+      submenu.activated.connect(e => {
         root.activated(e)
         root.close()
       })
-      item.open()
+      submenu.open()
     }
   }
 }

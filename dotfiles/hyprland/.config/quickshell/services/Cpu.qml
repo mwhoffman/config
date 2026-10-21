@@ -1,10 +1,13 @@
 pragma Singleton
+
+import QtQuick
 import Quickshell
 import Quickshell.Io
-import QtQuick
 
 // Polls /proc/stat and exposes overall CPU usage as a percentage.
 Singleton {
+  id: root
+
   property int usage: 0
   property int lastIdle: 0
   property int lastTotal: 0
@@ -19,11 +22,11 @@ Singleton {
         var p = data.trim().split(/\s+/)
         var idle = parseInt(p[4]) + parseInt(p[5])
         var total = p.slice(1, 8).reduce((a, b) => a + parseInt(b), 0)
-        if (lastTotal > 0) {
-          usage = Math.round(100 * (1 - (idle - lastIdle) / (total - lastTotal)))
+        if (root.lastTotal > 0) {
+          root.usage = Math.round(100 * (1 - (idle - root.lastIdle) / (total - root.lastTotal)))
         }
-        lastTotal = total
-        lastIdle = idle
+        root.lastTotal = total
+        root.lastIdle = idle
       }
     }
   }

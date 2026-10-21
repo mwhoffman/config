@@ -1,0 +1,6 @@
+# Replaces stow's default ignore list, which this package doesn't need.
+
+# qmlls config for editing the quickshell files in this repo. It links to the
+# ~/.config/quickshell/.qmlls.ini that Quickshell manages, so stowing it would
+# overwrite that file with a link back to itself.
+\.qmlls\.ini
