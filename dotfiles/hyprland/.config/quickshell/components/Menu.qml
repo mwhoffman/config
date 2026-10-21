@@ -4,7 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 
-import qs
+import qs.settings
 
 // Themed popup menu with cascading submenus.
 PopupWindow {

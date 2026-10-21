@@ -2,7 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Wayland
 
-import qs
+import qs.settings
 
 // Full-screen wallpaper on the background layer of one monitor.
 PanelWindow {

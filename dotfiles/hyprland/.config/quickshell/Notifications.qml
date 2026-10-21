@@ -6,9 +6,9 @@ import Quickshell.Hyprland
 import Quickshell.Services.Notifications
 import Quickshell.Wayland
 
-import qs
 import qs.components
 import qs.services
+import qs.settings
 
 // Notification popups, stacked newest first in the top-right corner of the
 // focused monitor, just below the bar.

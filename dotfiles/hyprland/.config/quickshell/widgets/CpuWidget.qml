@@ -1,7 +1,7 @@
 import QtQuick
 
-import qs
 import qs.services
+import qs.settings
 
 Text {
   text: Icons.cpu + String(CpuService.usage).padStart(2, "0") + "%"

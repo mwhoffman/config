@@ -1,7 +1,7 @@
 import QtQuick
 
-import qs
 import qs.services
+import qs.settings
 
 Text {
   text: Icons.clock + Qt.formatDateTime(TimeService.date, "MMM d HH:mm")

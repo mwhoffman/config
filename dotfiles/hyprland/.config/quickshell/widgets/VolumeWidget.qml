@@ -1,7 +1,7 @@
 import QtQuick
 
-import qs
 import qs.services
+import qs.settings
 
 Text {
   text: Icons.volume + String(AudioService.volume).padStart(2, "0") + "%"

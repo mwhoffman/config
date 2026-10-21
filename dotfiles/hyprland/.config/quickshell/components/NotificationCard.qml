@@ -6,7 +6,7 @@ import Quickshell
 import Quickshell.Services.Notifications
 import Quickshell.Widgets
 
-import qs
+import qs.settings
 
 // One notification: icon, app name, summary, body and action buttons.
 //

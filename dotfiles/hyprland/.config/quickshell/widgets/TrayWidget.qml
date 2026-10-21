@@ -6,8 +6,8 @@ import Quickshell
 import Quickshell.Services.SystemTray
 import Quickshell.Widgets
 
-import qs
 import qs.components
+import qs.settings
 
 // System tray (StatusNotifierItem) icons, e.g. 1Password, nm-applet.
 // Items listed in Icons.tray show a Nerd Font glyph instead of their own icon.

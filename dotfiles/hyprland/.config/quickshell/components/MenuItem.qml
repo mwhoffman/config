@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
 
-import qs
+import qs.settings
 
 // One row of a Menu: either a separator, or an entry with an optional
 // icon or check mark, its text, and an arrow if it has a submenu.
