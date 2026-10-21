@@ -4,6 +4,7 @@ import Quickshell
 
 ShellRoot {
   MediaKeys {}
+  Notifications {}
 
   // One wallpaper and one bar per monitor.
   Variants {

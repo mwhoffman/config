@@ -4,7 +4,7 @@ import qs
 import qs.services
 
 Text {
-  text: Icons.cpu + String(Cpu.usage).padStart(2, "0") + "%"
+  text: Icons.cpu + String(CpuService.usage).padStart(2, "0") + "%"
   color: Config.theme.active
   font {
     family: Config.fontFamily

@@ -22,6 +22,7 @@ Singleton {
       inactive: "#504945",
       active: "#928374",
       text: "#ebdbb2",
+      urgent: "#fb4934",
     },
     bar: {
       height: 35,
@@ -36,6 +37,17 @@ Singleton {
       radius: 8,
       offset: 12,       // extra drop below the tray icon so menus clear the bar
     },
+    notifications: {
+      width: 380,
+      fontSize: 12,
+      iconSize: 32,
+      padding: 10,
+      radius: 8,
+      border: 2,
+      spacing: 8,       // between popups
+      margin: 12,       // from the screen edge and bar
+      timeout: 5000,    // ms, when the app doesn't set one
+    },
   })
 
   // Defaults merged with the override file.
@@ -46,6 +58,7 @@ Singleton {
   readonly property var theme: values.theme
   readonly property var bar: values.bar
   readonly property var menu: values.menu
+  readonly property var notifications: values.notifications
 
   readonly property string path: Quickshell.env("HOME") + "/.quickshell.json"
 
