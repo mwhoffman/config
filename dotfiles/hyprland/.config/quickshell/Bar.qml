@@ -27,8 +27,6 @@ PanelWindow {
     TrayWidget {}
     BluetoothWidget {}
     VolumeWidget {}
-    CpuWidget {}
-    MemoryWidget {}
     ClockWidget {}
   }
 }
