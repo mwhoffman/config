@@ -30,6 +30,7 @@ Singleton {
       fontSize: 16,
       spacing: 18,      // between widgets, and tray icons
       iconSize: 18,
+      volumeIconSize: 24,
     },
     menu: {
       fontSize: 12,

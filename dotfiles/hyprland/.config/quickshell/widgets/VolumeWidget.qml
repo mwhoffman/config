@@ -5,21 +5,29 @@ import qs.components
 import qs.services
 import qs.settings
 
-// Volume of the default output. Right-click lists outputs to switch to.
-Text {
+// Volume of the default output, as a speaker icon (see VolumeIcon). Left-click
+// mutes, and right-click lists outputs to switch to.
+Item {
   id: root
 
-  text: Icons.volume + String(AudioService.volume).padStart(2, "0") + "%"
-  color: Config.theme.active
-  font {
-    family: Config.fontFamily
-    pointSize: Config.bar.fontSize
+  implicitWidth: icon.implicitWidth
+  implicitHeight: icon.implicitHeight
+
+  VolumeIcon {
+    id: icon
+    anchors.centerIn: parent
+    volume: AudioService.level
+    muted: AudioService.muted
   }
 
   MouseArea {
     anchors.fill: parent
-    acceptedButtons: Qt.RightButton
-    onClicked: menu.open()
+    acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+    onClicked: event => {
+      if (event.button === Qt.RightButton) menu.open()
+      else AudioService.toggleMute()
+    }
   }
 
   Menu {

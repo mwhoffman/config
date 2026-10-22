@@ -12,6 +12,12 @@ Singleton {
   readonly property PwNode sink: Pipewire.defaultAudioSink
   readonly property int volume: Math.round((sink?.audio?.volume ?? 0) * 100)
   readonly property bool muted: sink?.audio?.muted ?? false
+  // Volume as a fraction, 1 being 100%.
+  readonly property real level: sink?.audio?.volume ?? 0
+
+  function toggleMute() {
+    if (sink?.audio) sink.audio.muted = !sink.audio.muted
+  }
 
   // Audio outputs (devices, not app streams), by name.
   readonly property var sinks: Array.from(Pipewire.nodes.values)
