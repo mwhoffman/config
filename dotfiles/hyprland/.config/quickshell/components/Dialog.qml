@@ -12,7 +12,7 @@ import qs.settings
 // and launcher. While open it takes all keyboard input.
 //
 // Children are laid out in a column inside the card. A click outside the card
-// emits dismissed().
+// emits dismissed(), unless `closeOnClickOutside` is off.
 //
 // Every dialog uses the same keys, interpreted by handleKey():
 //   Up, Ctrl+K, Ctrl+P      moved(-1)
@@ -30,6 +30,8 @@ PanelWindow {
   property string name: "dialog"
   // Item focused when the dialog opens; a text field, say.
   property Item initialFocus: keys
+  // Off for dialogs where an accidental close matters, like the auth prompt.
+  property bool closeOnClickOutside: true
 
   default property alias content: column.data
 
@@ -70,9 +72,10 @@ PanelWindow {
 
   onVisibleChanged: if (visible) initialFocus.forceActiveFocus()
 
+  // Clicks outside the card never reach the windows below.
   MouseArea {
     anchors.fill: parent
-    onClicked: root.dismissed()
+    onClicked: if (root.closeOnClickOutside) root.dismissed()
   }
 
   Item {

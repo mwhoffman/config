@@ -58,7 +58,7 @@ Dialog {
     readonly property var option: root.options[index]
 
     current: root.selected === index
-    iconWidth: titleGlyph.implicitWidth
+    iconWidth: title.glyphWidth
     glyph: option.glyph
     label: option.label
     hint: option.key
@@ -66,24 +66,12 @@ Dialog {
     onClicked: root.run(index)
   }
 
-  // Indented like the option rows, with every glyph centered in a column as
-  // wide as the (larger) title glyph, so icons and labels line up.
-  RowLayout {
-    Layout.leftMargin: Config.dialog.padding / 2
-    spacing: 10
-
-    DialogText {
-      id: titleGlyph
-      text: Icons.shutdown
-      color: Config.theme.text
-      font.pointSize: Config.dialog.titleFontSize
-    }
-
-    DialogText {
-      text: "Power"
-      color: Config.theme.text
-      font { bold: true; pointSize: Config.dialog.titleFontSize }
-    }
+  // Rows center their glyphs in a column as wide as the (larger) title glyph,
+  // so icons and labels line up.
+  DialogTitle {
+    id: title
+    glyph: Icons.shutdown
+    text: "Power"
   }
 
   Divider {}
