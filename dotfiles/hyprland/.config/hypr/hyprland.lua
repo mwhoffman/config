@@ -17,7 +17,6 @@ hl.monitor({
 
 -- Set programs that you use
 local terminal = "ghostty"
-local launcher = "hyprlauncher"
 local browser = "firefox"
 
 
@@ -268,7 +267,7 @@ local mainMod = "SUPER"
 local shftMod = "SHIFT+SUPER"
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
-hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(launcher))
+hl.bind(mainMod .. " + SPACE", hl.dsp.global("quickshell:launcher"))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
 hl.bind(shftMod .. " + Q", hl.dsp.global("quickshell:powerMenu")) -- log out, reboot or shut down

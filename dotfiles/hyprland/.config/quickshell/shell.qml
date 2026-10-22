@@ -4,6 +4,7 @@ import Quickshell
 
 ShellRoot {
   AuthPrompt {}
+  Launcher {}
   MediaKeys {}
   Notifications {}
   PowerMenu {}

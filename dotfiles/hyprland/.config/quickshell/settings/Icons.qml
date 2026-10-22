@@ -25,7 +25,10 @@ Singleton {
   readonly property string logout: "\u{f0343}"       // nf-md-logout
   readonly property string reboot: "\u{f0709}"       // nf-md-restart
   readonly property string shutdown: "\u{f0425}"     // nf-md-power
-  readonly property string cancel: "\u{f0156}"       // nf-md-close
+
+  // Launcher (Launcher.qml).
+  readonly property string search: "\u{f0349}"       // nf-md-magnify
+  readonly property string app: "\u{f0614}"          // nf-md-application
 
   // Tray icon overrides, keyed by the start of the tray item's id
   // (some apps append a number that can change between runs).

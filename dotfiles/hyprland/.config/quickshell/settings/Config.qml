@@ -64,6 +64,11 @@ Singleton {
       reboot: "systemctl reboot",
       shutdown: "systemctl poweroff",
     },
+    launcher: {
+      rows: 8,          // visible results; more scroll
+      iconSize: 24,
+      terminal: "ghostty",  // runs apps that need a terminal: <terminal> -e <command>
+    },
   })
 
   // Defaults merged with the override file.
@@ -77,6 +82,7 @@ Singleton {
   readonly property var notifications: values.notifications
   readonly property var dialog: values.dialog
   readonly property var power: values.power
+  readonly property var launcher: values.launcher
 
   readonly property string path: Quickshell.env("HOME") + "/.quickshell.json"
 
