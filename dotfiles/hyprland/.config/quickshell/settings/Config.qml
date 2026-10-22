@@ -67,6 +67,7 @@ Singleton {
     launcher: {
       rows: 8,          // visible results; more scroll
       iconSize: 24,
+      hintFontSize: 12,   // generic names ("Web Browser") beside app names
       terminal: "ghostty",  // runs apps that need a terminal: <terminal> -e <command>
     },
     lock: {

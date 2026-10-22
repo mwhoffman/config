@@ -17,6 +17,9 @@ Rectangle {
   property real iconWidth: glyphText.implicitWidth
   property string label: ""
   property string hint: ""
+  property real hintFontSize: Config.dialog.fontSize
+  // The hint shortens past this; the label takes the rest of the row.
+  property real hintMaxWidth: width / 3
 
   signal hovered()
   signal clicked()
@@ -61,8 +64,9 @@ Rectangle {
     DialogText {
       text: row.hint
       elide: Text.ElideRight
-      Layout.maximumWidth: row.width / 3
+      Layout.maximumWidth: row.hintMaxWidth
       color: row.current ? Config.theme.text : Config.theme.inactive
+      font.pointSize: row.hintFontSize
     }
   }
 

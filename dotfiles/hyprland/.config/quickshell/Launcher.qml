@@ -141,6 +141,8 @@ Dialog {
       glyph: Icons.app
       label: modelData.name
       hint: modelData.genericName
+      hintFontSize: Config.launcher.hintFontSize
+      hintMaxWidth: width / 2
       onHovered: root.selected = index
       onClicked: root.launch(modelData)
     }
