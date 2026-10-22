@@ -5,17 +5,22 @@ import qs.components
 import qs.services
 import qs.settings
 
-// Bluetooth on/off icon. Click turns Bluetooth on or off; right-click lists
-// paired devices to connect or disconnect. Hidden if there's no adapter.
+// Bluetooth icon, dimmed and crossed out when off (the same glyph either way,
+// so its width doesn't change). Click turns Bluetooth on or off; right-click
+// lists paired devices to connect or disconnect. Hidden if there's no adapter.
 Text {
   id: root
 
   visible: BluetoothService.available
-  text: BluetoothService.enabled ? Icons.bluetooth : Icons.bluetoothOff
+  text: Icons.bluetooth
   color: BluetoothService.enabled ? Config.theme.active : Config.theme.inactive
   font {
     family: Config.fontFamily
     pointSize: Config.bar.fontSize
+  }
+
+  Slash {
+    visible: !BluetoothService.enabled
   }
 
   MouseArea {

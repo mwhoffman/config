@@ -30,7 +30,7 @@ Singleton {
       fontSize: 16,
       spacing: 18,      // between widgets, and tray icons
       iconSize: 18,
-      volumeIconSize: 24,
+      statusIconSize: 24, // drawn icons: volume, and the line crossing icons out
     },
     menu: {
       fontSize: 12,
