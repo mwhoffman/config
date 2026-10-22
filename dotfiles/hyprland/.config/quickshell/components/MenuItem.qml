@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Controls.Basic as QC
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
@@ -20,6 +21,10 @@ Item {
   readonly property string icon: modelData.icon ?? ""
   readonly property int buttonType: modelData.buttonType ?? QsMenuButtonType.None
   readonly property bool checked: modelData.checkState === Qt.Checked
+  // Show a checkbox entry as an on/off switch at the start of the row, in
+  // place of the check mark (plain-entry menus only). Flipping the switch
+  // keeps the menu open.
+  readonly property bool toggle: modelData.toggle ?? false
   readonly property bool hasSubmenu: modelData.hasChildren ?? (modelData.children?.length > 0)
   readonly property bool highlighted: mouse.containsMouse || menu.submenuRow === row
 
@@ -53,7 +58,7 @@ Item {
     spacing: Config.menu.padding
 
     Item {
-      visible: row.menu.hasGutter
+      visible: row.menu.hasGutter && !row.toggle
       implicitWidth: Config.bar.iconSize
       implicitHeight: Config.bar.iconSize
 
@@ -69,6 +74,38 @@ Item {
         anchors.fill: parent
         visible: row.buttonType === QsMenuButtonType.None && row.icon !== ""
         source: row.icon
+      }
+    }
+
+    // Qt's Basic-style switch, themed through its palette. QC prefix: Qt Quick
+    // Controls also has Menu and MenuItem types. It has a fixed size, so it's
+    // scaled down (Config.menu.switchScale) inside an item of the scaled size.
+    Item {
+      visible: row.toggle
+      implicitWidth: toggleSwitch.implicitWidth * Config.menu.switchScale
+      implicitHeight: toggleSwitch.implicitHeight * Config.menu.switchScale
+
+      QC.Switch {
+        id: toggleSwitch
+
+        scale: Config.menu.switchScale
+        transformOrigin: Item.TopLeft
+        padding: 0
+        checked: row.checked
+        palette {
+          dark: Config.theme.focused        // track when on
+          midlight: Config.theme.inactive   // track when off
+          window: Config.theme.text         // knob
+          light: Config.theme.text          // knob while pressed
+          mid: Config.theme.inactive        // knob border
+          highlight: Config.theme.focused   // focus ring
+        }
+
+        onToggled: {
+          row.modelData.triggered?.()
+          // Clicking breaks the binding; follow the entry's real state again.
+          checked = Qt.binding(() => row.checked)
+        }
       }
     }
 

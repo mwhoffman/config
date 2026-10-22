@@ -25,6 +25,7 @@ PanelWindow {
     WorkspaceWidget {}
     Item { Layout.fillWidth: true }
     TrayWidget {}
+    BluetoothWidget {}
     VolumeWidget {}
     CpuWidget {}
     MemoryWidget {}

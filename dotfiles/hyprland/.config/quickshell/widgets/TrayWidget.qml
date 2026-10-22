@@ -13,7 +13,8 @@ import qs.settings
 // Items listed in Icons.tray show a Nerd Font glyph instead of their own icon.
 RowLayout {
   id: tray
-  spacing: Config.bar.traySpacing
+  // Spaced like the bar's widgets, so each tray icon reads as one more widget.
+  spacing: Config.bar.spacing
 
   // Left-click actions for apps that ignore a plain click (AppIndicators such
   // as Spotify only offer a menu). Keyed by the start of the tray item's id;

@@ -20,7 +20,7 @@ PopupWindow {
 
   // Reserve an icon/check column when any entry needs one, so text lines up.
   readonly property bool hasGutter: Array.prototype.some.call(entries, e =>
-    (e.icon ?? "") !== "" || (e.buttonType ?? QsMenuButtonType.None) !== QsMenuButtonType.None)
+    (e.icon ?? "") !== "" || (e.buttonType ?? QsMenuButtonType.None) !== QsMenuButtonType.None && !e.toggle)
 
   // Row whose submenu is showing, if any.
   property MenuItem submenuRow: null

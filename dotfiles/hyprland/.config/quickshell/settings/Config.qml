@@ -28,12 +28,12 @@ Singleton {
     bar: {
       height: 35,
       fontSize: 16,
-      spacing: 24,      // between widgets
+      spacing: 18,      // between widgets, and tray icons
       iconSize: 18,
-      traySpacing: 8,   // between tray icons
     },
     menu: {
       fontSize: 12,
+      switchScale: 0.6,   // size of on/off switches (Qt's are 56x28 at 1)
       padding: 6,
       radius: 8,
       offset: 12,       // extra drop below the tray icon so menus clear the bar
