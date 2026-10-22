@@ -23,6 +23,10 @@ PanelWindow {
   // Whether an attempt in this request has failed. Tracked here because
   // AuthFlow.failed doesn't update when an attempt fails.
   property bool failed: false
+  // The latest prompt text (e.g. "Password: "). Polkit clears inputPrompt
+  // while it checks a response; keeping the last one avoids the line
+  // vanishing and the card jumping in size.
+  property string prompt: ""
   // Whose password is being asked for (polkit's selected identity), as a
   // username; usually the current user.
   readonly property string identity: {
@@ -62,7 +66,10 @@ PanelWindow {
     if (visible) input.forceActiveFocus()
   }
 
-  onFlowChanged: failed = false
+  onFlowChanged: {
+    failed = false
+    prompt = flow?.inputPrompt ?? ""
+  }
 
   Connections {
     target: root.flow
@@ -71,6 +78,10 @@ PanelWindow {
     function onIsResponseRequiredChanged() {
       input.clear()
       if (root.flow.isResponseRequired) input.forceActiveFocus()
+    }
+
+    function onInputPromptChanged() {
+      if (root.flow.inputPrompt) root.prompt = root.flow.inputPrompt
     }
 
     function onAuthenticationFailed() {
@@ -85,20 +96,20 @@ PanelWindow {
     textFormat: Text.PlainText
     color: Config.theme.active
     wrapMode: Text.Wrap
-    font { family: Config.fontFamily; pointSize: Config.auth.fontSize }
+    font { family: Config.fontFamily; pointSize: Config.dialog.fontSize }
   }
 
   Rectangle {
     anchors.centerIn: parent
-    width: Config.auth.width
-    implicitHeight: content.implicitHeight + 2 * Config.auth.padding
+    width: Config.dialog.width
+    implicitHeight: content.implicitHeight + 2 * Config.dialog.padding
     color: Config.theme.bg
     border { color: Config.theme.inactive; width: 2 }
-    radius: Config.auth.radius
+    radius: Config.dialog.radius
 
     ColumnLayout {
       id: content
-      anchors { fill: parent; margins: Config.auth.padding }
+      anchors { fill: parent; margins: Config.dialog.padding }
       spacing: 10
 
       RowLayout {
@@ -108,13 +119,13 @@ PanelWindow {
           Layout.fillWidth: false
           text: Icons.lock
           color: Config.theme.text
-          font.pointSize: Config.auth.titleFontSize
+          font.pointSize: Config.dialog.titleFontSize
         }
 
         PromptText {
           text: "Authentication required"
           color: Config.theme.text
-          font { bold: true; pointSize: Config.auth.titleFontSize }
+          font { bold: true; pointSize: Config.dialog.titleFontSize }
         }
       }
 
@@ -142,7 +153,7 @@ PanelWindow {
 
       PromptText {
         visible: text !== ""
-        text: root.flow?.inputPrompt ?? ""
+        text: root.prompt
       }
 
       Rectangle {
@@ -161,7 +172,7 @@ PanelWindow {
           color: Config.theme.text
           selectionColor: Config.theme.focused
           clip: true
-          font { family: Config.fontFamily; pointSize: Config.auth.fontSize }
+          font { family: Config.fontFamily; pointSize: Config.dialog.fontSize }
 
           onAccepted: root.submit()
           Keys.onEscapePressed: root.cancel()
@@ -184,13 +195,13 @@ PanelWindow {
 
         TextButton {
           text: "Cancel"
-          font.pointSize: Config.auth.fontSize
+          font.pointSize: Config.dialog.fontSize
           onClicked: root.cancel()
         }
 
         TextButton {
           text: "Authenticate"
-          font.pointSize: Config.auth.fontSize
+          font.pointSize: Config.dialog.fontSize
           primary: true
           enabled: root.flow?.isResponseRequired ?? false
           onClicked: root.submit()

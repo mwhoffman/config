@@ -21,6 +21,12 @@ Singleton {
   // Auth prompt (AuthPrompt.qml).
   readonly property string lock: "\u{f033e}"         // nf-md-lock
 
+  // Power menu (PowerMenu.qml).
+  readonly property string logout: "\u{f0343}"       // nf-md-logout
+  readonly property string reboot: "\u{f0709}"       // nf-md-restart
+  readonly property string shutdown: "\u{f0425}"     // nf-md-power
+  readonly property string cancel: "\u{f0156}"       // nf-md-close
+
   // Tray icon overrides, keyed by the start of the tray item's id
   // (some apps append a number that can change between runs).
   readonly property var tray: ({

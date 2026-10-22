@@ -6,6 +6,7 @@ ShellRoot {
   AuthPrompt {}
   MediaKeys {}
   Notifications {}
+  PowerMenu {}
 
   // One wallpaper and one bar per monitor.
   Variants {

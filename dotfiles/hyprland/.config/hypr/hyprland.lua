@@ -19,7 +19,6 @@ hl.monitor({
 local terminal = "ghostty"
 local launcher = "hyprlauncher"
 local browser = "firefox"
-local quit = "command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"
 
 
 -------------------
@@ -272,7 +271,7 @@ local shftMod = "SHIFT+SUPER"
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(launcher))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
-hl.bind(shftMod .. " + Q", hl.dsp.exec_cmd(quit))
+hl.bind(shftMod .. " + Q", hl.dsp.global("quickshell:powerMenu")) -- log out, reboot or shut down
 hl.bind(mainMod .. " + W", hl.dsp.window.close())
 hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
