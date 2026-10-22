@@ -6,9 +6,10 @@ import Quickshell
 import Quickshell.Hyprland
 
 import qs.components
+import qs.services
 import qs.settings
 
-// Power menu: log out, reboot or shut down (commands in Config.power).
+// Power menu: lock, log out, reboot or shut down (commands in Config.power).
 //
 // Toggled by the quickshell:powerMenu shortcut (bound in hyprland.lua). Uses
 // the shared dialog keys (see Dialog), plus each option's letter to run it.
@@ -17,8 +18,10 @@ Dialog {
 
   property int selected: 0
 
+  // Each runs `action` if it has one, otherwise its shell `command`.
   readonly property var options: [
-    { label: "Log out", key: "L", glyph: Icons.logout, command: Config.power.logout },
+    { label: "Lock", key: "L", glyph: Icons.lock, action: () => LockService.lock() },
+    { label: "Log out", key: "O", glyph: Icons.logout, command: Config.power.logout },
     { label: "Reboot", key: "R", glyph: Icons.reboot, command: Config.power.reboot },
     { label: "Shut down", key: "S", glyph: Icons.shutdown, command: Config.power.shutdown },
   ]
@@ -30,7 +33,9 @@ Dialog {
 
   function run(index) {
     open = false
-    Quickshell.execDetached(["sh", "-c", options[index].command])
+    const option = options[index]
+    if (option.action) option.action()
+    else Quickshell.execDetached(["sh", "-c", option.command])
   }
 
   function move(step) {

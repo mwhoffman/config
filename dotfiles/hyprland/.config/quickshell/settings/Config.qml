@@ -69,6 +69,12 @@ Singleton {
       iconSize: 24,
       terminal: "ghostty",  // runs apps that need a terminal: <terminal> -e <command>
     },
+    lock: {
+      clockFontSize: 72,
+      dateFontSize: 18,
+      clockMargin: 48,    // between the date and the password card
+      hideAfter: 15000,   // ms without activity before the card hides
+    },
   })
 
   // Defaults merged with the override file.
@@ -83,6 +89,7 @@ Singleton {
   readonly property var dialog: values.dialog
   readonly property var power: values.power
   readonly property var launcher: values.launcher
+  readonly property var lock: values.lock
 
   readonly property string path: Quickshell.env("HOME") + "/.quickshell.json"
 

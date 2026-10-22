@@ -219,6 +219,9 @@ hl.config({
         -- Wallpaper comes from Quickshell (Wallpaper.qml), so hide Hyprland's own.
         force_default_wallpaper = 0,
         disable_hyprland_logo   = true,
+        -- Let a restarted Quickshell take over the lock screen if it crashes
+        -- while locked, instead of leaving the session stuck.
+        allow_session_lock_restore = true,
     },
 })
 
