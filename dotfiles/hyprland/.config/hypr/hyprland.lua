@@ -248,6 +248,12 @@ hl.config({
     },
 })
 
+hl.config({
+    cursor = {
+        inactive_timeout = 10, -- seconds without mouse movement before hiding it
+    },
+})
+
 hl.gesture({
     fingers = 3,
     direction = "horizontal",
