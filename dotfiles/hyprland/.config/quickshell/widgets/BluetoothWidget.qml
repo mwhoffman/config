@@ -27,21 +27,13 @@ Text {
     anchors.fill: parent
     acceptedButtons: Qt.LeftButton | Qt.RightButton
     onClicked: event => {
-      if (event.button === Qt.RightButton) menu.open()
+      if (event.button === Qt.RightButton) menu.openFromBar(root)
       else BluetoothService.toggle()
     }
   }
 
   Menu {
     id: menu
-
-    anchor {
-      item: root
-      rect.w: root.width
-      rect.h: root.height + Config.menu.offset
-      edges: Edges.Bottom
-      gravity: Edges.Bottom
-    }
 
     // One switch entry per paired device (on = connected), with its battery
     // level when the device reports one.

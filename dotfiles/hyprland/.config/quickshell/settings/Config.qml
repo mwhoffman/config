@@ -27,6 +27,7 @@ Singleton {
       backdrop: "#99000000",  // dims the screen behind dialogs
     },
     bar: {
+      position: "bottom", // "top" or "bottom" of the screen
       height: 36,         // even, so even-height widgets center exactly
       fontSize: 16,
       spacing: 18,      // between widgets, and tray icons

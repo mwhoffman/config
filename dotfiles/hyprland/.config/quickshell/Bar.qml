@@ -5,13 +5,19 @@ import Quickshell
 import qs.settings
 import qs.widgets
 
+// The bar, along the top or bottom of the screen (Config.bar.position).
 PanelWindow {
   required property var modelData
   screen: modelData
 
   implicitHeight: Config.bar.height
   color: Config.theme.bg
-  anchors { top: true; left: true; right: true }
+  anchors {
+    top: Config.bar.position === "top"
+    bottom: Config.bar.position !== "top"
+    left: true
+    right: true
+  }
 
   RowLayout {
     spacing: Config.bar.spacing

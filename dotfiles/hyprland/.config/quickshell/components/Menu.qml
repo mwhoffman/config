@@ -28,6 +28,20 @@ PopupWindow {
   function open() { visible = true }
   function close() { visible = false }
 
+  // Opens next to `item` in the bar: below it with the bar at the top of the
+  // screen, above it at the bottom, clearing the bar by Config.menu.offset.
+  function openFromBar(item: Item) {
+    const top = Config.bar.position === "top"
+    anchor.item = item
+    anchor.rect.x = 0
+    anchor.rect.y = top ? 0 : -Config.menu.offset
+    anchor.rect.w = item.width
+    anchor.rect.h = item.height + Config.menu.offset
+    anchor.edges = top ? Edges.Bottom : Edges.Top
+    anchor.gravity = anchor.edges
+    open()
+  }
+
   function activate(entry) {
     entry.triggered?.()
     activated(entry)

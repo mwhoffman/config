@@ -3,7 +3,6 @@ import Quickshell
 
 import qs.components
 import qs.services
-import qs.settings
 
 // Volume of the default output, as a speaker icon (see VolumeIcon). Left-click
 // mutes, and right-click lists outputs to switch to.
@@ -25,21 +24,13 @@ Item {
     acceptedButtons: Qt.LeftButton | Qt.RightButton
 
     onClicked: event => {
-      if (event.button === Qt.RightButton) menu.open()
+      if (event.button === Qt.RightButton) menu.openFromBar(root)
       else AudioService.toggleMute()
     }
   }
 
   Menu {
     id: menu
-
-    anchor {
-      item: root
-      rect.w: root.width
-      rect.h: root.height + Config.menu.offset
-      edges: Edges.Bottom
-      gravity: Edges.Bottom
-    }
 
     // One radio entry per output, checked for the current default.
     model: AudioService.sinks.map(node => ({

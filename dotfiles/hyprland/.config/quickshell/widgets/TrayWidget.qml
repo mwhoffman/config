@@ -2,7 +2,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
-import Quickshell
 import Quickshell.Services.SystemTray
 import Quickshell.Widgets
 
@@ -67,13 +66,6 @@ RowLayout {
       Menu {
         id: menu
         handle: item.modelData.menu
-        anchor {
-          item: item
-          rect.w: item.width
-          rect.h: item.height + Config.menu.offset
-          edges: Edges.Bottom
-          gravity: Edges.Bottom
-        }
       }
 
       MouseArea {
@@ -83,7 +75,7 @@ RowLayout {
           if (event.button === Qt.MiddleButton) {
             item.modelData.secondaryActivate()
           } else if (event.button === Qt.RightButton || item.modelData.onlyMenu) {
-            if (item.modelData.hasMenu) menu.open()
+            if (item.modelData.hasMenu) menu.openFromBar(item)
           } else {
             const entry = tray.clickEntry(item.modelData.id, menu.entries)
             if (entry) entry.triggered()
