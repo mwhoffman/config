@@ -8,7 +8,6 @@ import Quickshell
 Singleton {
   readonly property string cpu: " "       // nf-oct-cpu
   readonly property string memory: " "    // nf-fa-memory
-  readonly property string clock: " "     // nf-fa-clock
   readonly property string bluetooth: "\u{f00af}"           // nf-md-bluetooth
   readonly property string volume: " "    // nf-fa-volume
 

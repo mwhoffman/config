@@ -4,7 +4,7 @@ import qs.services
 import qs.settings
 
 Text {
-  text: Icons.clock + Qt.formatDateTime(TimeService.date, "MMM d HH:mm")
+  text: Qt.formatDateTime(TimeService.date, "ddd MMM d HH:mm")  // e.g. Fri Oct 23 00:47
   color: Config.theme.active
   font {
     family: Config.fontFamily
