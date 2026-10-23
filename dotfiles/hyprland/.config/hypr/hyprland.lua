@@ -100,11 +100,12 @@ hl.config({
         gaps_in  = 5,
         gaps_out = 20,
 
-        border_size = 2,
+        border_size = 3,
 
         col = {
-            active_border   = { colors = {"rgba(33ccffee)", "rgba(00ff99ee)"}, angle = 45 },
-            inactive_border = "rgba(595959aa)",
+            -- Gruvbox, matching Quickshell's theme (focused and inactive).
+            active_border   = "rgba(458588ff)",
+            inactive_border = "rgba(504945ff)",
         },
 
         -- Set to true to enable resizing windows by clicking and dragging on borders and gaps
@@ -117,7 +118,7 @@ hl.config({
     },
 
     decoration = {
-        rounding       = 10,
+        rounding       = 8,  -- matches Quickshell's menus and dialogs
         rounding_power = 2,
 
         -- Change transparency of focused and unfocused windows
@@ -128,7 +129,7 @@ hl.config({
             enabled      = true,
             range        = 4,
             render_power = 3,
-            color        = "0xee1a1a1a",
+            color        = "rgba(1d2021ee)", -- the theme background
         },
 
         blur = {
