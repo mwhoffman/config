@@ -53,7 +53,8 @@ end
 
 hl.on("hyprland.start", function ()
   hl.exec_cmd("qs")
-  hl.exec_cmd("1password --silent")
+  -- 1.25x to suit the 139 DPI monitor (also set in the 1Password .desktop file).
+  hl.exec_cmd("1password --silent --force-device-scale-factor=1.25")
   when_bar_ready(start_spotify_in_tray)
 end)
 
