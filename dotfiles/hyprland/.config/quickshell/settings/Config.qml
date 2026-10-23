@@ -22,7 +22,8 @@ Singleton {
       inactive: "#504945",
       active: "#928374",
       text: "#ebdbb2",
-      urgent: "#fb4934",
+      urgent: "#fb4934",      // lines and text: critical notifications, errors
+      urgentFill: "#cc241d",  // filled backgrounds: urgent workspaces
       backdrop: "#99000000",  // dims the screen behind dialogs
     },
     bar: {
@@ -31,6 +32,8 @@ Singleton {
       spacing: 18,      // between widgets, and tray icons
       iconSize: 18,
       statusIconSize: 24, // drawn icons: volume, and the line crossing icons out
+      workspaceSpacing: 4,
+      workspaceRadius: 4,
     },
     menu: {
       fontSize: 12,
