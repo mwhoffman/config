@@ -19,7 +19,7 @@ local volumeMt = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
 -- Autostart.
 hl.on("hyprland.start", function ()
   hl.exec_cmd("qs")
-  hl.exec_cmd("1password --silent --force-device-scale-factor=1.25")
+  hl.exec_cmd("1password --silent")
 end)
 
 -- "Global" launcher mods.
@@ -31,14 +31,31 @@ hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
 -- Window management.
 hl.bind(mainMod .. " + W", hl.dsp.window.close())
 hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(shftMod .. " + F", hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + S", hl.dsp.layout("togglesplit"))
 
--- Move focus with mainMod + arrow keys
+-- Move focus.
 hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down" }))
 hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))
+
+-- Move the current window.
+hl.bind(shftMod .. " + H", hl.dsp.window.move({ direction = "left" }))
+hl.bind(shftMod .. " + J", hl.dsp.window.move({ direction = "down" }))
+hl.bind(shftMod .. " + K", hl.dsp.window.move({ direction = "up" }))
+hl.bind(shftMod .. " + L", hl.dsp.window.move({ direction = "right" }))
+
+-- Switch workspace focus or move the current window to a workspace.
+for i = 1, 10 do
+  hl.bind(mainMod .. " + " .. i % 10, hl.dsp.focus({ workspace = i }))
+  hl.bind(shftMod .. " + " .. i % 10, hl.dsp.window.move({ workspace = i }))
+end
+
+-- Move/resize windows with mod + left/right mouse and dragging.
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
+hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- Media keys.
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(volumeUp), { repeating = true })
@@ -47,13 +64,3 @@ hl.bind("XF86AudioMute", hl.dsp.exec_cmd(volumeMt))
 hl.bind("XF86AudioPlay", hl.dsp.global("quickshell:mediaPlayPause"))
 hl.bind("XF86AudioNext", hl.dsp.global("quickshell:mediaNext"))
 hl.bind("XF86AudioPrev", hl.dsp.global("quickshell:mediaPrevious"))
-
-for i = 1, 9 do
-  -- Switch workspaces with mod-N; shift-mod-N to move window to space.
-  hl.bind(mainMod .. " + " .. i, hl.dsp.focus({ workspace = i }))
-  hl.bind(shftMod .. " + " .. i, hl.dsp.window.move({ workspace = i }))
-end
-
--- Move/resize windows with mod + left/right mouse and dragging.
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
