@@ -178,6 +178,17 @@ if (( $+commands[fzf] )); then
     export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
     _fzf_compgen_path() { fd --hidden --follow --exclude .git . "$1" }
     _fzf_compgen_dir() { fd --type d --hidden --follow --exclude .git . "$1" }
+
+    # Bind ctrl-d to a directory version of ctrl-t: pick directories and insert
+    # them on the command line. This reuses the ctrl-t widget, but lists
+    # directories using the alt-c command. It replaces zsh's default (listing
+    # completions), but ctrl-d on an empty line still exits the shell.
+    fzf-dir-widget() {
+      local FZF_CTRL_T_COMMAND="$FZF_ALT_C_COMMAND"
+      zle fzf-file-widget
+    }
+    zle -N fzf-dir-widget
+    bindkey '^D' fzf-dir-widget
   fi
 fi
 
