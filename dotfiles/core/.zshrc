@@ -110,12 +110,13 @@ src "$HOME/.config/zsh/theme.zsh"
 
 # Color for descriptions (e.g. completion groups) and messages. These fall back
 # to the default text color if the theme doesn't set them.
-zstyle ':completion:*:*:*:*:descriptions' format "%F{${THEME_COLORS[completion_description]:-default}}-- %d --%f"
+zstyle ':completion:*:*:*:*:descriptions' format "%B%F{${THEME_COLORS[completion_description]:-default}}-- %d --%f%b"
 zstyle ':completion:*:messages' format " %F{${THEME_COLORS[completion_message]:-default}} -- %d --%f"
 zstyle ':completion:*:warnings' format " %F{${THEME_COLORS[completion_warning]:-default}}-- no matches found --%f"
 
-# Use $LS_COLORS to color completed files and directories.
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+# Use $LS_COLORS to color completed files and directories, plus any extra
+# entries from the theme (e.g. for the selected item).
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS} $THEME_LIST_COLORS
 
 # Use eza for ls if it's installed. Otherwise the ls options depend on which
 # ls is in PATH: GNU ls (Linux, or homebrew's coreutils on macOS) or BSD ls
@@ -167,6 +168,14 @@ if (( $+commands[fzf] )); then
     src "/usr/share/doc/fzf/examples/key-bindings.zsh"
   fi
   unset fzf_zsh
+
+  # Read fzf's colors from the theme. Other default options can still be given
+  # in $FZF_DEFAULT_OPTS, which fzf reads after this file.
+  [[ -f "$HOME/.config/fzf/theme" ]] && export FZF_DEFAULT_OPTS_FILE="$HOME/.config/fzf/theme"
+
+  # Highlight the whole current line, rather than just its text, and use the
+  # same prompt as nvim's snacks picker (nf-fa-angle_right).
+  export FZF_DEFAULT_OPTS="--highlight-line --prompt='  '"
 
   # Bind the cd widget to ctrl-o as well as the default alt-c.
   bindkey '^O' fzf-cd-widget

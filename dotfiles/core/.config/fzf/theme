@@ -1,0 +1,10 @@
+# fzf colors, read via $FZF_DEFAULT_OPTS_FILE (see .zshrc). This starts from
+# fzf's 16-color theme, so anything not set below follows the terminal palette.
+# The rest follows nvim's snacks picker: orange matches, a red prompt and a
+# light (fg1) border. The current line is bg2, a shade lighter than CursorLine
+# so that it stands out from the gutter (the ▌ beside each other line), which is
+# bg1. These gruvbox shades aren't ANSI colors.
+--color=16
+--color=hl:#fe8019,hl+:#fe8019,pointer:#fe8019,marker:10,prompt:9,info:8,header:8
+--color=fg+:15,bg+:#504945,border:#d5c4a1,separator:#504945,scrollbar:#504945
+--color=gutter:#3c3836

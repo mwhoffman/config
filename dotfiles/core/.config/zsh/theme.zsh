@@ -22,3 +22,71 @@ typeset -gA THEME_COLORS=(
   completion_message magenta
   completion_warning red
 )
+
+# Extra list-colors entries for completion menus, appended after $LS_COLORS:
+# the selected item ("ma") is bold bg2 on bright blue, like nvim's PmenuSel.
+typeset -ga THEME_LIST_COLORS=('ma=1;38;2;80;73;69;104')
+
+# zle's own highlights: the region (outside of vi visual mode) like nvim's
+# Visual, incremental search like Search (which is inverted, i.e. dark text on
+# yellow), and no highlighting of pasted text.
+typeset -ga zle_highlight=(
+  region:bg=#665c54
+  isearch:fg=0,bg=11
+  paste:none
+  suffix:bold
+)
+
+# zsh-syntax-highlighting styles, following gruvbox's nvim highlights (mostly
+# the bash treesitter captures). zsh can't do italics, which nvim uses for
+# strings and comments. The plugin only fills in styles that aren't set, so
+# these are set before it's sourced. Its default for comments is bold black,
+# which is the background.
+typeset -gA ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES+=(
+  # Commands, like Function, and builtins (echo, cd, ...) like Special.
+  arg0 fg=10,bold
+  precommand fg=10,bold,underline
+  suffix-alias fg=10,bold,underline
+  autodirectory fg=10,bold,underline
+  builtin fg=#fe8019
+
+  # Keywords (if, for, ...), like Keyword, and unknown commands like Error.
+  reserved-word fg=9
+  unknown-token fg=9,bold
+
+  # Strings, like String (which is what tells them apart from commands, which
+  # are bold), with expansions inside them like Identifier.
+  single-quoted-argument fg=10
+  double-quoted-argument fg=10
+  dollar-quoted-argument fg=10
+  dollar-double-quoted-argument fg=12
+  back-double-quoted-argument fg=12
+  assign fg=12
+
+  # Operators, separators (|, &&, ;) and special syntax, like Operator/Special.
+  globbing fg=#fe8019
+  history-expansion fg=#fe8019
+  redirection fg=#fe8019
+  commandseparator fg=#fe8019
+  command-substitution-delimiter fg=#fe8019
+  process-substitution-delimiter fg=#fe8019
+  back-quoted-argument-delimiter fg=#fe8019
+
+  # Options like parameters (Identifier), and comments like Comment. Existing
+  # paths are only underlined, in the normal text color, since the plugin can't
+  # tell directories from files (so a color like dircolors' would often be
+  # wrong).
+  single-hyphen-option fg=12
+  double-hyphen-option fg=12
+  path underline
+  comment fg=8
+)
+
+# zsh-autosuggestions: suggestions in gray, like Comment.
+typeset -g ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+
+# zsh-vi-mode: the visual mode selection, like nvim's Visual. These must be set
+# before the plugin is sourced.
+typeset -g ZVM_VI_HIGHLIGHT_BACKGROUND='#665c54'
+typeset -g ZVM_VI_HIGHLIGHT_FOREGROUND='#ebdbb2'
