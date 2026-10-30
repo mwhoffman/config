@@ -1,5 +1,3 @@
-# Ghostty port of the bedeck colors in kitty/kitty.theme.conf.
-
 cursor-color = #928374
 
 background = #282828
@@ -7,10 +5,8 @@ foreground = #ebdbb2
 selection-foreground = #928374
 selection-background = #ebdbb2
 
-# For reference, the following colors 0-7 in order are
-# black, red, green, yellow, blue, magenta, cyan, white
-
-# Dark colors
+# The 16 ANSI colors: black, red, green, yellow, blue, magenta, cyan and white,
+# then their bright variants.
 palette = 0=#282828
 palette = 1=#cc241d
 palette = 2=#98971a
@@ -19,8 +15,6 @@ palette = 4=#458588
 palette = 5=#b16286
 palette = 6=#689d6a
 palette = 7=#a89984
-
-# Bright variants of the colors
 palette = 8=#928374
 palette = 9=#fb4934
 palette = 10=#b8bb26
