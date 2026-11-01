@@ -2,8 +2,9 @@ cursor-color = #928374
 
 background = #282828
 foreground = #ebdbb2
-selection-foreground = #928374
-selection-background = #ebdbb2
+# Selected text keeps its own colors (cell-foreground needs ghostty 1.2).
+selection-foreground = cell-foreground
+selection-background = #665c54
 
 # The 16 ANSI colors: black, red, green, yellow, blue, magenta, cyan and white,
 # then their bright variants.
