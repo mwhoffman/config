@@ -41,9 +41,7 @@ local colors = {
   bright_magenta = "#d3869b",
   bright_cyan = "#8ec07c",
   bright_white = "#ebdbb2",
-  accent1 = "#d65d0e",
   bright_accent1 = "#fe8019",
-  bg_hard = "#1d2021",
   bg0 = "#282828",
   bg1 = "#3c3836",
   bg2 = "#504945",
@@ -56,33 +54,14 @@ local colors = {
   fg3 = "#a89984",
   fg4 = "#928374",
 }
-
--- The theme's roles: what its colors are used for.
 local ui = {
   background = "#282828",
   panel = "#3c3836",
   text = "#ebdbb2",
-  text_dim = "#a89984",
-  highlight = "#d79921",
-  bright_highlight = "#fabd2f",
-  alert = "#cc241d",
-  url = "#458588",
-  cursor = "#928374",
-  selection = "#ebdbb2",
-  selection_text = "#928374",
   region = "#665c54",
-  menu_selected = "#504945",
 }
 local chrome = {
-  accent = "#458588",
-  accent_text = "#282828",
-  bar = "#3c3836",
-  tab_active = "#a89984",
-  tab_active_text = "#282828",
-  tab_inactive = "#504945",
-  tab_inactive_text = "#a89984",
   border = "#665c54",
-  border_active = "#a89984",
 }
 local search = {
   match = "#fabd2f",
@@ -90,32 +69,13 @@ local search = {
   text = "#282828",
 }
 local file = {
-  plain = "#ebdbb2",
-  script = "#ebdbb2",
   directory = "#458588",
-  symlink = "#8ec07c",
-  executable = "#b8bb26",
-  special = "#fb4934",
-  archive = "#fb4934",
-  media = "#d3869b",
-  document = "#d3869b",
-  compiled = "#d79921",
-  temp = "#928374",
-}
-local permissions = {
-  read = "#d79921",
-  write = "#cc241d",
-  execute = "#98971a",
-  special = "#b16286",
 }
 local git = {
   added = "#b8bb26",
   modified = "#d79921",
   deleted = "#fb4934",
   untracked = "#cc241d",
-  ahead = "#98971a",
-  behind = "#b16286",
-  branch = "#8ec07c",
 }
 local diff = {
   added = "#555422",
@@ -128,32 +88,6 @@ local diagnostics = {
   info = "#83a598",
   hint = "#8ec07c",
   ok = "#b8bb26",
-}
-local messages = {
-  descriptions = "#98971a",
-  messages = "#b16286",
-  warnings = "#cc241d",
-}
-local syntax = {
-  command = "#b8bb26",
-  builtin = "#fe8019",
-  keyword = "#fb4934",
-  error = "#fb4934",
-  string = "#b8bb26",
-  variable = "#83a598",
-  operator = "#fe8019",
-  comment = "#928374",
-}
-local picker = {
-  match = "#fe8019",
-  prompt = "#fb4934",
-  marker = "#b8bb26",
-  info = "#928374",
-  border = "#d5c4a1",
-  separator = "#504945",
-  line = "#504945",
-  line_text = "#ebdbb2",
-  gutter = "#3c3836",
 }
 
 -- gruvbox.nvim's options, as they are by default.
@@ -1418,3 +1352,4 @@ groups.IconsExtraColorsViolet = {fg = "#a78bfa"}
 for group, settings in pairs(groups) do
   vim.api.nvim_set_hl(0, group, settings)
 end
+
