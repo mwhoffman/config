@@ -8,6 +8,8 @@ hl.config({
     resize_on_border = false,
     allow_tearing = false,
     layout = "dwindle",
+    -- Fallbacks: Quickshell (HyprlandTheme.qml) applies the theme's colors
+    -- (config.json and ~/.quickshell.json) once it starts.
     col = {
       active_border   = "rgba(458588ff)",
       inactive_border = "rgba(504945ff)",
@@ -22,7 +24,7 @@ hl.config({
       enabled = true,
       range = 4,
       render_power = 3,
-      color = "rgba(1d2021ee)", -- the theme background
+      color = "rgba(1d2021ee)", -- fallback for theme.bg at theme.alphaShadow
     },
     blur = {
       enabled = true,

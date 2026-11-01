@@ -4,6 +4,7 @@ import Quickshell
 
 ShellRoot {
   AuthPrompt {}
+  HyprlandTheme {}
   Launcher {}
   LockScreen {}
   MediaKeys {}
