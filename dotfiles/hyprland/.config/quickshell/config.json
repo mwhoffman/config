@@ -1,0 +1,11 @@
+{
+  "theme": {
+    "bg": "#1d2021",
+    "focused": "#458588",
+    "inactive": "#504945",
+    "active": "#928374",
+    "text": "#ebdbb2",
+    "urgent": "#fb4934",
+    "urgentFill": "#cc241d"
+  }
+}
