@@ -1,25 +1,21 @@
 # zsh theme colors, sourced by .zshrc and used by it and by prompt.zsh. The
 # values are colors as given to the %F{...} prompt escape, i.e. a name (e.g.
-# blue), a number (e.g. 11) or a hex color (e.g. #83a598).
+# blue), a number (e.g. 11) or a hex color (e.g. #83a598), quoted so that a hex
+# color isn't read as a comment.
 
 typeset -gA THEME_COLORS=(
-  # The host, directory and git branch in the prompt.
-  host 11
-  directory blue
-  branch 14
-
-  # The icons of repos needing attention in the prompt: those with local
-  # changes, behind their upstream, or ahead of it. Local changes are yellow, to
-  # match unstaged changes in git status and modified files in eza.
-  changed yellow
-  behind magenta
-  ahead green
+  # The host, directory and git branch in the prompt, and the icons of repos
+  # needing attention.
+  host '11'
+  directory 'blue'
+  branch '14'
+  repos '#fe8019'
 
   # The descriptions (e.g. of completion groups), messages and warnings shown
   # when completing.
-  completion_description green
-  completion_message magenta
-  completion_warning red
+  completion_description 'green'
+  completion_message 'magenta'
+  completion_warning 'red'
 )
 
 # Extra list-colors entries for completion menus, appended after $LS_COLORS:

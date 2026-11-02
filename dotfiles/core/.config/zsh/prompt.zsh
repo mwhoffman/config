@@ -218,25 +218,19 @@ function _prompt_set {
   (( $#reply )) || _prompt_parse_branch
   local vcs_name=$reply[1] flags=$reply[2]
 
-  # Collect the icon of each repo in $PROMPT_REPOS that needs attention,
-  # separated by spaces and colored by its status, from most to least pressing:
-  # local changes (staged, unstaged, conflicted or untracked), behind its
-  # upstream, or ahead of it. Repos with nothing to report are left out. Whether
-  # a repo is behind depends on its last fetch; see _prompt_fetch_repos.
-  local entry repo icon repo_flags repo_color repo_icons=""
+  # Collect the icon of each repo in $PROMPT_REPOS that needs attention, i.e.
+  # has any status flags (local changes, or ahead of or behind its upstream),
+  # separated by spaces and bold like the host. cd to a repo to see which.
+  # Repos with nothing to report are left out. Whether a repo is behind depends on its last fetch; see
+  # _prompt_fetch_repos.
+  local repos_color=${THEME_COLORS[repos]:-default}
+  local entry repo icon repos=""
   for entry in $PROMPT_REPOS; do
     icon=${entry%%|*} repo=${entry#*|}
     [[ -d $repo/.git ]] || continue
     _prompt_parse_branch $repo
-    repo_flags=$reply[2] repo_color=""
-    if [[ $repo_flags == *[✓*!?]* ]]; then
-      repo_color=${THEME_COLORS[changed]:-default}
-    elif [[ $repo_flags == *↓* ]]; then
-      repo_color=${THEME_COLORS[behind]:-default}
-    elif [[ $repo_flags == *↑* ]]; then
-      repo_color=${THEME_COLORS[ahead]:-default}
-    fi
-    [[ -n $repo_color ]] && repo_icons+="${repo_icons:+ }%F{$repo_color}$icon%f"
+    [[ -n $reply[2] ]] || continue
+    repos+="${repos:+ }%F{$repos_color}%B$icon%b%f"
   done
 
   local caret1=$'\u203a'       # single caret to separate prompt sections.
@@ -258,6 +252,12 @@ function _prompt_set {
   PROMPT+="%F{$host_color}%B%m%b%f"
   PROMPT+=" ${caret1} "
 
+  # Add the repos needing attention (see above), if any.
+  if [[ -n $repos ]]; then
+    PROMPT+=$repos
+    PROMPT+=" ${caret1} "
+  fi
+
   # If we're in a named directory then add the name.
   if [[ -n $dir_name ]]; then
     PROMPT+="%F{$dir_color}%B${dir_name//\%/%%}%b%f"
@@ -275,11 +275,6 @@ function _prompt_set {
 
   # Add the trailing part of the prompt.
   PROMPT+=" ${caret2} "
-
-  # Show the icons of any repos that need attention on the right of the prompt
-  # (which is empty otherwise). They're followed by a space since kitty only
-  # draws an icon wider than a cell if it's followed by one.
-  RPROMPT=${repo_icons:+$repo_icons }
 }
 
 # The git repos whose status is shown in the prompt, as "ICON|DIR" entries in
@@ -287,8 +282,8 @@ function _prompt_set {
 # are skipped. This is only set if it isn't already, so local.zsh (which is
 # sourced before this file) can set it differently for a machine.
 (( ${+PROMPT_REPOS} )) || typeset -ga PROMPT_REPOS=(
-  $'\uf423|'"$HOME/config"  # config repo with gear icon.
-  $'\uf405|'"$HOME/notes"   # notes repo with book icon.
+  $'\U000f0493|'"$HOME/config"  # config repo with cog icon (md-cog).
+  $'\U000f082e|'"$HOME/notes"   # notes repo with notebook icon (md-notebook).
 )
 
 # The directory of files whose mtimes record when _prompt_fetch_repos last
@@ -386,10 +381,6 @@ function _prompt_reset_term_modes {
   # button, any and SGR) and a hidden cursor.
   print -rn -- $'\e[?1004l\e[?9l\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?25h'
 }
-
-# Only show the right prompt (the repo icons) on the current prompt, removing
-# it from earlier ones once their command runs.
-setopt TRANSIENT_RPROMPT
 
 # add-zsh-hook doesn't add a function twice if this file is sourced again.
 autoload -Uz add-zsh-hook
