@@ -8,6 +8,7 @@ file_type:
   source: {foreground: Default, is_bold: false}
   crypto: {foreground: Default, is_bold: false}
   document: {foreground: LightMagenta, is_bold: false}
+  compiled: {foreground: Yellow, is_bold: false}
   build: {foreground: Default, is_bold: false, is_underline: true}
 
 size:

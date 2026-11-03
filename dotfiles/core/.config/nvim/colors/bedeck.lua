@@ -58,8 +58,10 @@ local ui = {
   background = "#282828",
   panel = "#3c3836",
   text = "#ebdbb2",
-  region = "#665c54",
+  selection_bg = "#665c54",
+  current_bg = "#504945",
   border = "#504945",
+  current_fg = "#ebdbb2",
 }
 local search = {
   match = "#fabd2f",
@@ -86,6 +88,9 @@ local diagnostics = {
   info = "#83a598",
   hint = "#8ec07c",
   ok = "#b8bb26",
+}
+local picker = {
+  match = "#fe8019",
 }
 
 -- gruvbox.nvim's options, as they are by default.
@@ -1258,19 +1263,30 @@ end
 -- Selected regions, search matches and window separators, so that they match
 -- the shell and multiplexer. Search matches are reversed, so the match color is
 -- the foreground.
-groups.Visual.bg = ui.region
+groups.Visual.bg = ui.selection_bg
 groups.Search.fg = search.match
 groups.Search.bg = search.text
 groups.IncSearch.fg = search.current
 groups.IncSearch.bg = search.text
 groups.WinSeparator.fg = ui.border
 
+-- Menus and pickers, like zsh's completions and fzf: the completion menu is a
+-- panel, the current item (or a picker's current line) is bold on its own
+-- background, and matched characters are a picker's matches.
+groups.Pmenu = {fg = ui.text, bg = ui.panel}
+groups.PmenuSel = {fg = ui.current_fg, bg = ui.current_bg, bold = config.bold}
+groups.SnacksPickerListCursorLine = {bg = ui.current_bg, bold = config.bold}
+groups.SnacksPickerMatch = {fg = picker.match}
+groups.CmpItemAbbrMatch = {fg = picker.match, bold = config.bold}
+groups.CmpItemAbbrMatchFuzzy = {link = "CmpItemAbbrMatch"}
+groups.BlinkCmpLabelMatch = {link = "CmpItemAbbrMatch"}
+
 -- Side panels (e.g. neo-tree's), and the status line which matches them so
 -- that it and the window separators "disappear".
 groups.NeoTreeNormal = {bg = ui.panel}
 groups.NeoTreeNormalNC = {link = "NeoTreeNormal"}
 groups.NeoTreeSignColumn = {link = "NeoTreeNormal"}
-groups.NeoTreeCursorLine = {bg = colors.bg3}
+groups.NeoTreeCursorLine = {bg = ui.current_bg}
 groups.StatusLine.fg = ui.panel
 
 -- Directories.
@@ -1314,14 +1330,10 @@ end
 groups.RenderMarkdownCode = {link = "RenderMarkdownPadding"}
 
 -- The groups the icons use (see bedeck.icons), one for each of their colors.
-groups.IconsBlack = {fg = "#282828"}
 groups.IconsRed = {fg = "#cc241d"}
 groups.IconsGreen = {fg = "#98971a"}
-groups.IconsYellow = {fg = "#d79921"}
-groups.IconsBlue = {fg = "#458588"}
 groups.IconsMagenta = {fg = "#b16286"}
 groups.IconsCyan = {fg = "#689d6a"}
-groups.IconsWhite = {fg = "#a89984"}
 groups.IconsBrightBlack = {fg = "#928374"}
 groups.IconsBrightRed = {fg = "#fb4934"}
 groups.IconsBrightGreen = {fg = "#b8bb26"}
@@ -1329,18 +1341,12 @@ groups.IconsBrightYellow = {fg = "#fabd2f"}
 groups.IconsBrightBlue = {fg = "#83a598"}
 groups.IconsBrightMagenta = {fg = "#d3869b"}
 groups.IconsBrightCyan = {fg = "#8ec07c"}
-groups.IconsBrightWhite = {fg = "#ebdbb2"}
 groups.IconsFilePlain = {fg = "#ebdbb2"}
 groups.IconsFileScript = {fg = "#ebdbb2"}
 groups.IconsFileDirectory = {fg = "#458588"}
-groups.IconsFileSymlink = {fg = "#8ec07c"}
-groups.IconsFileExecutable = {fg = "#b8bb26"}
-groups.IconsFileSpecial = {fg = "#fb4934"}
 groups.IconsFileArchive = {fg = "#fb4934"}
 groups.IconsFileMedia = {fg = "#d3869b"}
-groups.IconsFileDocument = {fg = "#d3869b"}
 groups.IconsFileCompiled = {fg = "#d79921"}
-groups.IconsFileTemp = {fg = "#928374"}
 groups.IconsExtraColorsOrange = {fg = "#fe8019"}
 groups.IconsExtraColorsVimGreen = {fg = "#019833"}
 groups.IconsExtraColorsAzure = {fg = "#3d9df3"}

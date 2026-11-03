@@ -12,7 +12,8 @@
     "inactiveText": "#a89984",
     "border": "#504945",
     "selection": "#665c54",
-    "menuSelected": "#504945",
+    "current": "#504945",
+    "currentText": "#ebdbb2",
     "alert": "#fb4934",
     "alertFill": "#cc241d",
     "alertFillText": "#ebdbb2"

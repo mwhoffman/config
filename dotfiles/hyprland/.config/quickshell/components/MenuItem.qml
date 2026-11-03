@@ -33,7 +33,7 @@ Item {
   implicitHeight: separator ? 2 * Config.menu.padding + 1 : content.implicitHeight + 2 * Config.menu.padding
 
   component MenuText: Text {
-    color: row.enabled ? Config.theme.text : Config.theme.disabled
+    color: !row.enabled ? Config.theme.disabled : row.highlighted ? Config.theme.currentText : Config.theme.text
     // The highlighted item is bold, like the current item in tmux's menus.
     font { family: Config.fontFamily; pointSize: Config.menu.fontSize; bold: row.highlighted && row.enabled }
   }
@@ -48,7 +48,7 @@ Item {
   Rectangle {
     anchors.fill: parent
     visible: !row.separator && row.enabled && row.highlighted
-    color: Config.theme.menuSelected
+    color: Config.theme.current
     radius: Config.menu.radius / 2
   }
 

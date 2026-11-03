@@ -39,7 +39,8 @@ Singleton {
       inactiveText: "#a89984",
       border: "#504945",        // other windows' borders, and dividers
       selection: "#665c54",     // selected text in inputs, behind its own color
-      menuSelected: "#504945",  // the current row of a dialog or menu
+      current: "#504945",       // the current row of a dialog or menu
+      currentText: "#ebdbb2",
       alert: "#fb4934",         // lines and text: critical notifications, errors
       alertFill: "#cc241d",     // filled backgrounds: urgent workspaces
       alertFillText: "#ebdbb2",
