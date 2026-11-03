@@ -78,9 +78,9 @@ local git = {
   untracked = "#cc241d",
 }
 local diff = {
-  added = "#555422",
-  changed = "#6e5525",
-  deleted = "#6a2624",
+  added = "#4a4924",
+  changed = "#314445",
+  deleted = "#592725",
 }
 local diagnostics = {
   error = "#fb4934",
