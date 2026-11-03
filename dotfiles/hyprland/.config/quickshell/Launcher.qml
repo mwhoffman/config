@@ -98,7 +98,8 @@ Dialog {
 
       Layout.fillWidth: true
       color: Config.theme.text
-      selectionColor: Config.theme.focused
+      selectionColor: Config.theme.selection
+      selectedTextColor: Config.theme.text
       selectByMouse: true
       clip: true
       font { family: Config.fontFamily; pointSize: Config.dialog.titleFontSize }
@@ -111,7 +112,7 @@ Dialog {
         anchors.verticalCenter: parent.verticalCenter
         visible: input.text === ""
         text: "Search apps"
-        color: Config.theme.inactive
+        color: Config.theme.disabled
         font.pointSize: Config.dialog.titleFontSize
       }
     }

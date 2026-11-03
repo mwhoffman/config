@@ -11,6 +11,8 @@ Rectangle {
   property real padding: 8
   // Draws in the focused color, for the action Enter triggers.
   property bool primary: false
+  // In the focused color: primary, or hovered.
+  readonly property bool lit: primary || (enabled && area.containsMouse)
 
   signal clicked()
 
@@ -18,12 +20,12 @@ Rectangle {
   implicitHeight: label.implicitHeight + 2 * padding
   radius: 4
   opacity: enabled ? 1 : 0.5
-  color: primary || (enabled && area.containsMouse) ? Config.theme.focused : Config.theme.inactive
+  color: lit ? Config.theme.focused : Config.theme.inactive
 
   Text {
     id: label
     anchors.centerIn: parent
-    color: Config.theme.text
+    color: button.lit ? Config.theme.focusedText : Config.theme.inactiveText
     font.family: Config.fontFamily
   }
 

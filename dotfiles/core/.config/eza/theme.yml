@@ -32,13 +32,13 @@ git:
   deleted: {foreground: LightRed}
 
 users:
-  user_you: {foreground: Yellow, is_bold: true}
-  group_yours: {foreground: Yellow, is_bold: true}
-  user_root: {foreground: Red}
-  group_root: {foreground: Red}
+  user_you: {foreground: LightYellow, is_bold: true}
+  group_yours: {foreground: LightYellow, is_bold: true}
+  user_root: {foreground: LightRed}
+  group_root: {foreground: LightRed}
 
-punctuation: {foreground: "#a89984"}
-date: {foreground: "#a89984"}
+punctuation: {foreground: DarkGray}
+date: {foreground: DarkGray}
 perms:
   user_read: {foreground: Yellow}
   user_write: {foreground: Red}
@@ -52,7 +52,7 @@ perms:
   other_execute: {foreground: Green}
   special_user_file: {foreground: Magenta}
   special_other: {foreground: Magenta}
-  attribute: {foreground: "#a89984"}
+  attribute: {foreground: DarkGray}
 
 filenames:
   "._DS_Store": {icon: {glyph: "\uF179"}}

@@ -13,7 +13,7 @@ Text {
 
   visible: BluetoothService.available
   text: Icons.bluetooth
-  color: BluetoothService.enabled ? Config.theme.active : Config.theme.inactive
+  color: BluetoothService.enabled ? Config.theme.dim : Config.theme.disabled
   font {
     family: Config.fontFamily
     pointSize: Config.bar.fontSize

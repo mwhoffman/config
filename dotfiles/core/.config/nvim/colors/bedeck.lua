@@ -59,9 +59,7 @@ local ui = {
   panel = "#3c3836",
   text = "#ebdbb2",
   region = "#665c54",
-}
-local chrome = {
-  border = "#665c54",
+  border = "#504945",
 }
 local search = {
   match = "#fabd2f",
@@ -79,7 +77,7 @@ local git = {
 }
 local diff = {
   added = "#555422",
-  changed = "#425742",
+  changed = "#6e5525",
   deleted = "#6a2624",
 }
 local diagnostics = {
@@ -1265,7 +1263,7 @@ groups.Search.fg = search.match
 groups.Search.bg = search.text
 groups.IncSearch.fg = search.current
 groups.IncSearch.bg = search.text
-groups.WinSeparator.fg = chrome.border
+groups.WinSeparator.fg = ui.border
 
 -- Side panels (e.g. neo-tree's), and the status line which matches them so
 -- that it and the window separators "disappear".

@@ -41,7 +41,7 @@ Rectangle {
   visible: notification !== null
   implicitHeight: visible ? content.implicitHeight + 2 * Config.notifications.padding : 0
   color: Config.theme.bg
-  border { color: critical ? Config.theme.urgent : Config.theme.inactive; width: Config.notifications.border }
+  border { color: critical ? Config.theme.alert : Config.theme.border; width: Config.notifications.border }
   radius: Config.notifications.radius
 
   // Dim by default; the title is the one bright line.
@@ -49,7 +49,7 @@ Rectangle {
   component CardText: Text {
     Layout.fillWidth: true
     textFormat: Text.PlainText
-    color: Config.theme.active
+    color: Config.theme.dim
     wrapMode: Text.Wrap
     font { family: Config.fontFamily; pointSize: Config.notifications.fontSize }
   }
@@ -150,7 +150,7 @@ Rectangle {
             CardText {
               id: label
               anchors.centerIn: parent
-              color: Config.theme.text
+              color: buttonArea.containsMouse ? Config.theme.focusedText : Config.theme.inactiveText
               width: parent.width - Config.notifications.padding
               horizontalAlignment: Text.AlignHCenter
               elide: Text.ElideRight

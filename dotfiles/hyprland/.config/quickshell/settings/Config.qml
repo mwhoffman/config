@@ -22,18 +22,29 @@ Singleton {
     // Image path, with a leading ~ expanded. "" shows theme.bg.
     wallpaper: "",
     fontFamily: "JetBrainsMono Nerd Font",
-    // Hex colors: #rgb, #rrggbb or #aarrggbb. HyprlandTheme.qml also applies
-    // focused, inactive, and bg with alphaShadow to Hyprland's windows.
+    // Hex colors: #rgb, #rrggbb or #aarrggbb. These match bedeck's ui roles
+    // (and tmux's colors): a fill and the text on it are e.g. active and
+    // activeText. HyprlandTheme.qml also applies focused, border, and bg with
+    // alphaShadow to Hyprland's windows.
     theme: {
       bg: "#1d2021",
-      focused: "#458588",     // also the focused window's border
-      inactive: "#504945",    // also other windows' borders
-      active: "#928374",
       text: "#ebdbb2",
-      urgent: "#fb4934",      // lines and text: critical notifications, errors
-      urgentFill: "#cc241d",  // filled backgrounds: urgent workspaces
-      backdrop: "#99000000",  // dims the screen behind dialogs
-      alphaShadow: "ee",      // window shadows: bg at this alpha (2 hex digits)
+      dim: "#928374",           // secondary text: the bar's status, dialog text
+      disabled: "#504945",      // placeholders, hints, things switched off
+      focused: "#458588",       // focused workspace and window border; primary
+      focusedText: "#ebdbb2",   // and hovered buttons; switches
+      active: "#a89984",        // focused input borders; dialog and menu
+      activeText: "#282828",    // borders
+      inactive: "#504945",      // other workspaces, and buttons
+      inactiveText: "#a89984",
+      border: "#504945",        // other windows' borders, and dividers
+      selection: "#665c54",     // selected text in inputs, behind its own color
+      menuSelected: "#504945",  // the current row of a dialog or menu
+      alert: "#fb4934",         // lines and text: critical notifications, errors
+      alertFill: "#cc241d",     // filled backgrounds: urgent workspaces
+      alertFillText: "#ebdbb2",
+      backdrop: "#99000000",    // dims the screen behind dialogs
+      alphaShadow: "ee",        // window shadows: bg at this alpha (2 hex digits)
     },
     bar: {
       position: "bottom", // "top" or "bottom" of the screen

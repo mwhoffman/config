@@ -17,8 +17,8 @@ Item {
   property real volume: 0  // 0 to 1
   property bool muted: false
   property real size: Config.bar.statusIconSize
-  property color color: Config.theme.active
-  property color dimColor: Config.theme.inactive
+  property color color: Config.theme.dim
+  property color dimColor: Config.theme.disabled
 
   // How filled wave `index` (0 to 2) is, from 0 to 1.
   function fill(index: int): real {

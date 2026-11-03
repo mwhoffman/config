@@ -13,9 +13,9 @@ typeset -gA THEME_COLORS=(
 
   # The descriptions (e.g. of completion groups), messages and warnings shown
   # when completing.
-  completion_description 'green'
-  completion_message 'magenta'
-  completion_warning 'red'
+  completion_description '8'
+  completion_message '12'
+  completion_warning '11'
 )
 
 # Extra list-colors entries for completion menus, appended after $LS_COLORS:

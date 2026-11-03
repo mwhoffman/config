@@ -34,7 +34,7 @@ RowLayout {
       // Square for one digit; wider only for two (e.g. 10).
       implicitWidth: Math.max(implicitHeight, label.implicitWidth + implicitHeight / 3)
       radius: Config.bar.workspaceRadius
-      color: modelData.urgent ? Config.theme.urgentFill
+      color: modelData.urgent ? Config.theme.alertFill
         : focused ? Config.theme.focused
         : elsewhere ? "transparent"
         : Config.theme.inactive
@@ -54,7 +54,9 @@ RowLayout {
         anchors.horizontalCenterOffset: metrics.advanceWidth / 2
           - (metrics.tightBoundingRect.x + metrics.tightBoundingRect.width / 2)
         text: box.modelData.id
-        color: box.focused || box.modelData.urgent ? Config.theme.text : Config.theme.active
+        color: box.modelData.urgent ? Config.theme.alertFillText
+          : box.focused ? Config.theme.focusedText
+          : Config.theme.inactiveText
         font { family: Config.fontFamily; pointSize: Config.bar.fontSize }
       }
 

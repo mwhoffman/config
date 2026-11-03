@@ -1,11 +1,20 @@
 {
   "theme": {
     "bg": "#1d2021",
-    "focused": "#458588",
-    "inactive": "#504945",
-    "active": "#928374",
     "text": "#ebdbb2",
-    "urgent": "#fb4934",
-    "urgentFill": "#cc241d"
+    "dim": "#928374",
+    "disabled": "#504945",
+    "focused": "#458588",
+    "focusedText": "#ebdbb2",
+    "active": "#a89984",
+    "activeText": "#282828",
+    "inactive": "#504945",
+    "inactiveText": "#a89984",
+    "border": "#504945",
+    "selection": "#665c54",
+    "menuSelected": "#504945",
+    "alert": "#fb4934",
+    "alertFill": "#cc241d",
+    "alertFillText": "#ebdbb2"
   }
 }

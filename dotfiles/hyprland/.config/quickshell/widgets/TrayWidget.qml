@@ -49,7 +49,7 @@ RowLayout {
         anchors.centerIn: parent
         visible: item.glyph !== ""
         text: item.glyph
-        color: Config.theme.active
+        color: Config.theme.dim
         font {
           family: Config.fontFamily
           pointSize: Config.bar.fontSize

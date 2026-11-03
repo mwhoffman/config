@@ -27,7 +27,7 @@ Rectangle {
   Layout.fillWidth: true
   implicitHeight: content.implicitHeight + Config.dialog.padding
   radius: 4
-  color: current ? Config.theme.focused : "transparent"
+  color: current ? Config.theme.menuSelected : "transparent"
 
   RowLayout {
     id: content
@@ -43,7 +43,7 @@ Rectangle {
         anchors.centerIn: parent
         visible: !row.image
         text: row.glyph
-        color: row.current ? Config.theme.text : Config.theme.active
+        color: row.current ? Config.theme.text : Config.theme.dim
       }
 
       IconImage {
@@ -58,14 +58,16 @@ Rectangle {
       Layout.fillWidth: true
       text: row.label
       elide: Text.ElideRight
-      color: row.current ? Config.theme.text : Config.theme.active
+      color: row.current ? Config.theme.text : Config.theme.dim
+      // The current row is bold, like the current item in tmux's pickers.
+      font.bold: row.current
     }
 
     DialogText {
       text: row.hint
       elide: Text.ElideRight
       Layout.maximumWidth: row.hintMaxWidth
-      color: row.current ? Config.theme.text : Config.theme.inactive
+      color: row.current ? Config.theme.text : Config.theme.disabled
       font.pointSize: row.hintFontSize
     }
   }

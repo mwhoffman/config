@@ -136,7 +136,7 @@ Dialog {
       Layout.fillWidth: true
       implicitHeight: input.implicitHeight + 16
       color: Config.theme.bg
-      border { color: input.activeFocus ? Config.theme.focused : Config.theme.inactive; width: 2 }
+      border { color: input.activeFocus ? Config.theme.active : Config.theme.inactive; width: 2 }
       radius: 4
 
       TextInput {
@@ -146,7 +146,8 @@ Dialog {
         enabled: root.flow?.isResponseRequired ?? false
         echoMode: root.flow?.responseVisible ? TextInput.Normal : TextInput.Password
         color: Config.theme.text
-        selectionColor: Config.theme.focused
+        selectionColor: Config.theme.selection
+      selectedTextColor: Config.theme.text
         clip: true
         font { family: Config.fontFamily; pointSize: Config.dialog.fontSize }
 
@@ -160,7 +161,7 @@ Dialog {
 
       visible: text !== ""
       text: root.flow?.supplementaryMessage || (root.failed ? "Authentication failed, try again." : "")
-      color: isError ? Config.theme.urgent : Config.theme.active
+      color: isError ? Config.theme.alert : Config.theme.dim
     }
 
     RowLayout {

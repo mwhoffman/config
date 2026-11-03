@@ -91,7 +91,7 @@ PanelWindow {
     width: Config.dialog.width
     implicitHeight: column.implicitHeight + 2 * Config.dialog.padding
     color: Config.theme.bg
-    border { color: Config.theme.inactive; width: 2 }
+    border { color: Config.theme.active; width: 2 }
     radius: Config.dialog.radius
 
     // Swallow clicks on the card so they don't reach the backdrop.

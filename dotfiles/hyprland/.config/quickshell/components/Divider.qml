@@ -7,5 +7,5 @@ import qs.settings
 Rectangle {
   Layout.fillWidth: true
   implicitHeight: 1
-  color: Config.theme.inactive
+  color: Config.theme.border
 }

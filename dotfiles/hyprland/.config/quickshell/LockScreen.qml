@@ -134,7 +134,7 @@ Scope {
         implicitHeight: content.implicitHeight + 2 * Config.dialog.padding
         opacity: root.revealed && surface.focused ? 1 : 0
         color: Config.theme.bg
-        border { color: Config.theme.inactive; width: 2 }
+        border { color: Config.theme.active; width: 2 }
         radius: Config.dialog.radius
 
         Behavior on opacity {
@@ -163,7 +163,7 @@ Scope {
               Layout.fillWidth: true
               implicitHeight: input.implicitHeight + 16
               color: Config.theme.bg
-              border { color: LockService.checking ? Config.theme.inactive : Config.theme.focused; width: 2 }
+              border { color: LockService.checking ? Config.theme.inactive : Config.theme.active; width: 2 }
               radius: 4
 
               TextInput {
@@ -174,7 +174,8 @@ Scope {
                 echoMode: TextInput.Password
                 readOnly: LockService.checking
                 color: Config.theme.text
-                selectionColor: Config.theme.focused
+                selectionColor: Config.theme.selection
+                  selectedTextColor: Config.theme.text
                 clip: true
                 font { family: Config.fontFamily; pointSize: Config.dialog.fontSize }
 
@@ -196,7 +197,7 @@ Scope {
                   anchors.verticalCenter: parent.verticalCenter
                   visible: input.text === ""
                   text: LockService.checking ? "Checking…" : "Password"
-                  color: Config.theme.inactive
+                  color: Config.theme.disabled
                 }
 
                 // Hiding the card discards anything half typed.
@@ -214,7 +215,7 @@ Scope {
               visible: text !== ""
               text: LockService.message
               wrapMode: Text.Wrap
-              color: LockService.messageIsError ? Config.theme.urgent : Config.theme.active
+              color: LockService.messageIsError ? Config.theme.alert : Config.theme.dim
             }
           }
         }

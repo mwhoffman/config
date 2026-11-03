@@ -74,7 +74,7 @@ PopupWindow {
     implicitWidth: column.implicitWidth + 2 * Config.menu.padding
     implicitHeight: column.implicitHeight + 2 * Config.menu.padding
     color: Config.theme.bg
-    border { color: Config.theme.inactive; width: 1 }
+    border { color: Config.theme.active; width: 1 }
     radius: Config.menu.radius
 
     ColumnLayout {

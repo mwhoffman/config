@@ -5,9 +5,10 @@ import Quickshell.Io
 
 import qs.settings
 
-// Applies the theme to Hyprland: window borders (theme.focused and
-// theme.inactive) and shadows (theme.bg at theme.alphaShadow). Hyprland's own config
-// (look_and_feel.lua) has matching fallbacks, shown until Quickshell starts.
+// Applies the theme to Hyprland: window borders (theme.focused for the focused
+// window and theme.border for the others) and shadows (theme.bg at theme.alphaShadow).
+// Hyprland's own config (look_and_feel.lua) has matching fallbacks, shown until
+// Quickshell starts.
 // A Hyprland config reload resets them, so they're re-applied after each one.
 Scope {
   id: root
@@ -16,7 +17,7 @@ Scope {
   readonly property string lua: {
     const t = Config.theme
     return `hl.config({
-      general = { col = { active_border = "${hyprColor(t.focused)}", inactive_border = "${hyprColor(t.inactive)}" } },
+      general = { col = { active_border = "${hyprColor(t.focused)}", inactive_border = "${hyprColor(t.border)}" } },
       decoration = { shadow = { color = "rgba(${rgb(t.bg)}${t.alphaShadow.toLowerCase()})" } },
     })`
   }

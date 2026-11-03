@@ -12,7 +12,7 @@ Shape {
   id: root
 
   property real size: Config.bar.statusIconSize
-  property color color: Config.theme.active
+  property color color: Config.theme.dim
   // What the icon sits on, for the gap around the line.
   property color background: Config.theme.bg
 
