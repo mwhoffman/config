@@ -1,0 +1,8 @@
+# git colors, for git's config to include.
+
+# Colors for git status: green for staged changes, yellow for unstaged ones
+# (which eza's theme matches) and red for untracked files.
+[color "status"]
+    added = brightgreen
+    changed = brightyellow
+    untracked = red

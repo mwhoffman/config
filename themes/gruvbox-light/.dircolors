@@ -1,0 +1,307 @@
+# Configuration file for dircolors, a utility to help you set the
+# LS_COLORS environment variable used by GNU ls with the --color option.
+
+# The following TERM entries are used to match against the TERM environment
+# variable to determine if it is colorizable.
+COLORTERM ?*
+TERM Eterm
+TERM ansi
+TERM *color*
+TERM *direct*
+TERM con[0-9]*x[0-9]*
+TERM cons25
+TERM console
+TERM cygwin
+TERM dtterm
+TERM gnome
+TERM hurd
+TERM jfbterm
+TERM konsole
+TERM kterm
+TERM linux
+TERM linux-c
+TERM mlterm
+TERM putty
+TERM rxvt*
+TERM screen*
+TERM st
+TERM terminator
+TERM tmux*
+TERM vt100
+TERM xterm*
+
+# We mostly use the bright variants (90-97 for text, 100-107 for backgrounds)
+# Directories are the exception: they use the darker blue (#458588).
+
+RESET                  0         # reset to normal color
+DIR                    01;34     # directory
+LINK                   96        # symlink. "target" uses the linked color.
+FIFO                   04;91     # pipe
+SOCK                   04;91     # socket
+DOOR                   04;91     # door
+BLK                    04;91     # block device driver
+CHR                    04;91     # character device driver
+ORPHAN                 09;96     # orphaned symlink
+MISSING                09;91     # ... and the files they point to
+SETUID                 30;101    # file that is setuid (u+s)
+SETGID                 30;103    # file that is setgid (g+s)
+CAPABILITY             00        # file with capability (off: slow to check)
+EXEC                   01;92     # file with execute permission
+STICKY_OTHER_WRITABLE  30;102    # dir that is sticky and other-writable
+OTHER_WRITABLE         30;103    # dir that is other-writable and not sticky
+STICKY                 30;104    # dir that is sticky and not other-writable
+
+# What follows are color specifications for individual file extensions. This
+# mainly includes groupings for compressed archives and image/audio/video
+# files.
+
+# archives or compressed
+.tar   91
+.tgz   91
+.arc   91
+.arj   91
+.taz   91
+.lha   91
+.lz4   91
+.lzh   91
+.lzma  91
+.tlz   91
+.txz   91
+.tzo   91
+.t7z   91
+.zip   91
+.z     91
+.dz    91
+.gz    91
+.lrz   91
+.lz    91
+.lzo   91
+.xz    91
+.zst   91
+.tzst  91
+.bz2   91
+.bz    91
+.tbz   91
+.tbz2  91
+.tz    91
+.deb   91
+.rpm   91
+.jar   91
+.war   91
+.ear   91
+.sar   91
+.rar   91
+.alz   91
+.ace   91
+.zoo   91
+.cpio  91
+.7z    91
+.rz    91
+.cab   91
+.wim   91
+.swm   91
+.dwm   91
+.esd   91
+.ar    91
+.br    91
+.bz3   91
+.dmg   91
+.iso   91
+.phar  91
+.qcow  91
+.qcow2 91
+.tc    91
+.vdi   91
+.vhd   91
+.vhdx  91
+.vmdk  91
+
+# image/audio/video
+.jpg   95
+.jpeg  95
+.mjpg  95
+.mjpeg 95
+.gif   95
+.bmp   95
+.pbm   95
+.pgm   95
+.ppm   95
+.tga   95
+.xbm   95
+.xpm   95
+.tif   95
+.tiff  95
+.png   95
+.svg   95
+.svgz  95
+.mng   95
+.pcx   95
+.mov   95
+.mpg   95
+.mpeg  95
+.m2v   95
+.mkv   95
+.webm  95
+.webp  95
+.avif  95
+.ogm   95
+.mp4   95
+.m4v   95
+.mp4v  95
+.vob   95
+.qt    95
+.nuv   95
+.wmv   95
+.asf   95
+.rm    95
+.rmvb  95
+.flc   95
+.avi   95
+.fli   95
+.flv   95
+.gl    95
+.dl    95
+.xcf   95
+.xwd   95
+.yuv   95
+.cgm   95
+.emf   95
+.ogv   95
+.ogx   95
+.aac   95
+.au    95
+.flac  95
+.m4a   95
+.mid   95
+.midi  95
+.mka   95
+.mp3   95
+.mpc   95
+.ogg   95
+.ra    95
+.wav   95
+.oga   95
+.opus  95
+.spx   95
+.xspf  95
+.aif   95
+.aifc  95
+.aiff  95
+.alac  95
+.ape   95
+.arw   95
+.cbr   95
+.cbz   95
+.cr2   95
+.dvi   95
+.eps   95
+.fodg  95
+.h264  95
+.heic  95
+.heics 95
+.heif  95
+.ico   95
+.j2c   95
+.j2k   95
+.jfi   95
+.jfif  95
+.jif   95
+.jp2   95
+.jpe   95
+.jpf   95
+.jpx   95
+.jxl   95
+.kra   95
+.krz   95
+.m2ts  95
+.mp2   95
+.nef   95
+.odg   95
+.orf   95
+.pcm   95
+.pnm   95
+.ps    95
+.psd   95
+.pxm   95
+.qoi   95
+.raw   95
+.video 95
+.wma   95
+.wv    95
+
+# backup files
+*~           90
+*#           90
+.bak         90
+.crdownload  90
+.dpkg-dist   90
+.dpkg-new    90
+.dpkg-old    90
+.dpkg-tmp    90
+.old         90
+.orig        90
+.part        90
+.rej         90
+.rpmnew      90
+.rpmorig     90
+.rpmsave     90
+.swp         90
+.tmp         90
+.ucf-dist    90
+.ucf-new     90
+.ucf-old     90
+.bk          90
+.bkp         90
+.download    90
+.fcbak       90
+.fcstd1      90
+.fdmdownload 90
+.swn         90
+.swo         90
+
+# documents
+.djvu    95
+.doc     95
+.docx    95
+.eml     95
+.fodp    95
+.fods    95
+.fodt    95
+.fotd    95
+.gdoc    95
+.key     95
+.keynote 95
+.numbers 95
+.odp     95
+.ods     95
+.odt     95
+.pages   95
+.pdf     95
+.ppt     95
+.pptx    95
+.rtf     95
+.xls     95
+.xlsm    95
+.xlsx    95
+
+# compiled files
+.a      93
+.bundle 93
+.class  93
+.cma    93
+.cmi    93
+.cmo    93
+.cmx    93
+.dll    93
+.dylib  93
+.elc    93
+.elf    93
+.ko     93
+.lib    93
+.o      93
+.obj    93
+.pyc    93
+.pyd    93
+.pyo    93
+.so     93
+.zwc    93

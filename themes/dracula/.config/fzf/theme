@@ -1,0 +1,8 @@
+# fzf colors. This starts from fzf's 16-color theme, so anything not set below
+# follows the terminal's palette.
+--color=16
+--color=hl:#ffb86c,hl+:#ffb86c,pointer:#ffb86c
+--color=marker:10,prompt:9
+--color=info:8,header:8
+--color=fg+:#f8f8f2,bg+:#424450,gutter:#343746
+--color=border:#909194,separator:#424450,scrollbar:#424450

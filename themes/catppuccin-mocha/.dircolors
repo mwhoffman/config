@@ -1,0 +1,307 @@
+# Configuration file for dircolors, a utility to help you set the
+# LS_COLORS environment variable used by GNU ls with the --color option.
+
+# The following TERM entries are used to match against the TERM environment
+# variable to determine if it is colorizable.
+COLORTERM ?*
+TERM Eterm
+TERM ansi
+TERM *color*
+TERM *direct*
+TERM con[0-9]*x[0-9]*
+TERM cons25
+TERM console
+TERM cygwin
+TERM dtterm
+TERM gnome
+TERM hurd
+TERM jfbterm
+TERM konsole
+TERM kterm
+TERM linux
+TERM linux-c
+TERM mlterm
+TERM putty
+TERM rxvt*
+TERM screen*
+TERM st
+TERM terminator
+TERM tmux*
+TERM vt100
+TERM xterm*
+
+# We mostly use the bright variants (90-97 for text, 100-107 for backgrounds)
+# Directories are the exception: they use the darker blue (#458588).
+
+RESET                  0         # reset to normal color
+DIR                    01;34     # directory
+LINK                   38;2;148;226;213        # symlink. "target" uses the linked color.
+FIFO                   04;31     # pipe
+SOCK                   04;31     # socket
+DOOR                   04;31     # door
+BLK                    04;31     # block device driver
+CHR                    04;31     # character device driver
+ORPHAN                 09;38;2;148;226;213     # orphaned symlink
+MISSING                09;31     # ... and the files they point to
+SETUID                 30;101    # file that is setuid (u+s)
+SETGID                 30;103    # file that is setgid (g+s)
+CAPABILITY             00        # file with capability (off: slow to check)
+EXEC                   01;32     # file with execute permission
+STICKY_OTHER_WRITABLE  30;102    # dir that is sticky and other-writable
+OTHER_WRITABLE         30;103    # dir that is other-writable and not sticky
+STICKY                 30;104    # dir that is sticky and not other-writable
+
+# What follows are color specifications for individual file extensions. This
+# mainly includes groupings for compressed archives and image/audio/video
+# files.
+
+# archives or compressed
+.tar   31
+.tgz   31
+.arc   31
+.arj   31
+.taz   31
+.lha   31
+.lz4   31
+.lzh   31
+.lzma  31
+.tlz   31
+.txz   31
+.tzo   31
+.t7z   31
+.zip   31
+.z     31
+.dz    31
+.gz    31
+.lrz   31
+.lz    31
+.lzo   31
+.xz    31
+.zst   31
+.tzst  31
+.bz2   31
+.bz    31
+.tbz   31
+.tbz2  31
+.tz    31
+.deb   31
+.rpm   31
+.jar   31
+.war   31
+.ear   31
+.sar   31
+.rar   31
+.alz   31
+.ace   31
+.zoo   31
+.cpio  31
+.7z    31
+.rz    31
+.cab   31
+.wim   31
+.swm   31
+.dwm   31
+.esd   31
+.ar    31
+.br    31
+.bz3   31
+.dmg   31
+.iso   31
+.phar  31
+.qcow  31
+.qcow2 31
+.tc    31
+.vdi   31
+.vhd   31
+.vhdx  31
+.vmdk  31
+
+# image/audio/video
+.jpg   38;2;245;194;231
+.jpeg  38;2;245;194;231
+.mjpg  38;2;245;194;231
+.mjpeg 38;2;245;194;231
+.gif   38;2;245;194;231
+.bmp   38;2;245;194;231
+.pbm   38;2;245;194;231
+.pgm   38;2;245;194;231
+.ppm   38;2;245;194;231
+.tga   38;2;245;194;231
+.xbm   38;2;245;194;231
+.xpm   38;2;245;194;231
+.tif   38;2;245;194;231
+.tiff  38;2;245;194;231
+.png   38;2;245;194;231
+.svg   38;2;245;194;231
+.svgz  38;2;245;194;231
+.mng   38;2;245;194;231
+.pcx   38;2;245;194;231
+.mov   38;2;245;194;231
+.mpg   38;2;245;194;231
+.mpeg  38;2;245;194;231
+.m2v   38;2;245;194;231
+.mkv   38;2;245;194;231
+.webm  38;2;245;194;231
+.webp  38;2;245;194;231
+.avif  38;2;245;194;231
+.ogm   38;2;245;194;231
+.mp4   38;2;245;194;231
+.m4v   38;2;245;194;231
+.mp4v  38;2;245;194;231
+.vob   38;2;245;194;231
+.qt    38;2;245;194;231
+.nuv   38;2;245;194;231
+.wmv   38;2;245;194;231
+.asf   38;2;245;194;231
+.rm    38;2;245;194;231
+.rmvb  38;2;245;194;231
+.flc   38;2;245;194;231
+.avi   38;2;245;194;231
+.fli   38;2;245;194;231
+.flv   38;2;245;194;231
+.gl    38;2;245;194;231
+.dl    38;2;245;194;231
+.xcf   38;2;245;194;231
+.xwd   38;2;245;194;231
+.yuv   38;2;245;194;231
+.cgm   38;2;245;194;231
+.emf   38;2;245;194;231
+.ogv   38;2;245;194;231
+.ogx   38;2;245;194;231
+.aac   38;2;245;194;231
+.au    38;2;245;194;231
+.flac  38;2;245;194;231
+.m4a   38;2;245;194;231
+.mid   38;2;245;194;231
+.midi  38;2;245;194;231
+.mka   38;2;245;194;231
+.mp3   38;2;245;194;231
+.mpc   38;2;245;194;231
+.ogg   38;2;245;194;231
+.ra    38;2;245;194;231
+.wav   38;2;245;194;231
+.oga   38;2;245;194;231
+.opus  38;2;245;194;231
+.spx   38;2;245;194;231
+.xspf  38;2;245;194;231
+.aif   38;2;245;194;231
+.aifc  38;2;245;194;231
+.aiff  38;2;245;194;231
+.alac  38;2;245;194;231
+.ape   38;2;245;194;231
+.arw   38;2;245;194;231
+.cbr   38;2;245;194;231
+.cbz   38;2;245;194;231
+.cr2   38;2;245;194;231
+.dvi   38;2;245;194;231
+.eps   38;2;245;194;231
+.fodg  38;2;245;194;231
+.h264  38;2;245;194;231
+.heic  38;2;245;194;231
+.heics 38;2;245;194;231
+.heif  38;2;245;194;231
+.ico   38;2;245;194;231
+.j2c   38;2;245;194;231
+.j2k   38;2;245;194;231
+.jfi   38;2;245;194;231
+.jfif  38;2;245;194;231
+.jif   38;2;245;194;231
+.jp2   38;2;245;194;231
+.jpe   38;2;245;194;231
+.jpf   38;2;245;194;231
+.jpx   38;2;245;194;231
+.jxl   38;2;245;194;231
+.kra   38;2;245;194;231
+.krz   38;2;245;194;231
+.m2ts  38;2;245;194;231
+.mp2   38;2;245;194;231
+.nef   38;2;245;194;231
+.odg   38;2;245;194;231
+.orf   38;2;245;194;231
+.pcm   38;2;245;194;231
+.pnm   38;2;245;194;231
+.ps    38;2;245;194;231
+.psd   38;2;245;194;231
+.pxm   38;2;245;194;231
+.qoi   38;2;245;194;231
+.raw   38;2;245;194;231
+.video 38;2;245;194;231
+.wma   38;2;245;194;231
+.wv    38;2;245;194;231
+
+# backup files
+*~           38;2;127;132;156
+*#           38;2;127;132;156
+.bak         38;2;127;132;156
+.crdownload  38;2;127;132;156
+.dpkg-dist   38;2;127;132;156
+.dpkg-new    38;2;127;132;156
+.dpkg-old    38;2;127;132;156
+.dpkg-tmp    38;2;127;132;156
+.old         38;2;127;132;156
+.orig        38;2;127;132;156
+.part        38;2;127;132;156
+.rej         38;2;127;132;156
+.rpmnew      38;2;127;132;156
+.rpmorig     38;2;127;132;156
+.rpmsave     38;2;127;132;156
+.swp         38;2;127;132;156
+.tmp         38;2;127;132;156
+.ucf-dist    38;2;127;132;156
+.ucf-new     38;2;127;132;156
+.ucf-old     38;2;127;132;156
+.bk          38;2;127;132;156
+.bkp         38;2;127;132;156
+.download    38;2;127;132;156
+.fcbak       38;2;127;132;156
+.fcstd1      38;2;127;132;156
+.fdmdownload 38;2;127;132;156
+.swn         38;2;127;132;156
+.swo         38;2;127;132;156
+
+# documents
+.djvu    38;2;245;194;231
+.doc     38;2;245;194;231
+.docx    38;2;245;194;231
+.eml     38;2;245;194;231
+.fodp    38;2;245;194;231
+.fods    38;2;245;194;231
+.fodt    38;2;245;194;231
+.fotd    38;2;245;194;231
+.gdoc    38;2;245;194;231
+.key     38;2;245;194;231
+.keynote 38;2;245;194;231
+.numbers 38;2;245;194;231
+.odp     38;2;245;194;231
+.ods     38;2;245;194;231
+.odt     38;2;245;194;231
+.pages   38;2;245;194;231
+.pdf     38;2;245;194;231
+.ppt     38;2;245;194;231
+.pptx    38;2;245;194;231
+.rtf     38;2;245;194;231
+.xls     38;2;245;194;231
+.xlsm    38;2;245;194;231
+.xlsx    38;2;245;194;231
+
+# compiled files
+.a      33
+.bundle 33
+.class  33
+.cma    33
+.cmi    33
+.cmo    33
+.cmx    33
+.dll    33
+.dylib  33
+.elc    33
+.elf    33
+.ko     33
+.lib    33
+.o      33
+.obj    33
+.pyc    33
+.pyd    33
+.pyo    33
+.so     33
+.zwc    33

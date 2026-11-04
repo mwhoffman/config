@@ -1247,11 +1247,8 @@ local groups = {
   -- NeoTreeTabSeparatorInactive = {fg = colors.bg2, bg = colors.bg1},
 }
 
--- Groups set from the theme's roles, and others which differ from gruvbox.nvim.
-
--- Floating windows have the normal background and text.
-groups.NormalFloat = {fg = ui.text, bg = ui.background}
-groups.FloatTitle = {fg = ui.text, bg = ui.background}
+-- Groups which differ from gruvbox.nvim, besides those set from the theme's
+-- roles (below).
 
 -- The sign column is like normal text, and so are the signs in it (gruvbox.nvim
 -- gives both a background).
@@ -1260,41 +1257,47 @@ for _, color in ipairs({"Red", "Green", "Yellow", "Blue", "Purple", "Aqua", "Ora
   groups["Gruvbox" .. color .. "Sign"].bg = nil
 end
 
+-- The status line matches side panels (see below), so that it and the window
+-- separators "disappear".
+groups.StatusLine.fg = ui.panel
+
+-- Groups set from the theme's roles.
+
+-- Floating windows have the normal background and text.
+groups.NormalFloat = {fg = ui.text, bg = ui.background}
+groups.FloatTitle = {fg = ui.text, bg = ui.background}
+
 -- Selected regions, search matches and window separators, so that they match
--- the shell and multiplexer. Search matches are reversed, so the match color is
--- the foreground.
-groups.Visual.bg = ui.selection_bg
-groups.Search.fg = search.match
-groups.Search.bg = search.text
-groups.IncSearch.fg = search.current
-groups.IncSearch.bg = search.text
-groups.WinSeparator.fg = ui.border
+-- the shell and multiplexer.
+groups.Visual = {bg = ui.selection_bg}
+groups.Search = {fg = search.text, bg = search.match}
+groups.IncSearch = {fg = search.text, bg = search.current}
+groups.CurSearch = {link = "IncSearch"}
+groups.WinSeparator = {fg = ui.border, bg = ui.background}
 
 -- Menus and pickers, like zsh's completions and fzf: the completion menu is a
 -- panel, the current item (or a picker's current line) is bold on its own
 -- background, and matched characters are a picker's matches.
 groups.Pmenu = {fg = ui.text, bg = ui.panel}
-groups.PmenuSel = {fg = ui.current_fg, bg = ui.current_bg, bold = config.bold}
-groups.SnacksPickerListCursorLine = {bg = ui.current_bg, bold = config.bold}
+groups.PmenuSel = {fg = ui.current_fg, bg = ui.current_bg, bold = true}
+groups.SnacksPickerListCursorLine = {bg = ui.current_bg, bold = true}
 groups.SnacksPickerMatch = {fg = picker.match}
-groups.CmpItemAbbrMatch = {fg = picker.match, bold = config.bold}
+groups.CmpItemAbbrMatch = {fg = picker.match, bold = true}
 groups.CmpItemAbbrMatchFuzzy = {link = "CmpItemAbbrMatch"}
 groups.BlinkCmpLabelMatch = {link = "CmpItemAbbrMatch"}
 
--- Side panels (e.g. neo-tree's), and the status line which matches them so
--- that it and the window separators "disappear".
+-- Side panels (e.g. neo-tree's).
 groups.NeoTreeNormal = {bg = ui.panel}
 groups.NeoTreeNormalNC = {link = "NeoTreeNormal"}
 groups.NeoTreeSignColumn = {link = "NeoTreeNormal"}
 groups.NeoTreeCursorLine = {bg = ui.current_bg}
-groups.StatusLine.fg = ui.panel
 
 -- Directories.
 groups.Directory = {fg = file.directory, bold = true}
 groups.NeoTreeDirectoryName = {link = "Directory"}
 groups.NeoTreeDirectoryIcon = {fg = file.directory}
 
--- Version control.
+-- Version control, and diffs.
 groups.GitSignsAdd = {fg = git.added}
 groups.GitSignsChange = {fg = git.modified}
 groups.GitSignsDelete = {fg = git.deleted}
@@ -1307,6 +1310,9 @@ groups.NeoTreeGitModified = {fg = git.modified}
 groups.NeoTreeGitRenamed = {fg = git.modified}
 groups.NeoTreeGitDeleted = {fg = git.deleted}
 groups.NeoTreeGitUntracked = {fg = git.untracked}
+groups.DiffAdd = {bg = diff.added}
+groups.DiffChange = {bg = diff.changed}
+groups.DiffDelete = {bg = diff.deleted}
 
 -- Diagnostics.
 for name, color in pairs({
@@ -1319,7 +1325,7 @@ for name, color in pairs({
   groups["Diagnostic" .. name] = {fg = color}
   groups["DiagnosticSign" .. name] = {fg = color}
   groups["DiagnosticVirtualText" .. name] = {fg = color}
-  groups["DiagnosticUnderline" .. name] = {undercurl = config.undercurl, sp = color}
+  groups["DiagnosticUnderline" .. name] = {undercurl = true, sp = color}
 end
 
 -- Don't give markdown code blocks a background. render-markdown links this to

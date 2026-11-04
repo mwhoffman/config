@@ -1,0 +1,21 @@
+{
+  "theme": {
+    "bg": "#11111b",
+    "text": "#cdd6f4",
+    "dim": "#7f849c",
+    "disabled": "#45475a",
+    "focused": "#cba6f7",
+    "focusedText": "#1e1e2e",
+    "active": "#9399b2",
+    "activeText": "#1e1e2e",
+    "inactive": "#45475a",
+    "inactiveText": "#9399b2",
+    "border": "#45475a",
+    "selection": "#45475a",
+    "current": "#313244",
+    "currentText": "#cdd6f4",
+    "alert": "#f38ba8",
+    "alertFill": "#f38ba8",
+    "alertFillText": "#1e1e2e"
+  }
+}
