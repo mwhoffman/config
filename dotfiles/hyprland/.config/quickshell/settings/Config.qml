@@ -22,7 +22,7 @@ Singleton {
     // Image path, with a leading ~ expanded. "" shows theme.bg.
     wallpaper: "",
     fontFamily: "JetBrainsMono Nerd Font",
-    // Hex colors: #rgb, #rrggbb or #aarrggbb. These match bedeck's ui roles
+    // Hex colors: #rgb, #rrggbb or #aarrggbb. These match the theme's ui roles
     // (and tmux's colors): a fill and the text on it are e.g. active and
     // activeText. HyprlandTheme.qml also applies focused, border, and bg with
     // alphaShadow to Hyprland's windows.

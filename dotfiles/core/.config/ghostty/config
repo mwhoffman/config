@@ -1,7 +1,7 @@
 # Ghostty config.
 
-# Use the bedeck colors from themes/bedeck (matches kitty).
-theme = bedeck
+# Use the generated colors from themes/theme.
+theme = theme
 
 # Use the mono version of JetBrainsMono for text.
 font-family = JetBrainsMono Nerd Font Mono

@@ -2,7 +2,7 @@ require("options")
 require("keymaps")
 
 -- Set the colorscheme.
-vim.cmd.colorscheme("bedeck")
+vim.cmd.colorscheme("theme")
 
 require("lazy-setup")
 

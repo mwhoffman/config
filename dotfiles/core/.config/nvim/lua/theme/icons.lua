@@ -1479,7 +1479,7 @@ function M.setup()
   end
   set_highlights()
   vim.api.nvim_create_autocmd("ColorScheme", {
-    group = vim.api.nvim_create_augroup("bedeck_icons", {clear = true}),
+    group = vim.api.nvim_create_augroup("theme_icons", {clear = true}),
     callback = set_highlights,
   })
 

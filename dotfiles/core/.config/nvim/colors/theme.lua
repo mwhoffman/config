@@ -117,7 +117,7 @@ local config = {
 if vim.g.colors_name then
   vim.cmd.hi("clear")
 end
-vim.g.colors_name = "bedeck"
+vim.g.colors_name = "theme"
 vim.o.termguicolors = true
 vim.o.background = "dark"
 
@@ -1329,7 +1329,7 @@ end
 -- would still link it.
 groups.RenderMarkdownCode = {link = "RenderMarkdownPadding"}
 
--- The groups the icons use (see bedeck.icons), one for each of their colors.
+-- The groups the icons use (see theme.icons), one for each of their colors.
 groups.IconsRed = {fg = "#cc241d"}
 groups.IconsGreen = {fg = "#98971a"}
 groups.IconsMagenta = {fg = "#b16286"}
