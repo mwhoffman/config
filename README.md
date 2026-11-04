@@ -32,7 +32,15 @@ which runs the `install` and `dotfiles` just commands. In most instances you can
 run only `just dotfiles` to skip the installation command which is marginally
 slower due to its requirement to make network connections.
 
+Colors come from a theme: each one is a package under [themes/][themes] holding
+the color files that the dotfiles read (e.g. nvim's colorscheme and tmux's
+colors), which is linked into place like the dotfiles. Only one theme is linked
+at a time. Every tool falls back to its own default colors if no theme is linked.
+
+[themes]: https://github.com/mwhoffman/config/tree/main/themes
+
 Finally, minimal local settings can be specified in `~/config/config.yaml`,
 which is ignored by git. The available settings are `gui`, which installs gui
-tools on linux, and `dotfiles`, a list of the packages under `dotfiles/` to link
-besides `core`&mdash;unspecified packages will be unlinked.
+tools on linux, `dotfiles`, a list of the packages under `dotfiles/` to link
+besides `core`&mdash;unspecified packages will be unlinked&mdash;and `theme`,
+the theme under `themes/` to link (`gruvbox-dark` if unset), or `none`.

@@ -1,7 +1,8 @@
 # Ghostty config.
 
-# Use the generated colors from themes/theme.
-theme = theme
+# The theme's colors, if one is linked (see the themes directory). The ? skips
+# the file quietly if it's missing.
+config-file = ?theme
 
 # Use the mono version of JetBrainsMono for text.
 font-family = JetBrainsMono Nerd Font Mono

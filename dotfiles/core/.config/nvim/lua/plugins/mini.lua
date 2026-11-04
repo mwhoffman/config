@@ -16,7 +16,13 @@ return {
       end
     end,
     config = function()
-      require("theme.icons").setup()
+      -- Without a theme linked, mini.icons uses its own icons.
+      local ok, icons = pcall(require, "theme.icons")
+      if ok then
+        icons.setup()
+      else
+        require("mini.icons").setup()
+      end
     end,
   },
 }

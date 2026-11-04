@@ -1,8 +1,8 @@
 require("options")
 require("keymaps")
 
--- Set the colorscheme.
-vim.cmd.colorscheme("theme")
+-- Set the colorscheme, if a theme is linked (otherwise nvim's default is used).
+pcall(vim.cmd.colorscheme, "theme")
 
 require("lazy-setup")
 

@@ -24,6 +24,10 @@ list:
 dotfiles:
   #!/usr/bin/env bash
   set -euo pipefail
+  # Remove dead links left by earlier runs (e.g. files that were deleted, or
+  # moved between packages) before linking, as stow won't replace a dead link
+  # into another package's directory.
+  just _prune-links
   just _link "core"
   # This is assigned first, rather than expanded inline, so that an invalid
   # setting is an error.
@@ -39,8 +43,8 @@ dotfiles:
   for package in $extras; do
     just _link "$package"
   done
+  just _theme
   just _gitconfig
-  just _prune-links
 
 # Install packages.
 [macos]
@@ -97,6 +101,19 @@ _config-bool key:
   fi
   echo "$value"
 
+# Print a string setting from the local config.yaml, or the default if the file
+# or setting is missing.
+_config-str key default:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  [ -f config.yaml ] || { echo "{{default}}"; exit 0; }
+  value='.{{key}} // "{{default}}"'
+  if [ "$(yq "$value | tag" config.yaml)" != '!!str' ]; then
+    echo "error: {{key}} in config.yaml must be a string" >&2
+    exit 1
+  fi
+  yq -r "$value" config.yaml
+
 # Print the items of a list setting from the local config.yaml, one per line,
 # which is empty if the file or setting is missing.
 _config-list key:
@@ -111,6 +128,29 @@ _config-list key:
   fi
   yq -r "($list)[]" config.yaml
 
+# Link the theme set in config.yaml (gruvbox-dark if it isn't set), which is a
+# package under themes/, after unlinking the others since they share the same
+# files. "none" links no theme, so everything uses its own default colors.
+_theme:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  theme=$(just _config-str theme gruvbox-dark)
+  if [ "$theme" != none ] && [ ! -d "themes/$theme" ]; then
+    available=$(cd themes && ls -d -- */ | tr -d / | paste -sd, - | sed 's/,/, /g')
+    echo "error: unknown theme '$theme' in config.yaml: the themes are $available, or none" >&2
+    exit 1
+  fi
+  for dir in themes/*/; do
+    other=$(basename "$dir")
+    if [ "$other" != "$theme" ]; then
+      stow --no-folding -d themes -t {{home}} -D "$other"
+    fi
+  done
+  if [ "$theme" != none ]; then
+    echo "🎨 Installing theme: $theme"
+    stow --no-folding -d themes -t {{home}} -R "$theme"
+  fi
+
 # Link a single stow package.
 _link package:
   @echo "📦 Installing dotfiles: {{package}}"
@@ -121,8 +161,9 @@ _link package:
 _unlink package:
   @stow --no-folding -d dotfiles -t {{home}} -D {{package}}
 
-# Remove dead links into dotfiles, e.g. left over from deleted directories.
-# Stow's links are relative, so they start with config/dotfiles/ or ../.
+# Remove dead links into dotfiles or themes, e.g. left over from deleted
+# directories. Stow's links are relative, so they start with config/dotfiles/
+# (or config/themes/) or ../.
 # Packages only hold dotfiles, so skip non-hidden top-level entries; on macOS
 # that also avoids privacy-protected dirs like ~/Library and ~/Documents.
 _prune-links:
@@ -132,7 +173,8 @@ _prune-links:
        -o -path '{{home}}/.cache' \
        -o -path '{{home}}/.Trash' \
        -o -path '{{home}}/.local/share/Trash' \) -prune \
-    -o -type l \( -lname 'config/dotfiles/*' -o -lname '*../config/dotfiles/*' \) \
+    -o -type l \( -lname 'config/dotfiles/*' -o -lname '*../config/dotfiles/*' \
+                 -o -lname 'config/themes/*' -o -lname '*../config/themes/*' \) \
     ! -exec test -e {} \; -exec rm {} +
 
 

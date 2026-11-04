@@ -91,9 +91,10 @@ local function icon_provider(icon, node)
     end
     return
   end
-  if is_default and not node.name:find(".", 2, true) then
-    local noext = require("theme.icons").defaults.noext
-    glyph, highlight = noext.glyph, noext.hl
+  -- Without a theme linked there's no default for these, so mini.icons' is used.
+  local ok, icons = pcall(require, "theme.icons")
+  if ok and is_default and not node.name:find(".", 2, true) then
+    glyph, highlight = icons.defaults.noext.glyph, icons.defaults.noext.hl
   end
   icon.text, icon.highlight = glyph, highlight
 end
