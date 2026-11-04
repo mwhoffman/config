@@ -1329,7 +1329,7 @@ end
 -- would still link it.
 groups.RenderMarkdownCode = {link = "RenderMarkdownPadding"}
 
--- The groups the icons use (see theme.icons), one for each of their colors.
+-- The groups the icons use (see the icons module), one for each of their colors.
 groups.IconsRed = {fg = "#cc241d"}
 groups.IconsGreen = {fg = "#98971a"}
 groups.IconsMagenta = {fg = "#b16286"}

@@ -1,7 +1,7 @@
-# zsh theme colors, sourced by .zshrc and used by it and by prompt.zsh. The
-# values are colors as given to the %F{...} prompt escape, i.e. a name (e.g.
-# blue), a number (e.g. 11) or a hex color (e.g. #83a598), quoted so that a hex
-# color isn't read as a comment.
+# zsh theme colors, for zsh's config (e.g. its prompt) to use. The values are
+# colors as given to the %F{...} prompt escape, i.e. a name (e.g. blue), a
+# number (e.g. 11) or a hex color (e.g. #83a598), quoted so that a hex color
+# isn't read as a comment.
 
 typeset -gA THEME_COLORS=(
   # The host, directory and git branch in the prompt, and the icons of repos
