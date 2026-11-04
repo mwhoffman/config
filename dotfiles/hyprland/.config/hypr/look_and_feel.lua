@@ -24,7 +24,7 @@ hl.config({
       enabled = true,
       range = 4,
       render_power = 3,
-      color = "rgba(1d2021ee)", -- fallback for theme.bg at theme.alphaShadow
+      color = "rgba(1d2021ee)", -- fallback for theme.shadow
     },
     blur = {
       enabled = true,

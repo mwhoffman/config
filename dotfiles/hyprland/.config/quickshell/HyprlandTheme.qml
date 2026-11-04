@@ -6,7 +6,7 @@ import Quickshell.Io
 import qs.settings
 
 // Applies the theme to Hyprland: window borders (theme.focused for the focused
-// window and theme.border for the others) and shadows (theme.bg at theme.alphaShadow).
+// window and theme.border for the others) and shadows (theme.shadow).
 // Hyprland's own config (look_and_feel.lua) has matching fallbacks, shown until
 // Quickshell starts.
 // A Hyprland config reload resets them, so they're re-applied after each one.
@@ -18,7 +18,7 @@ Scope {
     const t = Config.theme
     return `hl.config({
       general = { col = { active_border = "${hyprColor(t.focused)}", inactive_border = "${hyprColor(t.border)}" } },
-      decoration = { shadow = { color = "rgba(${rgb(t.bg)}${t.alphaShadow.toLowerCase()})" } },
+      decoration = { shadow = { color = "${hyprColor(t.shadow)}" } },
     })`
   }
 
@@ -31,11 +31,6 @@ Scope {
     let digits = hex.slice(1).toLowerCase()
     if (digits.length === 3) digits = digits.split("").map(c => c + c).join("")
     return digits.length === 6 ? "ff" + digits : digits
-  }
-
-  // Just the rrggbb digits of a theme color, dropping any alpha.
-  function rgb(hex: string): string {
-    return argb(hex).slice(2)
   }
 
   // Hyprland's rgba(rrggbbaa) form of a theme color: the alpha moves to the end.

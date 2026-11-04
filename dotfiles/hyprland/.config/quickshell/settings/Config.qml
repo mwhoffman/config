@@ -24,8 +24,8 @@ Singleton {
     fontFamily: "JetBrainsMono Nerd Font",
     // Hex colors: #rgb, #rrggbb or #aarrggbb. These match the theme's ui roles
     // (and tmux's colors): a fill and the text on it are e.g. active and
-    // activeText. HyprlandTheme.qml also applies focused, border, and bg with
-    // alphaShadow to Hyprland's windows.
+    // activeText. HyprlandTheme.qml also applies focused, border and shadow to
+    // Hyprland's windows.
     theme: {
       bg: "#1d2021",
       text: "#ebdbb2",
@@ -45,7 +45,7 @@ Singleton {
       alertFill: "#cc241d",     // filled backgrounds: urgent workspaces
       alertFillText: "#ebdbb2",
       backdrop: "#99000000",    // dims the screen behind dialogs
-      alphaShadow: "ee",        // window shadows: bg at this alpha (2 hex digits)
+      shadow: "#ee1d2021",      // window shadows, dark whatever the theme
     },
     bar: {
       position: "bottom", // "top" or "bottom" of the screen
@@ -148,9 +148,6 @@ Singleton {
         else warn(path, `"${name}" should be an object, got ${describe(value)}`)
       } else if (isObject(value) || typeof value !== typeof fallback) {
         warn(path, `"${name}" should be a ${typeof fallback}, got ${describe(value)}`)
-      } else if (name === "theme.alphaShadow") {
-        if (/^[0-9a-f]{2}$/i.test(value)) result[key] = value
-        else warn(path, `"${name}" should be two hex digits, got ${describe(value)}`)
       } else if (prefix === "theme." && !/^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(value)) {
         warn(path, `"${name}" should be a hex color, got ${describe(value)}`)
       } else {
