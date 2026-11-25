@@ -38,6 +38,12 @@ local parsers = {
 -- syntax (rather than treesitter's).
 local legacy = {python = true, ruby = true}
 
+-- Filetypes which don't use treesitter's indentexpr. For markdown it segfaults
+-- nvim (inside ts_parser_parse) when gq rewraps a list item while treesitter
+-- folds are on, and its only indent rule (list items) is covered by
+-- autoindent anyway.
+local no_ts_indent = {markdown = true}
+
 spec.config = function()
   -- Install any missing parsers (asynchronous, no-op if already installed).
   require("nvim-treesitter").install(parsers)
@@ -61,7 +67,7 @@ spec.config = function()
       local ft = vim.bo[args.buf].filetype
       if legacy[ft] then
         vim.bo[args.buf].syntax = "on"
-      else
+      elseif not no_ts_indent[ft] then
         vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
       end
     end,
